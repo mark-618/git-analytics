@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-13T20:01:35Z",
+  "generated_at": "2026-05-13T21:36:05Z",
   "scan_dir": "/Users/mark/Desktop",
   "summary": {
     "total_projects": 20,
-    "total_commits": 601,
+    "total_commits": 602,
     "total_active_days": 197,
     "avg_commits_per_day": 3.1
   },
@@ -19,7 +19,7 @@
     "code": "DSCPQA",
     "name": "晨曦冲刺者",
     "icon": "🌅",
-    "desc": "白天 63%，高频提交 61%，专注核心 52%，推进新功能 61%",
+    "desc": "白天 63%，高频提交 61%，专注核心 51%，推进新功能 62%",
     "dimensions": {
       "time": {
         "code": "D",
@@ -35,13 +35,13 @@
       },
       "focus": {
         "code": "C",
-        "spectrum": 52,
+        "spectrum": 51,
         "left": "分散型",
         "right": "专注型"
       },
       "style": {
         "code": "P",
-        "spectrum": 61,
+        "spectrum": 62,
         "left": "守护型",
         "right": "先锋型"
       },
@@ -63,7 +63,7 @@
     {
       "icon": "🌅",
       "name": "晨曦冲刺者",
-      "desc": "白天 63%，高频提交 61%，专注核心 52%，推进新功能 61%",
+      "desc": "白天 63%，高频提交 61%，专注核心 51%，推进新功能 62%",
       "code": "DSCPQA",
       "is_primary": true
     },
@@ -80,7 +80,7 @@
     {
       "icon": "✅",
       "name": "测试达人",
-      "desc": "测试覆盖 26%"
+      "desc": "测试覆盖 25%"
     },
     {
       "icon": "📚",
@@ -114,7 +114,7 @@
     29,
     18,
     11,
-    12,
+    13,
     24,
     59,
     50
@@ -124,12 +124,12 @@
     "5": 79,
     "4": 68,
     "1": 103,
-    "2": 89,
+    "2": 90,
     "0": 91,
     "3": 69
   },
   "monthly": {
-    "2026-05": 194,
+    "2026-05": 195,
     "2026-04": 214,
     "2025-11": 3,
     "2025-10": 15,
@@ -4543,7 +4543,7 @@
     },
     {
       "name": "git-analytics",
-      "commits": 11,
+      "commits": 12,
       "language": "Python",
       "active_days": 1,
       "first_commit": "2026-05-13",
@@ -4569,15 +4569,22 @@
         0,
         0,
         0,
-        0,
+        1,
         0,
         0,
         0
       ],
       "monthly": {
-        "2026-05": 11
+        "2026-05": 12
       },
       "raw_commits": [
+        {
+          "ts": 1778673753,
+          "hour": 20,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
         {
           "ts": 1778661428,
           "hour": 16,
@@ -5164,13 +5171,13 @@
     "chore": 22,
     "fix": 56,
     "refactor": 13,
-    "feat": 145,
+    "feat": 146,
     "test": 2
   },
   "engineering_health": {
-    "test_ratio": 25.6,
-    "doc_ratio": 26.9,
-    "feat_ratio": 24.1,
+    "test_ratio": 25.5,
+    "doc_ratio": 26.8,
+    "feat_ratio": 24.3,
     "fix_ratio": 9.3,
     "refactor_ratio": 2.2,
     "night_ratio": 30.9,
@@ -5188,7 +5195,7 @@
       "AI file: CLAUDE.md"
     ]
   },
-  "focus_index": 51.6,
+  "focus_index": 51.5,
   "night_owl_index": 30.9,
   "all_commits": [
     {
@@ -9742,6 +9749,14 @@
       "month": "2026-05",
       "type": "other",
       "project": "mimo-auth"
+    },
+    {
+      "ts": 1778673753,
+      "hour": 20,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "git-analytics"
     },
     {
       "ts": 1778661428,
