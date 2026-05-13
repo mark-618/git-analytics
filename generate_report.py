@@ -425,46 +425,31 @@ def generate_report(data):
         <!-- 工程健康 -->
         <div class="section">
             <div class="section-title">🏥 工程健康</div>
-            <div class="two-cols">
-                <div class="card">
-                    <h3>测试意识</h3>
-                    <div style="text-align:center;padding:20px 0;">
-                        <div style="font-size:3.5em;font-weight:700;color:{get_score_color(health['test_ratio'] * 5)};">{health['test_ratio']}%</div>
-                        <div style="color:#656d76;margin-top:6px;">测试文件变更占比</div>
-                    </div>
-                    <div class="insight-card">
-                        {'测试覆盖偏低，建议为每个功能编写测试。' if health['test_ratio'] < 5 else '测试意识良好。'}
-                    </div>
-                </div>
-                <div class="card">
-                    <h3>文档意识</h3>
-                    <div style="text-align:center;padding:20px 0;">
-                        <div style="font-size:3.5em;font-weight:700;color:{get_score_color(health['doc_ratio'] * 8)};">{health['doc_ratio']}%</div>
-                        <div style="color:#656d76;margin-top:6px;">文档文件变更占比</div>
-                    </div>
-                    <div class="insight-card">
-                        {'文档投入不足。' if health['doc_ratio'] < 3 else '文档维护不错。'}
-                    </div>
-                </div>
-            </div>
             <div class="card">
-                <h3>详细指标</h3>
-                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">''' + ''.join([
-                    f'''<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
-                        <div style="width:10px;height:10px;border-radius:50%;background:{color};flex-shrink:0;"></div>
-                        <div style="flex:1;font-size:0.85em;color:#656d76;">{label}</div>
-                        <div style="font-weight:600;font-size:0.95em;">{val}%</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">''' + ''.join([
+                    f'''<div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
+                        <div style="font-size:1.8em;font-weight:700;color:{color};">{val}%</div>
+                        <div style="font-size:0.78em;color:#656d76;margin-top:6px;">{label}</div>
                     </div>'''
                     for label, val, color in [
-                        ('功能开发占比', health['feat_ratio'], '#0969da'),
-                        ('Bug 修复占比', health['fix_ratio'], '#cf222e'),
-                        ('重构占比', health['refactor_ratio'], '#8250df'),
-                        ('夜间提交占比', health['night_ratio'], '#bf8700'),
-                        ('周末提交占比', health['weekend_ratio'], '#8250df'),
-                        ('低信息量 commit', health['low_info_ratio'], '#cf222e' if health['low_info_ratio'] > 20 else '#656d76'),
+                        ('测试覆盖', health['test_ratio'], '#1a7f37' if health['test_ratio'] >= 10 else '#cf222e'),
+                        ('文档覆盖', health['doc_ratio'], '#1a7f37' if health['doc_ratio'] >= 5 else '#bf8700'),
+                        ('功能开发', health['feat_ratio'], '#0969da'),
+                        ('Bug 修复', health['fix_ratio'], '#cf222e'),
+                        ('重构', health['refactor_ratio'], '#8250df'),
+                        ('夜间提交', health['night_ratio'], '#bf8700' if health['night_ratio'] > 25 else '#656d76'),
+                        ('周末提交', health['weekend_ratio'], '#8250df' if health['weekend_ratio'] > 25 else '#656d76'),
+                        ('低信息量', health['low_info_ratio'], '#cf222e' if health['low_info_ratio'] > 20 else '#1a7f37'),
                     ]
                 ]) + '''
                 </div>
+            </div>
+            <div class="insight-card">
+                <strong>洞察：</strong>
+                {'测试覆盖偏低，建议补充测试。' if health['test_ratio'] < 5 else '测试意识良好。' if health['test_ratio'] >= 10 else ''}
+                {'文档投入不足。' if health['doc_ratio'] < 3 else ''}
+                {'夜间提交比例较高，注意作息。' if health['night_ratio'] > 30 else ''}
+                {'低信息量 commit 较多，建议规范 message。' if health['low_info_ratio'] > 15 else ''}
             </div>
         </div>
 
