@@ -224,6 +224,39 @@ def generate_report(data):
             <div style="text-align:{'right' if is_right else 'left'};font-size:0.75em;color:#656d76;margin-top:4px;">{pct}%</div>
         </div>'''
 
+    # 工程健康网格 HTML
+    eng_items = [
+        ('测试覆盖', health['test_ratio'], '#1a7f37' if health['test_ratio'] >= 10 else '#cf222e'),
+        ('文档覆盖', health['doc_ratio'], '#1a7f37' if health['doc_ratio'] >= 5 else '#bf8700'),
+        ('功能开发', health['feat_ratio'], '#0969da'),
+        ('Bug 修复', health['fix_ratio'], '#cf222e'),
+        ('重构', health['refactor_ratio'], '#8250df'),
+        ('夜间提交', health['night_ratio'], '#bf8700' if health['night_ratio'] > 25 else '#656d76'),
+        ('周末提交', health['weekend_ratio'], '#8250df' if health['weekend_ratio'] > 25 else '#656d76'),
+        ('低信息量', health['low_info_ratio'], '#cf222e' if health['low_info_ratio'] > 20 else '#1a7f37'),
+    ]
+    eng_health_html = ""
+    for label, val, color in eng_items:
+        eng_health_html += f'''
+        <div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
+            <div style="font-size:1.8em;font-weight:700;color:{color};">{val}%</div>
+            <div style="font-size:0.78em;color:#656d76;margin-top:6px;">{label}</div>
+        </div>'''
+
+    # 工程健康洞察
+    eng_insight_parts = []
+    if health['test_ratio'] < 5:
+        eng_insight_parts.append('测试覆盖偏低，建议补充测试。')
+    elif health['test_ratio'] >= 10:
+        eng_insight_parts.append('测试意识良好。')
+    if health['doc_ratio'] < 3:
+        eng_insight_parts.append('文档投入不足。')
+    if health['night_ratio'] > 30:
+        eng_insight_parts.append('夜间提交比例较高，注意作息。')
+    if health['low_info_ratio'] > 15:
+        eng_insight_parts.append('低信息量 commit 较多，建议规范 message。')
+    eng_insight_html = ' '.join(eng_insight_parts) if eng_insight_parts else '各项指标正常。'
+
     html = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -426,30 +459,12 @@ def generate_report(data):
         <div class="section">
             <div class="section-title">🏥 工程健康</div>
             <div class="card">
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">''' + ''.join([
-                    f'''<div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
-                        <div style="font-size:1.8em;font-weight:700;color:{color};">{val}%</div>
-                        <div style="font-size:0.78em;color:#656d76;margin-top:6px;">{label}</div>
-                    </div>'''
-                    for label, val, color in [
-                        ('测试覆盖', health['test_ratio'], '#1a7f37' if health['test_ratio'] >= 10 else '#cf222e'),
-                        ('文档覆盖', health['doc_ratio'], '#1a7f37' if health['doc_ratio'] >= 5 else '#bf8700'),
-                        ('功能开发', health['feat_ratio'], '#0969da'),
-                        ('Bug 修复', health['fix_ratio'], '#cf222e'),
-                        ('重构', health['refactor_ratio'], '#8250df'),
-                        ('夜间提交', health['night_ratio'], '#bf8700' if health['night_ratio'] > 25 else '#656d76'),
-                        ('周末提交', health['weekend_ratio'], '#8250df' if health['weekend_ratio'] > 25 else '#656d76'),
-                        ('低信息量', health['low_info_ratio'], '#cf222e' if health['low_info_ratio'] > 20 else '#1a7f37'),
-                    ]
-                ]) + '''
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+                    {eng_health_html}
                 </div>
             </div>
             <div class="insight-card">
-                <strong>洞察：</strong>
-                {'测试覆盖偏低，建议补充测试。' if health['test_ratio'] < 5 else '测试意识良好。' if health['test_ratio'] >= 10 else ''}
-                {'文档投入不足。' if health['doc_ratio'] < 3 else ''}
-                {'夜间提交比例较高，注意作息。' if health['night_ratio'] > 30 else ''}
-                {'低信息量 commit 较多，建议规范 message。' if health['low_info_ratio'] > 15 else ''}
+                <strong>洞察：</strong>{eng_insight_html}
             </div>
         </div>
 
