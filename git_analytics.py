@@ -358,95 +358,89 @@ def analyze_habits(all_repos):
     total_score = granularity_score + test_score + doc_score + schedule_score + focus_score
 
     # ============================================================
-    # 开发者类型标签
+    # 开发者人格系统 (DevPersona) - 类似 MBTI 的 4 维度分类
     # ============================================================
-    developer_tags = []
 
-    # 夜间爆发型
-    if night_ratio >= 0.35:
-        developer_tags.append({
-            'icon': '🌙',
-            'name': '夜间爆发型开发者',
-            'desc': f'{night_ratio*100:.0f}% commits 发生在 22:00 以后'
-        })
+    # 计算各维度指标
+    # 1. 时间维度 (T): D=Day 白天型, N=Night 夜猫型
+    day_commits = sum(total_hourly[h] for h in range(8, 20))  # 8-20 点
+    night_commits = sum(total_hourly[h] for h in range(20, 24)) + sum(total_hourly[h] for h in range(0, 6))
+    time_type = 'N' if night_commits > day_commits * 0.6 else 'D'
 
-    # 周末冲刺型
-    weekend_commits = total_weekly.get(5, 0) + total_weekly.get(6, 0)  # Saturday, Sunday
-    weekend_ratio = weekend_commits / max(total_commits, 1)
-    if weekend_ratio >= 0.3:
-        developer_tags.append({
-            'icon': '🏃',
-            'name': '周末冲刺型开发者',
-            'desc': f'周末提交占比 {weekend_ratio*100:.0f}%'
-        })
+    # 2. 节奏维度 (R): S=Sprint 冲刺型, M=Marathon 马拉松型
+    rhythm_type = 'S' if avg_commits_per_day >= 2.5 else 'M'
 
-    # 小步快跑型
-    if avg_commits_per_day >= 3:
-        developer_tags.append({
-            'icon': '⚡',
-            'name': '小步快跑型开发者',
-            'desc': f'平均每天 {avg_commits_per_day:.1f} 次提交'
-        })
+    # 3. 专注维度 (F): C=Concentrated 专注型, D=Distributed 分散型
+    focus_type = 'C' if focus_index >= 0.5 else 'D'
 
-    # 大包提交型
-    if avg_commits_per_day < 1.5:
-        developer_tags.append({
-            'icon': '📦',
-            'name': '大包提交型开发者',
-            'desc': '单次提交改动较大，建议拆分'
-        })
-
-    # 功能优先型
+    # 4. 风格维度 (S): P=Pioneer 先锋型, G=Guardian 守护型
     feat_ratio = total_types.get('feat', 0) / max(total_commits, 1)
-    test_type_ratio = total_types.get('test', 0) / max(total_commits, 1)
-    if feat_ratio >= 0.4 and test_type_ratio < 0.1:
-        developer_tags.append({
-            'icon': '🚀',
-            'name': '功能优先型开发者',
-            'desc': '功能开发占比高，测试投入不足'
-        })
-
-    # 项目游牧型
-    if total_projects >= 8:
-        developer_tags.append({
-            'icon': '🏕️',
-            'name': '项目游牧型开发者',
-            'desc': f'活跃于 {total_projects} 个项目'
-        })
-
-    # 维护型工程师
     fix_ratio = total_types.get('fix', 0) / max(total_commits, 1)
     refactor_ratio = total_types.get('refactor', 0) / max(total_commits, 1)
-    if fix_ratio + refactor_ratio >= 0.3:
-        developer_tags.append({
-            'icon': '🔧',
-            'name': '维护型工程师',
-            'desc': 'fix/refactor 占比高'
-        })
+    maintenance_ratio = (fix_ratio + refactor_ratio + total_types.get('chore', 0) / max(total_commits, 1))
+    style_type = 'P' if feat_ratio > maintenance_ratio else 'G'
 
-    # 测试薄弱型
-    if test_ratio < 0.05:
-        developer_tags.append({
-            'icon': '⚠️',
-            'name': '测试薄弱型',
-            'desc': f'测试文件变更仅占 {test_ratio*100:.1f}%'
-        })
+    # 组合人格类型
+    persona_code = time_type + rhythm_type + focus_type + style_type
 
-    # 文档债务型
-    if doc_ratio < 0.03:
-        developer_tags.append({
-            'icon': '📝',
-            'name': '文档债务型',
-            'desc': '代码变更多，文档更新少'
-        })
+    # 人格类型定义
+    persona_map = {
+        'DSCP': {'name': '晨曦开拓者', 'icon': '🌅', 'desc': '白天高效推进新功能，专注且有节奏'},
+        'DSCG': {'name': '晨曦守护者', 'icon': '🛡️', 'desc': '白天稳定维护系统，专注且可靠'},
+        'DSDP': {'name': '日间游侠', 'icon': '☀️', 'desc': '白天多线并行推进，精力分散但产出高'},
+        'DSDG': {'name': '日间管家', 'icon': '🧹', 'desc': '白天维护多个项目，有条不紊'},
+        'DMCP': {'name': '深度工匠', 'icon': '🔨', 'desc': '白天深度专注，大块时间打磨功能'},
+        'DMCG': {'name': '架构守护者', 'icon': '🏛️', 'desc': '白天深度重构，守护代码质量'},
+        'DMDP': {'name': '技术顾问', 'icon': '💼', 'desc': '白天多项目指导，大开大合'},
+        'DMDG': {'name': '运维专家', 'icon': '⚙️', 'desc': '白天统筹维护，稳定运行'},
+        'NSCP': {'name': '深夜闪电侠', 'icon': '⚡', 'desc': '夜间高频冲刺新功能，专注且高效'},
+        'NSCG': {'name': '午夜修复工', 'icon': '🔧', 'desc': '夜间快速修复问题，专注且精准'},
+        'NSDP': {'name': '夜间猎手', 'icon': '🦉', 'desc': '夜间多项目切换，快速出击'},
+        'NSDG': {'name': '深夜清道夫', 'icon': '🌙', 'desc': '夜间清理维护多个项目'},
+        'NMCP': {'name': '深夜造物主', 'icon': '🌌', 'desc': '夜间深度创造，专注构建新事物'},
+        'NMCG': {'name': '午夜炼金师', 'icon': '🧪', 'desc': '夜间深度重构，点石成金'},
+        'NMDP': {'name': '夜间指挥官', 'icon': '🎯', 'desc': '夜间统筹多个项目，运筹帷幄'},
+        'NMDG': {'name': '守夜人', 'icon': '🏰', 'desc': '夜间守护系统稳定，默默付出'},
+    }
 
-    # AI 辅助型
+    persona = persona_map.get(persona_code, {'name': '未知类型', 'icon': '❓', 'desc': '独特的开发风格'})
+
+    # 基础标签
+    developer_tags = [
+        {
+            'icon': persona['icon'],
+            'name': persona['name'],
+            'desc': persona['desc'],
+            'code': persona_code,
+            'is_primary': True
+        }
+    ]
+
+    # 补充标签（额外特征）
+    weekend_commits = total_weekly.get(5, 0) + total_weekly.get(6, 0)
+    weekend_ratio = weekend_commits / max(total_commits, 1)
+
+    if weekend_ratio >= 0.3:
+        developer_tags.append({'icon': '📅', 'name': '周末战士', 'desc': f'周末提交占比 {weekend_ratio*100:.0f}%'})
+
     if len(all_ai_signals) >= 3:
-        developer_tags.append({
-            'icon': '🤖',
-            'name': 'AI 辅助开发型',
-            'desc': '检测到 AI 工具使用痕迹'
-        })
+        developer_tags.append({'icon': '🤖', 'name': 'AI 协作者', 'desc': '使用 AI 工具辅助开发'})
+
+    if test_ratio >= 0.15:
+        developer_tags.append({'icon': '✅', 'name': '测试达人', 'desc': f'测试覆盖 {test_ratio*100:.0f}%'})
+    elif test_ratio < 0.05:
+        developer_tags.append({'icon': '⚠️', 'name': '测试待加强', 'desc': f'测试覆盖仅 {test_ratio*100:.0f}%'})
+
+    if doc_ratio >= 0.10:
+        developer_tags.append({'icon': '📚', 'name': '文档之星', 'desc': '文档维护优秀'})
+    elif doc_ratio < 0.03:
+        developer_tags.append({'icon': '📝', 'name': '文档债务', 'desc': '文档投入不足'})
+
+    if total_projects >= 10:
+        developer_tags.append({'icon': '🎪', 'name': '多面手', 'desc': f'同时维护 {total_projects} 个项目'})
+
+    if night_commits > day_commits:
+        developer_tags.append({'icon': '🌙', 'name': '夜猫子', 'desc': '夜间比白天更活跃'})
 
     # 限制标签数量
     developer_tags = developer_tags[:5]
@@ -502,6 +496,20 @@ def analyze_habits(all_repos):
             'doc_awareness': doc_score,
             'schedule': schedule_score,
             'focus': focus_score
+        },
+
+        # 开发者人格类型 (DevPersona)
+        'persona': {
+            'code': persona_code,
+            'name': persona['name'],
+            'icon': persona['icon'],
+            'desc': persona['desc'],
+            'dimensions': {
+                'time': {'code': time_type, 'name': '夜猫型' if time_type == 'N' else '白天型', 'value': round(night_commits / max(total_commits, 1) * 100)},
+                'rhythm': {'code': rhythm_type, 'name': '冲刺型' if rhythm_type == 'S' else '马拉松型', 'value': round(avg_commits_per_day, 1)},
+                'focus': {'code': focus_type, 'name': '专注型' if focus_type == 'C' else '分散型', 'value': round(focus_index * 100)},
+                'style': {'code': style_type, 'name': '先锋型' if style_type == 'P' else '守护型', 'value': round(feat_ratio * 100)}
+            }
         },
 
         # 开发者类型标签

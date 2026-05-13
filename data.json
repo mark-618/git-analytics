@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-05-13T10:20:52Z",
+  "generated_at": "2026-05-13T11:05:00Z",
   "scan_dir": "/Users/mark/Desktop",
   "summary": {
-    "total_projects": 19,
-    "total_commits": 583,
-    "total_active_days": 195,
+    "total_projects": 20,
+    "total_commits": 585,
+    "total_active_days": 196,
     "avg_commits_per_day": 3.0
   },
   "habit_score": {
@@ -15,21 +15,61 @@
     "schedule": 10,
     "focus": 12
   },
+  "persona": {
+    "code": "NSCP",
+    "name": "深夜闪电侠",
+    "icon": "⚡",
+    "desc": "夜间高频冲刺新功能，专注且高效",
+    "dimensions": {
+      "time": {
+        "code": "N",
+        "name": "夜猫型",
+        "value": 38
+      },
+      "rhythm": {
+        "code": "S",
+        "name": "冲刺型",
+        "value": 3.0
+      },
+      "focus": {
+        "code": "C",
+        "name": "专注型",
+        "value": 52
+      },
+      "style": {
+        "code": "P",
+        "name": "先锋型",
+        "value": 24
+      }
+    }
+  },
   "developer_tags": [
     {
-      "icon": "🏃",
-      "name": "周末冲刺型开发者",
+      "icon": "⚡",
+      "name": "深夜闪电侠",
+      "desc": "夜间高频冲刺新功能，专注且高效",
+      "code": "NSCP",
+      "is_primary": true
+    },
+    {
+      "icon": "📅",
+      "name": "周末战士",
       "desc": "周末提交占比 31%"
     },
     {
-      "icon": "🏕️",
-      "name": "项目游牧型开发者",
-      "desc": "活跃于 19 个项目"
+      "icon": "🤖",
+      "name": "AI 协作者",
+      "desc": "使用 AI 工具辅助开发"
     },
     {
-      "icon": "🤖",
-      "name": "AI 辅助开发型",
-      "desc": "检测到 AI 工具使用痕迹"
+      "icon": "✅",
+      "name": "测试达人",
+      "desc": "测试覆盖 25%"
+    },
+    {
+      "icon": "📚",
+      "name": "文档之星",
+      "desc": "文档维护优秀"
     }
   ],
   "hourly": [
@@ -43,7 +83,7 @@
     5,
     11,
     12,
-    63,
+    65,
     43,
     22,
     18,
@@ -63,12 +103,12 @@
     "5": 79,
     "4": 68,
     "1": 103,
-    "2": 71,
+    "2": 73,
     "0": 91,
     "3": 69
   },
   "monthly": {
-    "2026-05": 176,
+    "2026-05": 178,
     "2026-04": 214,
     "2025-11": 3,
     "2025-10": 15,
@@ -591,6 +631,43 @@
       }
     },
     {
+      "name": "git-analytics",
+      "commits": 2,
+      "language": "Python",
+      "active_days": 1,
+      "first_commit": "2026-05-13",
+      "last_commit": "2026-05-13",
+      "hourly": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "monthly": {
+        "2026-05": 2
+      }
+    },
+    {
       "name": "Polymarket",
       "commits": 1,
       "language": "Unknown",
@@ -815,21 +892,21 @@
   ],
   "commit_types": {
     "docs": 88,
-    "other": 267,
+    "other": 268,
     "chore": 22,
     "fix": 55,
     "refactor": 12,
-    "feat": 137,
+    "feat": 138,
     "test": 2
   },
   "engineering_health": {
     "test_ratio": 24.6,
     "doc_ratio": 28.0,
-    "feat_ratio": 23.5,
+    "feat_ratio": 23.6,
     "fix_ratio": 9.4,
     "refactor_ratio": 2.1,
-    "night_ratio": 31.9,
-    "weekend_ratio": 31.0,
+    "night_ratio": 31.8,
+    "weekend_ratio": 30.9,
     "low_info_ratio": 0.9
   },
   "ai_signals": {
@@ -843,6 +920,6 @@
       "AI file: CLAUDE.md"
     ]
   },
-  "focus_index": 52.1,
-  "night_owl_index": 31.9
+  "focus_index": 52.0,
+  "night_owl_index": 31.8
 }

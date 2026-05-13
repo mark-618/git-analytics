@@ -31,6 +31,7 @@ def get_score_label(score):
 def generate_report(data):
     summary = data['summary']
     habit_score = data['habit_score']
+    persona = data.get('persona', {})
     tags = data['developer_tags']
     hourly = data['hourly']
     weekly = data['weekly']
@@ -125,14 +126,14 @@ def generate_report(data):
             <div style="width:50px;font-size:0.85em;color:#1f2328;text-align:right;">{score}/{max_score}</div>
         </div>'''
 
-    # 开发者标签
+    # 开发者标签（跳过第一个主类型，已单独展示）
     tags_html = ""
-    for tag in tags:
+    for tag in tags[1:]:  # 跳过第一个人格类型
         tags_html += f'''
-        <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:16px;text-align:center;">
-            <div style="font-size:1.8em;margin-bottom:6px;">{tag['icon']}</div>
-            <div style="font-weight:600;font-size:0.9em;margin-bottom:3px;">{tag['name']}</div>
-            <div style="font-size:0.75em;color:#656d76;">{tag['desc']}</div>
+        <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:14px;text-align:center;">
+            <div style="font-size:1.5em;margin-bottom:4px;">{tag['icon']}</div>
+            <div style="font-weight:600;font-size:0.85em;margin-bottom:2px;">{tag['name']}</div>
+            <div style="font-size:0.7em;color:#656d76;">{tag['desc']}</div>
         </div>'''
 
     # 项目排行榜
@@ -194,6 +195,31 @@ def generate_report(data):
 
     # 月度标签简化
     month_short = [m[-2:] + '月' for m in month_labels]
+
+    # 生成维度详情 HTML
+    dims = persona.get('dimensions', {})
+    dim_labels = [
+        ('time', '时间偏好', '白天型', '夜猫型'),
+        ('rhythm', '节奏风格', '马拉松型', '冲刺型'),
+        ('focus', '专注程度', '分散型', '专注型'),
+        ('style', '开发风格', '守护型', '先锋型')
+    ]
+
+    dims_detail_html = ""
+    for dim_key, dim_name, left_label, right_label in dim_labels:
+        dim = dims.get(dim_key, {})
+        is_right = dim.get('code', '') in ['N', 'S', 'C', 'P']
+        dims_detail_html += f'''
+        <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:12px;">
+            <div style="font-size:0.8em;color:#656d76;margin-bottom:6px;">{dim_name}</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:0.85em;color:{'#656d76' if is_right else '#1f2328'};font-weight:{'400' if is_right else '600'};">{left_label}</span>
+                <div style="flex:1;height:6px;background:#d8dee4;border-radius:3px;position:relative;">
+                    <div style="position:absolute;{'right' if is_right else 'left'}:0;top:0;width:50%;height:100%;background:#0969da;border-radius:3px;"></div>
+                </div>
+                <span style="font-size:0.85em;color:{'#1f2328' if is_right else '#656d76'};font-weight:{'600' if is_right else '400'};">{right_label}</span>
+            </div>
+        </div>'''
 
     html = f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -280,6 +306,22 @@ def generate_report(data):
         <!-- 总览 -->
         <div class="section">
             <div class="section-title">📊 总览</div>
+            <div class="card">
+                <h3>你的开发者人格</h3>
+                <div style="display:flex;align-items:center;gap:40px;padding:10px 0;">
+                    <div style="text-align:center;">
+                        <div style="font-size:3em;margin-bottom:8px;">{persona.get('icon', '❓')}</div>
+                        <div style="font-size:1.6em;font-weight:700;color:#1f2328;">{persona.get('name', '未知')}</div>
+                        <div style="font-size:1.2em;color:#0969da;font-weight:600;margin-top:4px;">{persona.get('code', '????')}</div>
+                        <div style="color:#656d76;font-size:0.9em;margin-top:8px;">{persona.get('desc', '')}</div>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+                        {dims_detail_html}
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="two-cols">
                 <div class="card">
                     <h3>Developer Habit Score</h3>
@@ -292,7 +334,7 @@ def generate_report(data):
                     </div>
                 </div>
                 <div class="card">
-                    <h3>你的开发者类型</h3>
+                    <h3>特征标签</h3>
                     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">{tags_html}</div>
                 </div>
             </div>
