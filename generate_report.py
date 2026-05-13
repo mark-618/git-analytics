@@ -16,9 +16,9 @@ def load_data(data_path="data.json"):
 
 
 def get_score_color(score):
-    if score >= 80: return '#10b981'
-    elif score >= 60: return '#f59e0b'
-    else: return '#ef4444'
+    if score >= 80: return '#1a7f37'
+    elif score >= 60: return '#bf8700'
+    else: return '#cf222e'
 
 
 def get_score_label(score):
@@ -49,7 +49,7 @@ def generate_report(data):
 
     # 准备项目堆叠数据（Top 7）
     top_projects = [p for p in projects if p['commits'] >= 10][:7]
-    colors = ['#667eea', '#f44336', '#9c27b0', '#2196f3', '#00bcd4', '#ff9800', '#e91e63', '#795548', '#607d8b']
+    colors = ['#0969da', '#8250df', '#bf3989', '#cf222e', '#1a7f37', '#bf8700', '#0550ae', '#6e7781']
 
     stack_datasets = []
     for i, proj in enumerate(top_projects):
@@ -91,7 +91,7 @@ def generate_report(data):
     # Commit 类型数据
     type_labels = ['feat', 'fix', 'docs', 'test', 'refactor', 'chore', 'other']
     type_names = ['功能开发', 'Bug 修复', '文档', '测试', '重构', '构建/CI', '其他']
-    type_colors = ['#667eea', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#6b7280', '#d1d5db']
+    type_colors = ['#0969da', '#cf222e', '#1a7f37', '#bf8700', '#8250df', '#6e7781', '#afb8c1']
     type_values = [commit_types.get(t, 0) for t in type_labels]
 
     # 语言分布（从项目数据聚合）
@@ -101,7 +101,7 @@ def generate_report(data):
         lang_counter[lang] = lang_counter.get(lang, 0) + 1
     lang_labels = list(lang_counter.keys())
     lang_values = list(lang_counter.values())
-    lang_colors = ['#3776ab', '#f7df1e', '#3178c6', '#ff9800', '#10b981', '#ef4444', '#8b5cf6']
+    lang_colors = ['#3572a5', '#f1e05a', '#3178c6', '#e34c26', '#563d7c', '#00add8', '#dea584']
 
     # 分数维度
     score_dims = [
@@ -117,38 +117,38 @@ def generate_report(data):
         pct = score / max_score * 100
         color = get_score_color(pct)
         dims_html += f'''
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
-            <div style="width:70px;font-size:0.9em;color:#6b7280;">{name}</div>
-            <div style="flex:1;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;">
-                <div style="width:{pct}%;height:100%;background:{color};border-radius:3px;"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div style="width:70px;font-size:0.85em;color:#656d76;">{name}</div>
+            <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
+                <div style="width:{pct}%;height:100%;background:{color};border-radius:4px;"></div>
             </div>
-            <div style="width:50px;font-size:0.9em;color:#374151;text-align:right;">{score}/{max_score}</div>
+            <div style="width:50px;font-size:0.85em;color:#1f2328;text-align:right;">{score}/{max_score}</div>
         </div>'''
 
     # 开发者标签
     tags_html = ""
     for tag in tags:
         tags_html += f'''
-        <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:20px;text-align:center;">
-            <div style="font-size:2em;margin-bottom:8px;">{tag['icon']}</div>
-            <div style="font-weight:600;font-size:0.95em;margin-bottom:4px;">{tag['name']}</div>
-            <div style="font-size:0.8em;color:#6b7280;">{tag['desc']}</div>
+        <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:16px;text-align:center;">
+            <div style="font-size:1.8em;margin-bottom:6px;">{tag['icon']}</div>
+            <div style="font-weight:600;font-size:0.9em;margin-bottom:3px;">{tag['name']}</div>
+            <div style="font-size:0.75em;color:#656d76;">{tag['desc']}</div>
         </div>'''
 
     # 项目排行榜
     projects_html = ""
     for i, p in enumerate(projects[:8], 1):
         projects_html += f'''
-        <div style="display:flex;align-items:center;gap:16px;padding:14px 0;{'border-top:1px solid #f1f5f9;' if i > 1 else ''}">
-            <div style="width:28px;height:28px;background:#667eea;color:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85em;">{i}</div>
+        <div style="display:flex;align-items:center;gap:14px;padding:12px 0;{'border-top:1px solid #d8dee4;' if i > 1 else ''}">
+            <div style="width:24px;height:24px;background:#0969da;color:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">{i}</div>
             <div style="flex:1;">
-                <div style="font-weight:600;">{p['name']}</div>
-                <div style="display:flex;gap:12px;font-size:0.8em;color:#6b7280;margin-top:2px;">
+                <div style="font-weight:600;font-size:0.95em;">{p['name']}</div>
+                <div style="display:flex;gap:10px;font-size:0.75em;color:#656d76;margin-top:2px;">
                     <span>{p['language']}</span>
                     <span>{p['active_days']} 天活跃</span>
                 </div>
             </div>
-            <div style="font-size:1.1em;font-weight:700;color:#667eea;">{p['commits']}</div>
+            <div style="font-size:1em;font-weight:700;color:#0969da;">{p['commits']}</div>
         </div>'''
 
     # 建议
@@ -169,23 +169,23 @@ def generate_report(data):
     sug_html = ""
     for i, s in enumerate(suggestions, 1):
         sug_html += f'''
-        <div style="display:flex;gap:12px;margin-bottom:12px;padding:14px 16px;background:#f0fdf4;border-radius:10px;">
-            <div style="width:22px;height:22px;background:#10b981;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75em;font-weight:700;flex-shrink:0;">{i}</div>
-            <div style="font-size:0.9em;">{s}</div>
+        <div style="display:flex;gap:12px;margin-bottom:10px;padding:12px 14px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
+            <div style="width:20px;height:20px;background:#1a7f37;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7em;font-weight:700;flex-shrink:0;">{i}</div>
+            <div style="font-size:0.9em;color:#1f2328;">{s}</div>
         </div>'''
 
     # AI 信号
     if ai['detected']:
         ai_html = f'''
-        <div style="background:linear-gradient(135deg,#ede9fe,#ddd6fe);border-radius:12px;padding:24px;text-align:center;">
-            <div style="font-size:2.5em;margin-bottom:8px;">🤖</div>
-            <div style="font-weight:700;font-size:1.1em;color:#5b21b6;">检测到 AI 辅助开发</div>
-            <div style="color:#6b7280;font-size:0.9em;margin-top:4px;">发现 {ai['count']} 个 AI 工具使用信号</div>
+        <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:24px;text-align:center;">
+            <div style="font-size:2.2em;margin-bottom:8px;">🤖</div>
+            <div style="font-weight:700;font-size:1.05em;color:#1f2328;">检测到 AI 辅助开发</div>
+            <div style="color:#656d76;font-size:0.85em;margin-top:4px;">发现 {ai['count']} 个 AI 工具使用信号</div>
         </div>'''
     else:
         ai_html = '''
-        <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:24px;text-align:center;">
-            <div style="color:#6b7280;">未检测到明显的 AI 辅助开发痕迹</div>
+        <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:24px;text-align:center;">
+            <div style="color:#656d76;">未检测到明显的 AI 辅助开发痕迹</div>
         </div>'''
 
     # Top3 聚焦度
@@ -206,49 +206,48 @@ def generate_report(data):
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', system-ui, sans-serif;
-            background: #fafafa;
-            color: #1d1d1f;
+            background: #f6f8fa;
+            color: #1f2328;
             line-height: 1.6;
-            padding: 60px 20px;
+            padding: 40px 20px;
         }}
         .container {{ max-width: 1100px; margin: 0 auto; }}
-        .header {{ text-align: center; margin-bottom: 60px; }}
-        .header h1 {{ font-size: 2.8em; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }}
-        .header p {{ color: #86868b; font-size: 1.15em; }}
-        .stats-row {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 50px; }}
+        .header {{ text-align: center; margin-bottom: 48px; }}
+        .header h1 {{ font-size: 2.4em; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; color: #1f2328; }}
+        .header p {{ color: #656d76; font-size: 1.1em; }}
+        .stats-row {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }}
         .stat-card {{
-            background: #fff; border-radius: 16px; padding: 28px; text-align: center;
-            box-shadow: 0 1px 12px rgba(0,0,0,0.04);
+            background: #fff; border-radius: 6px; padding: 24px; text-align: center;
+            border: 1px solid #d0d7de;
         }}
         .stat-number {{
-            font-size: 2.8em; font-weight: 700;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 2.4em; font-weight: 700; color: #0969da;
         }}
-        .stat-label {{ color: #86868b; font-size: 0.9em; margin-top: 4px; }}
-        .section {{ margin-bottom: 50px; }}
+        .stat-label {{ color: #656d76; font-size: 0.85em; margin-top: 4px; }}
+        .section {{ margin-bottom: 40px; }}
         .section-title {{
-            font-size: 1.6em; font-weight: 600; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 10px;
+            font-size: 1.4em; font-weight: 600; margin-bottom: 16px; color: #1f2328;
+            display: flex; align-items: center; gap: 8px;
+            padding-bottom: 8px; border-bottom: 1px solid #d8dee4;
         }}
         .card {{
-            background: #fff; border-radius: 16px; padding: 28px;
-            box-shadow: 0 1px 12px rgba(0,0,0,0.04); margin-bottom: 20px;
+            background: #fff; border-radius: 6px; padding: 24px;
+            border: 1px solid #d0d7de; margin-bottom: 16px;
         }}
-        .card h3 {{ font-size: 1.1em; font-weight: 600; margin-bottom: 18px; color: #374151; }}
-        .chart-container {{ position: relative; height: 320px; }}
+        .card h3 {{ font-size: 1em; font-weight: 600; margin-bottom: 16px; color: #1f2328; }}
+        .chart-container {{ position: relative; height: 300px; }}
         .insight-card {{
-            background: #f8fafc; border-left: 3px solid #667eea;
-            border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 18px 0 0;
-            font-size: 0.92em; color: #4b5563;
+            background: #f6f8fa; border-left: 3px solid #0969da;
+            border-radius: 0 6px 6px 0; padding: 14px 16px; margin: 16px 0 0;
+            font-size: 0.9em; color: #656d76;
         }}
-        .insight-card strong {{ color: #667eea; }}
-        .footer {{ text-align: center; margin-top: 60px; padding: 30px; color: #9ca3af; font-size: 0.85em; }}
-        .two-cols {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }}
+        .insight-card strong {{ color: #0969da; }}
+        .footer {{ text-align: center; margin-top: 48px; padding: 24px; color: #656d76; font-size: 0.8em; border-top: 1px solid #d8dee4; }}
+        .two-cols {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }}
         @media (max-width: 768px) {{
             .stats-row {{ grid-template-columns: repeat(2, 1fr); }}
             .two-cols {{ grid-template-columns: 1fr; }}
-            .header h1 {{ font-size: 2em; }}
+            .header h1 {{ font-size: 1.8em; }}
         }}
     </style>
 </head>
@@ -287,7 +286,7 @@ def generate_report(data):
                     <div style="display:flex;align-items:center;gap:30px;">
                         <div style="text-align:center;">
                             <div style="font-size:4em;font-weight:700;color:{get_score_color(habit_score['total'])};line-height:1;">{habit_score['total']}</div>
-                            <div style="color:#6b7280;font-size:0.9em;margin-top:4px;">/ 100 · {get_score_label(habit_score['total'])}</div>
+                            <div style="color:#656d76;font-size:0.9em;margin-top:4px;">/ 100 · {get_score_label(habit_score['total'])}</div>
                         </div>
                         <div style="flex:1;">{dims_html}</div>
                     </div>
@@ -386,7 +385,7 @@ def generate_report(data):
                     <h3>测试意识</h3>
                     <div style="text-align:center;padding:20px 0;">
                         <div style="font-size:3.5em;font-weight:700;color:{get_score_color(health['test_ratio'] * 5)};">{health['test_ratio']}%</div>
-                        <div style="color:#6b7280;margin-top:6px;">测试文件变更占比</div>
+                        <div style="color:#656d76;margin-top:6px;">测试文件变更占比</div>
                     </div>
                     <div class="insight-card">
                         {'测试覆盖偏低，建议为每个功能编写测试。' if health['test_ratio'] < 5 else '测试意识良好。'}
@@ -396,7 +395,7 @@ def generate_report(data):
                     <h3>文档意识</h3>
                     <div style="text-align:center;padding:20px 0;">
                         <div style="font-size:3.5em;font-weight:700;color:{get_score_color(health['doc_ratio'] * 8)};">{health['doc_ratio']}%</div>
-                        <div style="color:#6b7280;margin-top:6px;">文档文件变更占比</div>
+                        <div style="color:#656d76;margin-top:6px;">文档文件变更占比</div>
                     </div>
                     <div class="insight-card">
                         {'文档投入不足。' if health['doc_ratio'] < 3 else '文档维护不错。'}
@@ -437,7 +436,7 @@ def generate_report(data):
                 labels: {json.dumps([f'{h:02d}:00' for h in range(24)])},
                 datasets: [{{
                     data: {json.dumps(hourly)},
-                    backgroundColor: {json.dumps([f'rgba(102,126,234,{0.2 + v/max(hourly)*0.8})' if max(hourly) > 0 else 'rgba(102,126,234,0.2)' for v in hourly])},
+                    backgroundColor: {json.dumps([f'rgba(9,105,218,{0.2 + v/max(hourly)*0.8})' if max(hourly) > 0 else 'rgba(9,105,218,0.2)' for v in hourly])},
                     borderRadius: 6
                 }}]
             }},
@@ -458,7 +457,7 @@ def generate_report(data):
                 labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
                 datasets: [{{
                     data: {[weekly.get(str(i), 0) for i in range(7)]},
-                    backgroundColor: ['#667eea', '#667eea', '#667eea', '#667eea', '#667eea', '#f59e0b', '#f59e0b'],
+                    backgroundColor: ['#0969da', '#0969da', '#0969da', '#0969da', '#0969da', '#8250df', '#8250df'],
                     borderRadius: 6
                 }}]
             }},
@@ -554,11 +553,11 @@ def generate_report(data):
         document.getElementById('typeBars').innerHTML = typeData.map(([name, val, color]) => {{
             const pct = (val / {max(summary['total_commits'], 1)} * 100).toFixed(1);
             return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-                <div style="width:70px;font-size:0.85em;color:#6b7280;">${{name}}</div>
-                <div style="flex:1;height:8px;background:#e5e7eb;border-radius:4px;overflow:hidden;">
+                <div style="width:70px;font-size:0.85em;color:#656d76;">${{name}}</div>
+                <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
                     <div style="width:${{pct}}%;height:100%;background:${{color}};border-radius:4px;"></div>
                 </div>
-                <div style="width:90px;font-size:0.85em;color:#374151;text-align:right;">${{val}} (${{pct}}%)</div>
+                <div style="width:90px;font-size:0.85em;color:#1f2328;text-align:right;">${{val}} (${{pct}}%)</div>
             </div>`;
         }}).join('');
     </script>
