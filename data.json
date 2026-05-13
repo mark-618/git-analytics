@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-05-13T11:05:00Z",
+  "generated_at": "2026-05-13T11:22:23Z",
   "scan_dir": "/Users/mark/Desktop",
   "summary": {
     "total_projects": 20,
-    "total_commits": 585,
+    "total_commits": 586,
     "total_active_days": 196,
     "avg_commits_per_day": 3.0
   },
@@ -16,10 +16,10 @@
     "focus": 12
   },
   "persona": {
-    "code": "NSCP",
+    "code": "NSCPQA",
     "name": "深夜闪电侠",
     "icon": "⚡",
-    "desc": "夜间高频冲刺新功能，专注且高效",
+    "desc": "夜间，高频提交，专注核心项目，推进新功能",
     "dimensions": {
       "time": {
         "code": "N",
@@ -40,6 +40,16 @@
         "code": "P",
         "name": "先锋型",
         "value": 24
+      },
+      "engineering": {
+        "code": "Q",
+        "name": "质量导向",
+        "value": 26
+      },
+      "ai": {
+        "code": "A",
+        "name": "AI 协作型",
+        "value": 63
       }
     }
   },
@@ -47,8 +57,8 @@
     {
       "icon": "⚡",
       "name": "深夜闪电侠",
-      "desc": "夜间高频冲刺新功能，专注且高效",
-      "code": "NSCP",
+      "desc": "夜间，高频提交，专注核心项目，推进新功能",
+      "code": "NSCPQA",
       "is_primary": true
     },
     {
@@ -70,6 +80,11 @@
       "icon": "📚",
       "name": "文档之星",
       "desc": "文档维护优秀"
+    },
+    {
+      "icon": "🎪",
+      "name": "多面手",
+      "desc": "同时维护 20 个项目"
     }
   ],
   "hourly": [
@@ -84,7 +99,7 @@
     11,
     12,
     65,
-    43,
+    44,
     22,
     18,
     29,
@@ -103,12 +118,12 @@
     "5": 79,
     "4": 68,
     "1": 103,
-    "2": 73,
+    "2": 74,
     "0": 91,
     "3": 69
   },
   "monthly": {
-    "2026-05": 178,
+    "2026-05": 179,
     "2026-04": 214,
     "2025-11": 3,
     "2025-10": 15,
@@ -632,7 +647,7 @@
     },
     {
       "name": "git-analytics",
-      "commits": 2,
+      "commits": 3,
       "language": "Python",
       "active_days": 1,
       "first_commit": "2026-05-13",
@@ -649,7 +664,7 @@
         0,
         0,
         2,
-        0,
+        1,
         0,
         0,
         0,
@@ -664,7 +679,7 @@
         0
       ],
       "monthly": {
-        "2026-05": 2
+        "2026-05": 3
       }
     },
     {
@@ -896,16 +911,16 @@
     "chore": 22,
     "fix": 55,
     "refactor": 12,
-    "feat": 138,
+    "feat": 139,
     "test": 2
   },
   "engineering_health": {
     "test_ratio": 24.6,
-    "doc_ratio": 28.0,
-    "feat_ratio": 23.6,
+    "doc_ratio": 27.9,
+    "feat_ratio": 23.7,
     "fix_ratio": 9.4,
-    "refactor_ratio": 2.1,
-    "night_ratio": 31.8,
+    "refactor_ratio": 2.0,
+    "night_ratio": 31.7,
     "weekend_ratio": 30.9,
     "low_info_ratio": 0.9
   },
@@ -920,6 +935,6 @@
       "AI file: CLAUDE.md"
     ]
   },
-  "focus_index": 52.0,
-  "night_owl_index": 31.8
+  "focus_index": 51.9,
+  "night_owl_index": 31.7
 }

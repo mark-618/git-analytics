@@ -358,12 +358,12 @@ def analyze_habits(all_repos):
     total_score = granularity_score + test_score + doc_score + schedule_score + focus_score
 
     # ============================================================
-    # 开发者人格系统 (DevPersona) - 类似 MBTI 的 4 维度分类
+    # 开发者人格系统 (DevPersona) - 6 维度分类
     # ============================================================
 
     # 计算各维度指标
     # 1. 时间维度 (T): D=Day 白天型, N=Night 夜猫型
-    day_commits = sum(total_hourly[h] for h in range(8, 20))  # 8-20 点
+    day_commits = sum(total_hourly[h] for h in range(8, 20))
     night_commits = sum(total_hourly[h] for h in range(20, 24)) + sum(total_hourly[h] for h in range(0, 6))
     time_type = 'N' if night_commits > day_commits * 0.6 else 'D'
 
@@ -380,30 +380,68 @@ def analyze_habits(all_repos):
     maintenance_ratio = (fix_ratio + refactor_ratio + total_types.get('chore', 0) / max(total_commits, 1))
     style_type = 'P' if feat_ratio > maintenance_ratio else 'G'
 
-    # 组合人格类型
-    persona_code = time_type + rhythm_type + focus_type + style_type
+    # 5. 工程维度 (E): R=Rapid 快速迭代, Q=Quality 质量导向
+    engineering_score = (test_ratio * 0.5 + doc_ratio * 0.5)
+    eng_type = 'Q' if engineering_score >= 0.08 else 'R'
 
-    # 人格类型定义
-    persona_map = {
-        'DSCP': {'name': '晨曦开拓者', 'icon': '🌅', 'desc': '白天高效推进新功能，专注且有节奏'},
-        'DSCG': {'name': '晨曦守护者', 'icon': '🛡️', 'desc': '白天稳定维护系统，专注且可靠'},
-        'DSDP': {'name': '日间游侠', 'icon': '☀️', 'desc': '白天多线并行推进，精力分散但产出高'},
-        'DSDG': {'name': '日间管家', 'icon': '🧹', 'desc': '白天维护多个项目，有条不紊'},
-        'DMCP': {'name': '深度工匠', 'icon': '🔨', 'desc': '白天深度专注，大块时间打磨功能'},
-        'DMCG': {'name': '架构守护者', 'icon': '🏛️', 'desc': '白天深度重构，守护代码质量'},
-        'DMDP': {'name': '技术顾问', 'icon': '💼', 'desc': '白天多项目指导，大开大合'},
-        'DMDG': {'name': '运维专家', 'icon': '⚙️', 'desc': '白天统筹维护，稳定运行'},
-        'NSCP': {'name': '深夜闪电侠', 'icon': '⚡', 'desc': '夜间高频冲刺新功能，专注且高效'},
-        'NSCG': {'name': '午夜修复工', 'icon': '🔧', 'desc': '夜间快速修复问题，专注且精准'},
-        'NSDP': {'name': '夜间猎手', 'icon': '🦉', 'desc': '夜间多项目切换，快速出击'},
-        'NSDG': {'name': '深夜清道夫', 'icon': '🌙', 'desc': '夜间清理维护多个项目'},
-        'NMCP': {'name': '深夜造物主', 'icon': '🌌', 'desc': '夜间深度创造，专注构建新事物'},
-        'NMCG': {'name': '午夜炼金师', 'icon': '🧪', 'desc': '夜间深度重构，点石成金'},
-        'NMDP': {'name': '夜间指挥官', 'icon': '🎯', 'desc': '夜间统筹多个项目，运筹帷幄'},
-        'NMDG': {'name': '守夜人', 'icon': '🏰', 'desc': '夜间守护系统稳定，默默付出'},
+    # 6. AI 维度 (A): H=Handcraft 手工型, A=AI-assisted AI 协作型
+    ai_detected = len(all_ai_signals) >= 3
+    ai_type = 'A' if ai_detected else 'H'
+
+    # 组合人格类型 (6位)
+    persona_code = time_type + rhythm_type + focus_type + style_type + eng_type + ai_type
+
+    # 基于主要特征生成人格名称（简化版，不穷举 64 种）
+    def generate_persona_name(code):
+        """根据 6 位代码生成人格名称"""
+        t, r, f, s, e, a = code[0], code[1], code[2], code[3], code[4], code[5]
+
+        # 核心类型（基于时间 + 节奏）
+        core_map = {
+            'DS': '晨曦冲刺者',
+            'DM': '深度工匠',
+            'NS': '深夜闪电侠',
+            'NM': '午夜造物主',
+        }
+        core = core_map.get(t + r, '独特开发者')
+
+        # 风格修饰
+        style_map = {
+            'P': '开拓',
+            'G': '守护',
+        }
+
+        # 图标
+        icon_map = {
+            'DS': '🌅',
+            'DM': '🔨',
+            'NS': '⚡',
+            'NM': '🌌',
+        }
+        icon = icon_map.get(t + r, '💻')
+
+        # 描述生成
+        desc_parts = []
+        desc_parts.append('夜间' if t == 'N' else '白天')
+        desc_parts.append('高频提交' if r == 'S' else '深度专注')
+        desc_parts.append('专注核心项目' if f == 'C' else '多项目并行')
+        desc_parts.append('推进新功能' if s == 'P' else '维护系统')
+        desc_parts.append('注重质量' if e == 'Q' else '快速迭代')
+        desc_parts.append('善用 AI' if a == 'A' else '纯手工开发')
+
+        return {
+            'name': core,
+            'icon': icon,
+            'desc': '，'.join(desc_parts[:4])  # 取前 4 个特征
+        }
+
+    persona_info = generate_persona_name(persona_code)
+    persona = {
+        'code': persona_code,
+        'name': persona_info['name'],
+        'icon': persona_info['icon'],
+        'desc': persona_info['desc']
     }
-
-    persona = persona_map.get(persona_code, {'name': '未知类型', 'icon': '❓', 'desc': '独特的开发风格'})
 
     # 基础标签
     developer_tags = [
@@ -423,7 +461,7 @@ def analyze_habits(all_repos):
     if weekend_ratio >= 0.3:
         developer_tags.append({'icon': '📅', 'name': '周末战士', 'desc': f'周末提交占比 {weekend_ratio*100:.0f}%'})
 
-    if len(all_ai_signals) >= 3:
+    if ai_detected:
         developer_tags.append({'icon': '🤖', 'name': 'AI 协作者', 'desc': '使用 AI 工具辅助开发'})
 
     if test_ratio >= 0.15:
@@ -443,7 +481,7 @@ def analyze_habits(all_repos):
         developer_tags.append({'icon': '🌙', 'name': '夜猫子', 'desc': '夜间比白天更活跃'})
 
     # 限制标签数量
-    developer_tags = developer_tags[:5]
+    developer_tags = developer_tags[:6]
 
     # ============================================================
     # 项目排行榜
@@ -508,7 +546,9 @@ def analyze_habits(all_repos):
                 'time': {'code': time_type, 'name': '夜猫型' if time_type == 'N' else '白天型', 'value': round(night_commits / max(total_commits, 1) * 100)},
                 'rhythm': {'code': rhythm_type, 'name': '冲刺型' if rhythm_type == 'S' else '马拉松型', 'value': round(avg_commits_per_day, 1)},
                 'focus': {'code': focus_type, 'name': '专注型' if focus_type == 'C' else '分散型', 'value': round(focus_index * 100)},
-                'style': {'code': style_type, 'name': '先锋型' if style_type == 'P' else '守护型', 'value': round(feat_ratio * 100)}
+                'style': {'code': style_type, 'name': '先锋型' if style_type == 'P' else '守护型', 'value': round(feat_ratio * 100)},
+                'engineering': {'code': eng_type, 'name': '质量导向' if eng_type == 'Q' else '快速迭代', 'value': round(engineering_score * 100)},
+                'ai': {'code': ai_type, 'name': 'AI 协作型' if ai_type == 'A' else '手工型', 'value': len(all_ai_signals)}
             }
         },
 

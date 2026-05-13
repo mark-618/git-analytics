@@ -196,19 +196,21 @@ def generate_report(data):
     # 月度标签简化
     month_short = [m[-2:] + '月' for m in month_labels]
 
-    # 生成维度详情 HTML
+    # 生成维度详情 HTML（6 维度）
     dims = persona.get('dimensions', {})
     dim_labels = [
-        ('time', '时间偏好', '白天型', '夜猫型'),
-        ('rhythm', '节奏风格', '马拉松型', '冲刺型'),
-        ('focus', '专注程度', '分散型', '专注型'),
-        ('style', '开发风格', '守护型', '先锋型')
+        ('time', '时间偏好', '白天型', '夜猫型', ['N']),
+        ('rhythm', '节奏风格', '马拉松型', '冲刺型', ['S']),
+        ('focus', '专注程度', '分散型', '专注型', ['C']),
+        ('style', '开发风格', '守护型', '先锋型', ['P']),
+        ('engineering', '工程取向', '快速迭代', '质量导向', ['Q']),
+        ('ai', 'AI 协作', '手工型', 'AI 协作型', ['A']),
     ]
 
     dims_detail_html = ""
-    for dim_key, dim_name, left_label, right_label in dim_labels:
+    for dim_key, dim_name, left_label, right_label, right_codes in dim_labels:
         dim = dims.get(dim_key, {})
-        is_right = dim.get('code', '') in ['N', 'S', 'C', 'P']
+        is_right = dim.get('code', '') in right_codes
         dims_detail_html += f'''
         <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:12px;">
             <div style="font-size:0.8em;color:#656d76;margin-bottom:6px;">{dim_name}</div>
@@ -316,7 +318,7 @@ def generate_report(data):
                         <div style="color:#656d76;font-size:0.9em;margin-top:8px;">{persona.get('desc', '')}</div>
                     </div>
                     <div style="flex:1;">
-                        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
                         {dims_detail_html}
                         </div>
                     </div>
