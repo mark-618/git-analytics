@@ -480,6 +480,26 @@ def analyze_habits(all_repos):
     if night_commits > day_commits:
         developer_tags.append({'icon': '🌙', 'name': '夜猫子', 'desc': '夜间比白天更活跃'})
 
+    if avg_commits_per_day >= 5:
+        developer_tags.append({'icon': '🏃', 'name': '暴风提交', 'desc': f'日均提交 {avg_commits_per_day:.1f} 次'})
+    elif avg_commits_per_day < 0.5:
+        developer_tags.append({'icon': '🦥', 'name': '佛系开发', 'desc': f'日均提交仅 {avg_commits_per_day:.1f} 次'})
+
+    if refactor_ratio >= 0.1:
+        developer_tags.append({'icon': '🔧', 'name': '重构狂魔', 'desc': f'重构占比 {refactor_ratio*100:.0f}%'})
+
+    low_info_ratio = total_low_info / max(total_commits, 1)
+    if low_info_ratio < 0.05:
+        developer_tags.append({'icon': '✍️', 'name': '精确提交', 'desc': 'Commit 信息质量高'})
+    elif low_info_ratio > 0.3:
+        developer_tags.append({'icon': '😶', 'name': '沉默提交', 'desc': f'{low_info_ratio*100:.0f}% 的 commit 缺少描述'})
+
+    if feat_ratio >= 0.5:
+        developer_tags.append({'icon': '🚀', 'name': '功能先锋', 'desc': f'功能开发占比 {feat_ratio*100:.0f}%'})
+
+    if weekend_ratio >= 0.3 and night_commits > day_commits:
+        developer_tags.append({'icon': '💀', 'name': '爆肝战士', 'desc': '周末 + 深夜双杀'})
+
     # 限制标签数量
     developer_tags = developer_tags[:6]
 

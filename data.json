@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-05-13T11:22:23Z",
+  "generated_at": "2026-05-13T14:19:00Z",
   "scan_dir": "/Users/mark/Desktop",
   "summary": {
     "total_projects": 20,
-    "total_commits": 586,
+    "total_commits": 588,
     "total_active_days": 196,
     "avg_commits_per_day": 3.0
   },
   "habit_score": {
-    "total": 82,
-    "granularity": 25,
+    "total": 87,
+    "granularity": 30,
     "test_awareness": 20,
     "doc_awareness": 15,
     "schedule": 10,
@@ -74,7 +74,7 @@
     {
       "icon": "✅",
       "name": "测试达人",
-      "desc": "测试覆盖 25%"
+      "desc": "测试覆盖 24%"
     },
     {
       "icon": "📚",
@@ -99,9 +99,9 @@
     11,
     12,
     65,
-    44,
+    45,
     22,
-    18,
+    19,
     29,
     42,
     56,
@@ -118,12 +118,12 @@
     "5": 79,
     "4": 68,
     "1": 103,
-    "2": 74,
+    "2": 76,
     "0": 91,
     "3": 69
   },
   "monthly": {
-    "2026-05": 179,
+    "2026-05": 181,
     "2026-04": 214,
     "2025-11": 3,
     "2025-10": 15,
@@ -146,7 +146,7 @@
   "projects": [
     {
       "name": "Option",
-      "commits": 128,
+      "commits": 129,
       "language": "Markdown",
       "active_days": 21,
       "first_commit": "2026-04-19",
@@ -165,7 +165,7 @@
         19,
         7,
         11,
-        3,
+        4,
         6,
         10,
         4,
@@ -178,7 +178,7 @@
         10
       ],
       "monthly": {
-        "2026-05": 100,
+        "2026-05": 101,
         "2026-04": 28
       }
     },
@@ -647,7 +647,7 @@
     },
     {
       "name": "git-analytics",
-      "commits": 3,
+      "commits": 4,
       "language": "Python",
       "active_days": 1,
       "first_commit": "2026-05-13",
@@ -664,7 +664,7 @@
         0,
         0,
         2,
-        1,
+        2,
         0,
         0,
         0,
@@ -679,7 +679,7 @@
         0
       ],
       "monthly": {
-        "2026-05": 3
+        "2026-05": 4
       }
     },
     {
@@ -907,21 +907,21 @@
   ],
   "commit_types": {
     "docs": 88,
-    "other": 268,
+    "other": 269,
     "chore": 22,
     "fix": 55,
     "refactor": 12,
-    "feat": 139,
+    "feat": 140,
     "test": 2
   },
   "engineering_health": {
-    "test_ratio": 24.6,
-    "doc_ratio": 27.9,
-    "feat_ratio": 23.7,
+    "test_ratio": 24.5,
+    "doc_ratio": 27.8,
+    "feat_ratio": 23.8,
     "fix_ratio": 9.4,
     "refactor_ratio": 2.0,
-    "night_ratio": 31.7,
-    "weekend_ratio": 30.9,
+    "night_ratio": 31.6,
+    "weekend_ratio": 30.8,
     "low_info_ratio": 0.9
   },
   "ai_signals": {
@@ -936,5 +936,5 @@
     ]
   },
   "focus_index": 51.9,
-  "night_owl_index": 31.7
+  "night_owl_index": 31.6
 }
