@@ -447,6 +447,25 @@ def generate_report(data):
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <h3>详细指标</h3>
+                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">''' + ''.join([
+                    f'''<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
+                        <div style="width:10px;height:10px;border-radius:50%;background:{color};flex-shrink:0;"></div>
+                        <div style="flex:1;font-size:0.85em;color:#656d76;">{label}</div>
+                        <div style="font-weight:600;font-size:0.95em;">{val}%</div>
+                    </div>'''
+                    for label, val, color in [
+                        ('功能开发占比', health['feat_ratio'], '#0969da'),
+                        ('Bug 修复占比', health['fix_ratio'], '#cf222e'),
+                        ('重构占比', health['refactor_ratio'], '#8250df'),
+                        ('夜间提交占比', health['night_ratio'], '#bf8700'),
+                        ('周末提交占比', health['weekend_ratio'], '#8250df'),
+                        ('低信息量 commit', health['low_info_ratio'], '#cf222e' if health['low_info_ratio'] > 20 else '#656d76'),
+                    ]
+                ]) + '''
+                </div>
+            </div>
         </div>
 
         <!-- AI Impact -->

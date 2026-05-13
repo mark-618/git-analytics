@@ -435,173 +435,193 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <h3>详细指标</h3>
+                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;"><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
+                        <div style="width:10px;height:10px;border-radius:50%;background:#0969da;flex-shrink:0;"></div>
+                        <div style="flex:1;font-size:0.85em;color:#656d76;">功能开发占比</div>
+                        <div style="font-weight:600;font-size:0.95em;">23.9%</div>
+                    </div><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
+                        <div style="width:10px;height:10px;border-radius:50%;background:#cf222e;flex-shrink:0;"></div>
+                        <div style="flex:1;font-size:0.85em;color:#656d76;">Bug 修复占比</div>
+                        <div style="font-weight:600;font-size:0.95em;">9.3%</div>
+                    </div><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
+                        <div style="width:10px;height:10px;border-radius:50%;background:#8250df;flex-shrink:0;"></div>
+                        <div style="flex:1;font-size:0.85em;color:#656d76;">重构占比</div>
+                        <div style="font-weight:600;font-size:0.95em;">2.0%</div>
+                    </div><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
+                        <div style="width:10px;height:10px;border-radius:50%;background:#bf8700;flex-shrink:0;"></div>
+                        <div style="flex:1;font-size:0.85em;color:#656d76;">夜间提交占比</div>
+                        <div style="font-weight:600;font-size:0.95em;">31.6%</div>
+                    </div><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
+                        <div style="width:10px;height:10px;border-radius:50%;background:#8250df;flex-shrink:0;"></div>
+                        <div style="flex:1;font-size:0.85em;color:#656d76;">周末提交占比</div>
+                        <div style="font-weight:600;font-size:0.95em;">30.7%</div>
+                    </div><div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f6f8fa;border-radius:6px;">
+                        <div style="width:10px;height:10px;border-radius:50%;background:#656d76;flex-shrink:0;"></div>
+                        <div style="flex:1;font-size:0.85em;color:#656d76;">低信息量 commit</div>
+                        <div style="font-weight:600;font-size:0.95em;">0.8%</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- AI Impact -->
         <div class="section">
             <div class="section-title">🤖 AI Coding Impact</div>
-            <div class="card">
-        <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:24px;text-align:center;">
-            <div style="font-size:2.2em;margin-bottom:8px;">🤖</div>
-            <div style="font-weight:700;font-size:1.05em;color:#1f2328;">检测到 AI 辅助开发</div>
-            <div style="color:#656d76;font-size:0.85em;margin-top:4px;">发现 63 个 AI 工具使用信号</div>
-        </div></div>
+            <div class="card">{ai_html}</div>
         </div>
 
         <!-- 建议 -->
         <div class="section">
             <div class="section-title">💡 改进建议</div>
-            <div class="card">
-        <div style="display:flex;gap:12px;margin-bottom:10px;padding:12px 14px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
-            <div style="width:20px;height:20px;background:#1a7f37;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7em;font-weight:700;flex-shrink:0;">1</div>
-            <div style="font-size:0.9em;color:#1f2328;">注意作息健康：夜间提交比例较高，建议调整节奏</div>
-        </div></div>
+            <div class="card">{sug_html}</div>
         </div>
 
         <div class="footer">
-            <p>生成时间: 2026-05-13T14:33:18Z</p>
+            <p>生成时间: {data['generated_at']}</p>
             <p style="margin-top:6px;">Git Analytics - 本地优先的个人代码习惯分析工具</p>
         </div>
     </div>
 
     <script>
-        const chartDefaults = {
+        const chartDefaults = {{
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } }
-        };
+            plugins: {{ legend: {{ labels: {{ padding: 14, usePointStyle: true, font: {{ size: 11 }} }} }} }}
+        }};
 
         // 24小时分布
-        new Chart(document.getElementById('hourChart'), {
+        new Chart(document.getElementById('hourChart'), {{
             type: 'bar',
-            data: {
-                labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-                datasets: [{
-                    data: [54, 18, 4, 0, 1, 0, 2, 5, 11, 12, 65, 45, 22, 19, 30, 42, 56, 29, 18, 11, 12, 24, 59, 50],
-                    backgroundColor: ["rgba(9,105,218,0.8646153846153848)", "rgba(9,105,218,0.4215384615384616)", "rgba(9,105,218,0.24923076923076926)", "rgba(9,105,218,0.2)", "rgba(9,105,218,0.2123076923076923)", "rgba(9,105,218,0.2)", "rgba(9,105,218,0.22461538461538463)", "rgba(9,105,218,0.26153846153846155)", "rgba(9,105,218,0.3353846153846154)", "rgba(9,105,218,0.34769230769230774)", "rgba(9,105,218,1.0)", "rgba(9,105,218,0.7538461538461538)", "rgba(9,105,218,0.47076923076923083)", "rgba(9,105,218,0.4338461538461539)", "rgba(9,105,218,0.5692307692307692)", "rgba(9,105,218,0.716923076923077)", "rgba(9,105,218,0.8892307692307693)", "rgba(9,105,218,0.556923076923077)", "rgba(9,105,218,0.4215384615384616)", "rgba(9,105,218,0.3353846153846154)", "rgba(9,105,218,0.34769230769230774)", "rgba(9,105,218,0.4953846153846154)", "rgba(9,105,218,0.9261538461538461)", "rgba(9,105,218,0.8153846153846154)"],
+            data: {{
+                labels: {json.dumps([f'{h:02d}:00' for h in range(24)])},
+                datasets: [{{
+                    data: {json.dumps(hourly)},
+                    backgroundColor: {json.dumps([f'rgba(9,105,218,{0.2 + v/max(hourly)*0.8})' if max(hourly) > 0 else 'rgba(9,105,218,0.2)' for v in hourly])},
                     borderRadius: 6
-                }]
-            },
-            options: {
+                }}]
+            }},
+            options: {{
                 ...chartDefaults,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } },
-                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-                }
-            }
-        });
+                plugins: {{ legend: {{ display: false }} }},
+                scales: {{
+                    y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }},
+                    x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }} }} }}
+                }}
+            }}
+        }});
 
         // 星期分布
-        new Chart(document.getElementById('weekChart'), {
+        new Chart(document.getElementById('weekChart'), {{
             type: 'bar',
-            data: {
+            data: {{
                 labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-                datasets: [{
-                    data: [91, 103, 77, 69, 68, 79, 102],
+                datasets: [{{
+                    data: {[weekly.get(str(i), 0) for i in range(7)]},
                     backgroundColor: ['#0969da', '#0969da', '#0969da', '#0969da', '#0969da', '#8250df', '#8250df'],
                     borderRadius: 6
-                }]
-            },
-            options: {
+                }}]
+            }},
+            options: {{
                 ...chartDefaults,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
+                plugins: {{ legend: {{ display: false }} }},
+                scales: {{
+                    y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }},
+                    x: {{ grid: {{ display: false }} }}
+                }}
+            }}
+        }});
 
         // 每月堆叠图
-        new Chart(document.getElementById('monthlyChart'), {
+        new Chart(document.getElementById('monthlyChart'), {{
             type: 'bar',
-            data: {
-                labels: ["05\u6708", "06\u6708", "10\u6708", "11\u6708", "12\u6708", "02\u6708", "03\u6708", "04\u6708", "05\u6708"],
-                datasets: [{"label": "Option", "data": [0, 0, 0, 0, 0, 0, 0, 28, 101], "backgroundColor": "#0969da"}, {"label": "CTP_LIVE", "data": [0, 0, 0, 0, 0, 7, 58, 34, 1], "backgroundColor": "#8250df"}, {"label": "Momentum", "data": [0, 0, 0, 0, 0, 0, 0, 57, 19], "backgroundColor": "#bf3989"}, {"label": "CTP", "data": [0, 0, 0, 0, 0, 31, 25, 13, 1], "backgroundColor": "#cf222e"}, {"label": "LIQ", "data": [0, 0, 0, 0, 0, 35, 12, 2, 1], "backgroundColor": "#1a7f37"}, {"label": "Extract_data", "data": [0, 0, 0, 0, 0, 0, 4, 33, 5], "backgroundColor": "#bf8700"}, {"label": "TongHuaShun", "data": [0, 0, 0, 0, 0, 0, 0, 14, 21], "backgroundColor": "#0550ae"}, {"label": "\u5176\u4ed6", "data": [1, 1, 0, 0, 1, 0, 0, 9, 14], "backgroundColor": "#9ca3af"}]
-            },
-            options: {
+            data: {{
+                labels: {json.dumps(month_short)},
+                datasets: {json.dumps(stack_datasets)}
+            }},
+            options: {{
                 ...chartDefaults,
-                plugins: {
-                    legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, font: { size: 11 } } },
-                    tooltip: { mode: 'index', intersect: false }
-                },
-                scales: {
-                    x: { stacked: true, grid: { display: false } },
-                    y: { stacked: true, beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
-                }
-            }
-        });
+                plugins: {{
+                    legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true, font: {{ size: 11 }} }} }},
+                    tooltip: {{ mode: 'index', intersect: false }}
+                }},
+                scales: {{
+                    x: {{ stacked: true, grid: {{ display: false }} }},
+                    y: {{ stacked: true, beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }}
+                }}
+            }}
+        }});
 
         // 项目气泡图
-        new Chart(document.getElementById('bubbleChart'), {
+        new Chart(document.getElementById('bubbleChart'), {{
             type: 'bubble',
-            data: { datasets: [{"label": "Option", "data": [{"x": 7, "y": 28, "r": 13.228756555322953}, {"x": 8, "y": 101, "r": 25.124689052802225}], "backgroundColor": "#0969dab3"}, {"label": "CTP_LIVE", "data": [{"x": 5, "y": 7, "r": 6.614378277661476}, {"x": 6, "y": 58, "r": 19.03943276465977}, {"x": 7, "y": 34, "r": 14.577379737113251}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#8250dfb3"}, {"label": "Momentum", "data": [{"x": 7, "y": 57, "r": 18.874586088176876}, {"x": 8, "y": 19, "r": 10.897247358851684}], "backgroundColor": "#bf3989b3"}, {"label": "CTP", "data": [{"x": 5, "y": 31, "r": 13.919410907075054}, {"x": 6, "y": 25, "r": 12.5}, {"x": 7, "y": 13, "r": 9.013878188659973}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#cf222eb3"}, {"label": "LIQ", "data": [{"x": 5, "y": 35, "r": 14.79019945774904}, {"x": 6, "y": 12, "r": 8.660254037844386}, {"x": 7, "y": 2, "r": 4}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#1a7f37b3"}, {"label": "Extract_data", "data": [{"x": 6, "y": 4, "r": 5.0}, {"x": 7, "y": 33, "r": 14.361406616345072}, {"x": 8, "y": 5, "r": 5.5901699437494745}], "backgroundColor": "#bf8700b3"}, {"label": "TongHuaShun", "data": [{"x": 7, "y": 14, "r": 9.354143466934854}, {"x": 8, "y": 21, "r": 11.4564392373896}], "backgroundColor": "#0550aeb3"}, {"label": "statistical-edge-analysis-app", "data": [{"x": 7, "y": 22, "r": 11.726039399558575}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#6e7781b3"}, {"label": "deribit_trading", "data": [{"x": 2, "y": 15, "r": 9.682458365518542}, {"x": 3, "y": 3, "r": 4.330127018922193}, {"x": 7, "y": 2, "r": 4}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#0969dab3"}, {"label": "mimo-auth", "data": [{"x": 8, "y": 17, "r": 10.307764064044152}], "backgroundColor": "#8250dfb3"}, {"label": "StorageRunbook", "data": [{"x": 7, "y": 4, "r": 5.0}, {"x": 8, "y": 2, "r": 4}], "backgroundColor": "#bf3989b3"}, {"label": "trading-instruction-generator", "data": [{"x": 8, "y": 5, "r": 5.5901699437494745}], "backgroundColor": "#cf222eb3"}, {"label": "git-analytics", "data": [{"x": 8, "y": 5, "r": 5.5901699437494745}], "backgroundColor": "#1a7f37b3"}] },
-            options: {
+            data: {{ datasets: {json.dumps(bubble_datasets)} }},
+            options: {{
                 ...chartDefaults,
-                plugins: {
-                    legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true, font: { size: 10 } } },
-                    tooltip: {
-                        callbacks: {
-                            label: function(ctx) {
-                                const months = ["05\u6708", "06\u6708", "10\u6708", "11\u6708", "12\u6708", "02\u6708", "03\u6708", "04\u6708", "05\u6708"];
+                plugins: {{
+                    legend: {{ position: 'bottom', labels: {{ padding: 10, usePointStyle: true, font: {{ size: 10 }} }} }},
+                    tooltip: {{
+                        callbacks: {{
+                            label: function(ctx) {{
+                                const months = {json.dumps(month_short)};
                                 return ctx.dataset.label + ': ' + months[ctx.parsed.x] + ' ' + ctx.parsed.y + ' 次';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'linear', min: -0.5, max: 8.5,
-                        ticks: { stepSize: 1, callback: function(val) { return ["05\u6708", "06\u6708", "10\u6708", "11\u6708", "12\u6708", "02\u6708", "03\u6708", "04\u6708", "05\u6708"][val] || ''; } },
-                        grid: { display: false }
-                    },
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
-                }
-            }
-        });
+                            }}
+                        }}
+                    }}
+                }},
+                scales: {{
+                    x: {{
+                        type: 'linear', min: -0.5, max: {len(month_labels) - 0.5},
+                        ticks: {{ stepSize: 1, callback: function(val) {{ return {json.dumps(month_short)}[val] || ''; }} }},
+                        grid: {{ display: false }}
+                    }},
+                    y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }}
+                }}
+            }}
+        }});
 
         // Commit 类型环形图
-        new Chart(document.getElementById('typeChart'), {
+        new Chart(document.getElementById('typeChart'), {{
             type: 'doughnut',
-            data: {
-                labels: ["\u529f\u80fd\u5f00\u53d1", "Bug \u4fee\u590d", "\u6587\u6863", "\u6d4b\u8bd5", "\u91cd\u6784", "\u6784\u5efa/CI", "\u5176\u4ed6"],
-                datasets: [{ data: [141, 55, 88, 2, 12, 22, 269], backgroundColor: ["#0969da", "#cf222e", "#1a7f37", "#bf8700", "#8250df", "#6e7781", "#afb8c1"], borderWidth: 0 }]
-            },
-            options: {
+            data: {{
+                labels: {json.dumps(type_names)},
+                datasets: [{{ data: {json.dumps(type_values)}, backgroundColor: {json.dumps(type_colors)}, borderWidth: 0 }}]
+            }},
+            options: {{
                 ...chartDefaults,
-                plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } } },
+                plugins: {{ legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true }} }} }},
                 cutout: '60%'
-            }
-        });
+            }}
+        }});
 
         // 语言分布环形图
-        new Chart(document.getElementById('langChart'), {
+        new Chart(document.getElementById('langChart'), {{
             type: 'doughnut',
-            data: {
-                labels: ["Markdown", "Other", "JavaScript", "TypeScript", "Python", "Unknown"],
-                datasets: [{ data: [7, 3, 1, 1, 2, 6], backgroundColor: ["#3572a5", "#f1e05a", "#3178c6", "#e34c26", "#563d7c", "#00add8"], borderWidth: 0 }]
-            },
-            options: {
+            data: {{
+                labels: {json.dumps(lang_labels)},
+                datasets: [{{ data: {json.dumps(lang_values)}, backgroundColor: {json.dumps(lang_colors[:len(lang_labels)])}, borderWidth: 0 }}]
+            }},
+            options: {{
                 ...chartDefaults,
-                plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } } },
+                plugins: {{ legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true }} }} }},
                 cutout: '60%'
-            }
-        });
+            }}
+        }});
 
         // 类型条形图
-        const typeData = [["\u529f\u80fd\u5f00\u53d1", 141, "#0969da"], ["Bug \u4fee\u590d", 55, "#cf222e"], ["\u6587\u6863", 88, "#1a7f37"], ["\u6d4b\u8bd5", 2, "#bf8700"], ["\u91cd\u6784", 12, "#8250df"], ["\u6784\u5efa/CI", 22, "#6e7781"], ["\u5176\u4ed6", 269, "#afb8c1"]];
+        const typeData = {json.dumps(list(zip(type_names, type_values, type_colors)))};
         const maxType = Math.max(...typeData.map(d => d[1]));
-        document.getElementById('typeBars').innerHTML = typeData.map(([name, val, color]) => {
-            const pct = (val / 589 * 100).toFixed(1);
+        document.getElementById('typeBars').innerHTML = typeData.map(([name, val, color]) => {{
+            const pct = (val / {max(summary['total_commits'], 1)} * 100).toFixed(1);
             return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-                <div style="width:70px;font-size:0.85em;color:#656d76;">${name}</div>
+                <div style="width:70px;font-size:0.85em;color:#656d76;">${{name}}</div>
                 <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
-                    <div style="width:${pct}%;height:100%;background:${color};border-radius:4px;"></div>
+                    <div style="width:${{pct}}%;height:100%;background:${{color}};border-radius:4px;"></div>
                 </div>
-                <div style="width:90px;font-size:0.85em;color:#1f2328;text-align:right;">${val} (${pct}%)</div>
+                <div style="width:90px;font-size:0.85em;color:#1f2328;text-align:right;">${{val}} (${{pct}}%)</div>
             </div>`;
-        }).join('');
+        }}).join('');
     </script>
 </body>
 </html>
