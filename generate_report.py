@@ -258,6 +258,19 @@ def generate_report(data):
         eng_insight_parts.append('有些 commit 描述太简略，不利于后期回溯。')
     eng_insight_html = ' '.join(eng_insight_parts) if eng_insight_parts else '各项指标正常。'
 
+    # 筛选条件
+    filters = data.get('filters', {})
+    filter_parts = []
+    if filters.get('since') or filters.get('until'):
+        since_str = filters.get('since') or '起始'
+        until_str = filters.get('until') or '至今'
+        filter_parts.append(f"{since_str} ~ {until_str}")
+    if filters.get('project'):
+        filter_parts.append(f"项目: {filters['project']}")
+    filter_html = ""
+    if filter_parts:
+        filter_html = f'''<div style="text-align:center;margin-bottom:24px;padding:8px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;display:inline-block;font-size:0.9em;color:#656d76;">筛选条件: {' · '.join(filter_parts)}</div>'''
+
     html = f'''<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -320,6 +333,7 @@ def generate_report(data):
             <h1>代码习惯体检报告</h1>
             <p>{summary['total_projects']} 个项目 · {summary['total_commits']} 次提交 · {summary['total_active_days']} 天活跃</p>
         </div>
+        {filter_html}
 
         <div class="stats-row">
             <div class="stat-card">

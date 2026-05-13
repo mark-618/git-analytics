@@ -87,15 +87,18 @@ def run_git(repo_path, args):
         return ""
 
 
-def collect_repo_data(repo_path):
+def collect_repo_data(repo_path, since=None, until=None):
     """收集单个仓库的详细数据"""
     repo_name = os.path.basename(repo_path)
 
     # 获取所有 commit 的详细信息
     # 格式: hash|timestamp|message
-    log_output = run_git(repo_path, [
-        'log', '--all', '--format=%H|%at|%s', '--no-merges'
-    ])
+    log_cmd = ['log', '--all', '--format=%H|%at|%s', '--no-merges']
+    if since:
+        log_cmd.append(f'--since={since}')
+    if until:
+        log_cmd.append(f'--until={until}')
+    log_output = run_git(repo_path, log_cmd)
 
     if not log_output:
         return None
@@ -596,16 +599,28 @@ def analyze_habits(all_repos):
 # ============================================================
 # 主函数
 # ============================================================
-def main(scan_dir=None):
+def main(scan_dir=None, since=None, until=None, project=None):
     """主函数"""
     if scan_dir is None:
         scan_dir = DEFAULT_SCAN_DIR
 
     print(f"🔍 扫描目录: {scan_dir}")
+    if since or until:
+        print(f"📅 时间范围: {since or '起始'} ~ {until or '至今'}")
+    if project:
+        print(f"🎯 指定项目: {project}")
     print("=" * 50)
 
     # 1. 发现 Git 仓库
     repos = find_git_repos(scan_dir)
+
+    # 项目筛选（模糊匹配）
+    if project:
+        repos = [r for r in repos if project.lower() in os.path.basename(r).lower()]
+        if not repos:
+            print(f"❌ 未找到匹配 '{project}' 的项目")
+            return
+
     print(f"📁 发现 {len(repos)} 个 Git 仓库")
 
     if not repos:
@@ -618,7 +633,7 @@ def main(scan_dir=None):
         repo_name = os.path.basename(repo_path)
         print(f"[{i}/{len(repos)}] 分析: {repo_name}...", end=" ")
 
-        data = collect_repo_data(repo_path)
+        data = collect_repo_data(repo_path, since=since, until=until)
         if data:
             all_repos.append(data)
             print(f"✓ ({data['total_commits']} commits)")
@@ -634,6 +649,14 @@ def main(scan_dir=None):
     print("📊 分析开发习惯...")
     analysis = analyze_habits(all_repos)
 
+    # 保存筛选条件到数据中
+    analysis['filters'] = {
+        'since': since,
+        'until': until,
+        'project': project,
+        'scan_dir': scan_dir
+    }
+
     # 4. 保存数据
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), OUTPUT_DATA)
     with open(output_path, 'w', encoding='utf-8') as f:
@@ -647,6 +670,11 @@ def main(scan_dir=None):
 
 
 if __name__ == '__main__':
-    import sys
-    scan_dir = sys.argv[1] if len(sys.argv) > 1 else None
-    main(scan_dir)
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('scan_dir', nargs='?', default=None)
+    parser.add_argument('--since', help='起始日期')
+    parser.add_argument('--until', help='截止日期')
+    parser.add_argument('--project', help='指定项目')
+    args = parser.parse_args()
+    main(scan_dir=args.scan_dir, since=args.since, until=args.until, project=args.project)

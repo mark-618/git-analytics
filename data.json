@@ -1,35 +1,35 @@
 {
-  "generated_at": "2026-05-13T14:33:18Z",
+  "generated_at": "2026-05-13T16:36:46Z",
   "scan_dir": "/Users/mark/Desktop",
   "summary": {
     "total_projects": 20,
-    "total_commits": 589,
-    "total_active_days": 196,
+    "total_commits": 600,
+    "total_active_days": 197,
     "avg_commits_per_day": 3.0
   },
   "habit_score": {
-    "total": 70,
+    "total": 71,
     "granularity": 20,
     "test_awareness": 20,
     "doc_awareness": 15,
-    "schedule": 4,
+    "schedule": 5,
     "focus": 11
   },
   "persona": {
     "code": "DSCPQA",
     "name": "晨曦冲刺者",
     "icon": "🌅",
-    "desc": "白天 62%，高频提交 60%，专注核心 52%，推进新功能 61%",
+    "desc": "白天 63%，高频提交 61%，专注核心 52%，推进新功能 61%",
     "dimensions": {
       "time": {
         "code": "D",
-        "spectrum": 38,
+        "spectrum": 37,
         "left": "白天型",
         "right": "夜猫型"
       },
       "rhythm": {
         "code": "S",
-        "spectrum": 60,
+        "spectrum": 61,
         "left": "马拉松型",
         "right": "冲刺型"
       },
@@ -63,14 +63,14 @@
     {
       "icon": "🌅",
       "name": "晨曦冲刺者",
-      "desc": "白天 62%，高频提交 60%，专注核心 52%，推进新功能 61%",
+      "desc": "白天 63%，高频提交 61%，专注核心 52%，推进新功能 61%",
       "code": "DSCPQA",
       "is_primary": true
     },
     {
       "icon": "📅",
       "name": "周末战士",
-      "desc": "周末提交占比 31%"
+      "desc": "周末提交占比 30%"
     },
     {
       "icon": "🤖",
@@ -80,7 +80,7 @@
     {
       "icon": "✅",
       "name": "测试达人",
-      "desc": "测试覆盖 24%"
+      "desc": "测试覆盖 26%"
     },
     {
       "icon": "📚",
@@ -108,9 +108,9 @@
     45,
     22,
     19,
-    30,
-    42,
-    56,
+    37,
+    45,
+    57,
     29,
     18,
     11,
@@ -124,12 +124,12 @@
     "5": 79,
     "4": 68,
     "1": 103,
-    "2": 77,
+    "2": 88,
     "0": 91,
     "3": 69
   },
   "monthly": {
-    "2026-05": 182,
+    "2026-05": 193,
     "2026-04": 214,
     "2025-11": 3,
     "2025-10": 15,
@@ -152,8 +152,8 @@
   "projects": [
     {
       "name": "Option",
-      "commits": 129,
-      "language": "Markdown",
+      "commits": 134,
+      "language": "YAML",
       "active_days": 21,
       "first_commit": "2026-04-19",
       "last_commit": "2026-05-13",
@@ -172,8 +172,8 @@
         7,
         11,
         4,
-        6,
-        10,
+        9,
+        12,
         4,
         5,
         8,
@@ -184,7 +184,7 @@
         10
       ],
       "monthly": {
-        "2026-05": 101,
+        "2026-05": 106,
         "2026-04": 28
       }
     },
@@ -348,11 +348,11 @@
     },
     {
       "name": "Extract_data",
-      "commits": 42,
-      "language": "Markdown",
-      "active_days": 22,
+      "commits": 43,
+      "language": "Other",
+      "active_days": 23,
       "first_commit": "2026-03-25",
-      "last_commit": "2026-05-08",
+      "last_commit": "2026-05-13",
       "hourly": [
         5,
         0,
@@ -370,7 +370,7 @@
         2,
         2,
         2,
-        12,
+        13,
         6,
         3,
         2,
@@ -380,7 +380,7 @@
         2
       ],
       "monthly": {
-        "2026-05": 5,
+        "2026-05": 6,
         "2026-04": 33,
         "2026-03": 4
       }
@@ -539,6 +539,43 @@
       }
     },
     {
+      "name": "git-analytics",
+      "commits": 10,
+      "language": "Python",
+      "active_days": 1,
+      "first_commit": "2026-05-13",
+      "last_commit": "2026-05-13",
+      "hourly": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        5,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "monthly": {
+        "2026-05": 10
+      }
+    },
+    {
       "name": "StorageRunbook",
       "commits": 6,
       "language": "Markdown",
@@ -601,43 +638,6 @@
         0,
         0,
         2,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "monthly": {
-        "2026-05": 5
-      }
-    },
-    {
-      "name": "git-analytics",
-      "commits": 5,
-      "language": "Python",
-      "active_days": 1,
-      "first_commit": "2026-05-13",
-      "last_commit": "2026-05-13",
-      "hourly": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        2,
-        0,
-        0,
-        1,
-        0,
-        0,
         0,
         0,
         0,
@@ -913,26 +913,26 @@
   ],
   "commit_types": {
     "docs": 88,
-    "other": 269,
+    "other": 275,
     "chore": 22,
-    "fix": 55,
-    "refactor": 12,
-    "feat": 141,
+    "fix": 56,
+    "refactor": 13,
+    "feat": 144,
     "test": 2
   },
   "engineering_health": {
-    "test_ratio": 24.4,
-    "doc_ratio": 27.8,
-    "feat_ratio": 23.9,
+    "test_ratio": 25.6,
+    "doc_ratio": 26.9,
+    "feat_ratio": 24.0,
     "fix_ratio": 9.3,
-    "refactor_ratio": 2.0,
-    "night_ratio": 31.6,
-    "weekend_ratio": 30.7,
+    "refactor_ratio": 2.2,
+    "night_ratio": 31.0,
+    "weekend_ratio": 30.2,
     "low_info_ratio": 0.8
   },
   "ai_signals": {
     "detected": true,
-    "count": 63,
+    "count": 62,
     "examples": [
       "docs: 恢复 AGENTS.md，补充 CONTRIBUTING.md 必读规则，保护核心文件不可删除",
       "AI file: AGENTS.md",
@@ -941,6 +941,12 @@
       "AI file: CLAUDE.md"
     ]
   },
-  "focus_index": 51.8,
-  "night_owl_index": 31.6
+  "focus_index": 51.7,
+  "night_owl_index": 31.0,
+  "filters": {
+    "since": null,
+    "until": null,
+    "project": null,
+    "scan_dir": "/Users/mark/Desktop"
+  }
 }
