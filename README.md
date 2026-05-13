@@ -53,17 +53,35 @@
 ## 快速开始
 
 ```bash
-# 一键运行（默认扫描桌面）
+# 本地开发方式（默认扫描桌面，输出到当前目录）
 python3 run.py
 
 # 指定扫描目录
 python3 run.py ~/Projects
+
+# 指定输出目录
+python3 run.py ~/Projects --output-dir ./out
+```
+
+## 安装后使用
+
+```bash
+# 从项目目录安装
+pip install .
+
+# 生成报告（默认扫描桌面，输出到当前目录）
+git-analytics
+
+# 指定扫描目录和输出目录
+git-analytics ~/Projects --output-dir ./out
 ```
 
 ## 输出
 
 - `report.html` - 个人代码习惯体检报告（用浏览器打开）
 - `data.json` - 原始分析数据
+
+默认输出到运行命令时所在的当前目录，也可以通过 `--output-dir` 指定。
 
 ## 产品定位
 
@@ -82,9 +100,10 @@ python3 run.py ~/Projects
 
 ## 技术栈
 
-- Python 3.6+
-- 纯 HTML/CSS/SVG（无外部依赖）
-- 本地运行，无需联网
+- Python 3.8+
+- Python 标准库（无 runtime dependencies）
+- HTML/CSS/Chart.js 报告
+- 本地运行，不上传代码
 
 ## License
 

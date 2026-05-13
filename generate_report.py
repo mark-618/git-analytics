@@ -159,10 +159,27 @@ def generate_report(data):
     all_commits = data.get('all_commits', [])
 
     project_names = [p['name'] for p in projects]
+    project_meta = {
+        p['name']: {
+            'language': p.get('language', 'Unknown'),
+            'active_days': p.get('active_days', 0)
+        }
+        for p in projects
+    }
+    for c in all_commits:
+        meta = project_meta.get(c.get('project'), {})
+        c.setdefault('language', meta.get('language', 'Unknown'))
 
     # 月度数据
     monthly_sorted = sorted(monthly.items())
     month_labels = [m[0] for m in monthly_sorted]
+
+    # 月份显示标签（跨年时带年份）
+    years = set(m[:4] for m in month_labels)
+    multi_year = len(years) > 1
+    def fmt_month(m):
+        return f'{m[:4]}年{m[5:]}月' if multi_year else f'{m[5:]}月'
+    month_display = [fmt_month(m) for m in month_labels]
 
     # 项目堆叠数据（Top 7）
     top_projects = [p for p in projects if p['commits'] >= 10][:7]
@@ -187,18 +204,16 @@ def generate_report(data):
         if any(v > 0 for v in other_data):
             stack_datasets.append({'label': '其他', 'data': other_data, 'backgroundColor': '#9ca3af'})
 
-    # 气泡图数据（用真实时间戳）
+    # 气泡图数据（月份标签作为 x，分类轴）
     bubble_datasets = []
     for i, proj in enumerate(projects):
         if proj['commits'] < 5:
             continue
         points = []
-        for m in month_labels:
+        for m, label in zip(month_labels, month_display):
             count = proj.get('monthly', {}).get(m, 0)
             if count > 0:
-                # "2025-05" -> Date timestamp
-                ts = f'{m}-15'
-                points.append({'x': ts, 'y': count, 'r': min(max(count ** 0.5 * 2.5, 4), 30)})
+                points.append({'x': label, 'y': count, 'r': min(max(count ** 0.5 * 2.5, 4), 30)})
         if points:
             bubble_datasets.append({
                 'label': proj['name'],
@@ -251,8 +266,9 @@ def generate_report(data):
             <div style="text-align:center;" id="personaCard">
                 <div style="font-size:3em;margin-bottom:8px;">{persona.get('icon', '❓')}</div>
                 <div style="font-size:1.6em;font-weight:700;color:#1f2328;">{persona.get('name', '未知')}</div>
-                <div style="font-size:1.2em;color:#0969da;font-weight:600;margin-top:4px;">{persona.get('code', '????')}</div>
-                <div style="color:#656d76;font-size:0.9em;margin-top:8px;">{persona.get('desc', '')}</div>
+                <div style="font-size:1.1em;color:#0969da;font-weight:600;margin-top:4px;font-family:monospace;">{persona.get('code', '????')}</div>
+                <div style="color:#1f2328;font-size:0.95em;margin-top:8px;font-weight:500;">{persona.get('desc', '')}</div>
+                <div style="color:#656d76;font-size:0.85em;margin-top:4px;">{persona.get('detail', '')}</div>
             </div>
             <div style="flex:1;">
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;" id="dimsDetail">{_build_dims_html(dims, dim_keys, dim_names)}</div>
@@ -393,6 +409,7 @@ def generate_report(data):
     # ============================================================
     all_commits_json = json.dumps(all_commits, ensure_ascii=False)
     project_names_json = json.dumps(project_names, ensure_ascii=False)
+    project_meta_json = json.dumps(project_meta, ensure_ascii=False)
     month_labels_json = json.dumps(month_labels)
     type_labels_json = json.dumps(type_labels)
     type_names_json = json.dumps(type_names)
@@ -414,8 +431,8 @@ def generate_report(data):
     # JS 脚本（独立字符串，无 f-string 转义问题）
     # ============================================================
     js = _build_js(
-        all_commits_json, project_names_json, month_labels_json,
-        type_labels_json, type_names_json, type_colors_json,
+        all_commits_json, project_names_json, project_meta_json,
+        month_labels_json, type_labels_json, type_names_json, type_colors_json,
         colors_json, lang_labels_json, lang_values_json,
         eng_spectrum, ai_spectrum, test_ratio, doc_ratio,
         ai_detected, ai_count, low_info_ratio,
@@ -424,7 +441,8 @@ def generate_report(data):
         json.dumps(type_values),
         json.dumps(stack_datasets),
         json.dumps(bubble_datasets),
-        json.dumps(month_labels),
+        json.dumps(month_display),
+        'true' if multi_year else 'false',
     )
 
     # ============================================================
@@ -437,7 +455,6 @@ def generate_report(data):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Git Analytics - 代码习惯体检报告</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <style>{CSS}</style>
 </head>
 <body>
@@ -450,10 +467,18 @@ def generate_report(data):
         <div class="filter-bar">
             <label>项目</label>
             <select id="filterProject"><option value="all">全部项目</option></select>
+            <label>时间</label>
+            <select id="filterRange" onchange="applyPresetRange()">
+                <option value="all">全部时间</option>
+                <option value="1m">近一个月</option>
+                <option value="6m">近半年</option>
+                <option value="1y">近一年</option>
+                <option value="custom">自定义</option>
+            </select>
             <label>从</label>
-            <input type="date" id="filterSince">
+            <input type="date" id="filterSince" onchange="markCustomRange()">
             <label>至</label>
-            <input type="date" id="filterUntil">
+            <input type="date" id="filterUntil" onchange="markCustomRange()">
             <button onclick="applyFilters()">筛选</button>
             <button class="reset-btn" onclick="resetFilters()">重置</button>
         </div>
@@ -498,13 +523,13 @@ def generate_report(data):
         <!-- AI Impact -->
         <div class="section">
             <div class="section-title">🤖 AI Coding Impact</div>
-            <div class="card">{ai_html}</div>
+            <div class="card" id="aiImpact">{ai_html}</div>
         </div>
 
         <!-- 建议 -->
         <div class="section">
             <div class="section-title">💡 改进建议</div>
-            <div class="card">{sug_html}</div>
+            <div class="card" id="suggestions">{sug_html}</div>
         </div>
 
         <div class="footer">
@@ -659,26 +684,34 @@ def _build_suggestions_html(habit_score, health, data):
 # JS 脚本构建（普通字符串，不需要 f-string 转义）
 # ============================================================
 
-def _build_js(all_commits_json, project_names_json, month_labels_json,
-              type_labels_json, type_names_json, type_colors_json,
+def _build_js(all_commits_json, project_names_json, project_meta_json,
+              month_labels_json, type_labels_json, type_names_json, type_colors_json,
               colors_json, lang_labels_json, lang_values_json,
               eng_spectrum, ai_spectrum, test_ratio, doc_ratio,
               ai_detected, ai_count, low_info_ratio,
               init_hourly_json, init_weekly_json, init_type_values_json,
-              init_stack_json, init_bubble_json, init_month_labels_json):
+              init_stack_json, init_bubble_json, init_month_labels_json,
+              multi_year):
 
     return f"""
         // 原始数据
         const allCommits = {all_commits_json};
         const projectNames = {project_names_json};
+        const projectMeta = {project_meta_json};
         const typeLabels = {type_labels_json};
         const typeNames = {type_names_json};
+        const MULTI_YEAR = {multi_year};
         const typeColors = {type_colors_json};
         const COLORS = {colors_json};
         const langLabels = {lang_labels_json};
         const langValues = {lang_values_json};
 
-        // 固定值（依赖文件分析，JS 无法重算）
+        // 月份格式化（跨年时带年份）
+        function fmtMonth(m) {{
+            return MULTI_YEAR ? m.slice(0, 4) + '年' + m.slice(5, 7) + '月' : m.slice(5, 7) + '月';
+        }}
+
+        // 旧数据兜底默认值
         const ORIG_ENG_SPECTRUM = {eng_spectrum};
         const ORIG_AI_SPECTRUM = {ai_spectrum};
         const ORIG_TEST_RATIO = {test_ratio};
@@ -686,6 +719,87 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
         const ORIG_AI_DETECTED = {ai_detected};
         const ORIG_AI_COUNT = {ai_count};
         const ORIG_LOW_INFO_RATIO = {low_info_ratio};
+
+        allCommits.forEach(c => {{
+            const meta = projectMeta[c.project] || {{}};
+            if (!c.language) c.language = meta.language || 'Unknown';
+            c.fileChangeCount = Number(c.file_change_count ?? c.fileChangeCount ?? 0);
+            c.testFiles = Number(c.test_files ?? c.testFiles ?? 0);
+            c.docFiles = Number(c.doc_files ?? c.docFiles ?? 0);
+            c.lowInfo = Boolean(c.low_info ?? c.lowInfo ?? false);
+            c.aiSignal = Boolean(c.ai_signal ?? c.aiSignal ?? false);
+            c.classificationConfidence = c.classification_confidence || c.classificationConfidence || 'low';
+        }});
+
+        function dateStartTs(dateText) {{
+            return new Date(dateText + 'T00:00:00').getTime() / 1000;
+        }}
+
+        function dateEndTs(dateText) {{
+            return new Date(dateText + 'T23:59:59').getTime() / 1000;
+        }}
+
+        function dateTextFromTs(ts) {{
+            return formatDateInput(new Date(ts * 1000));
+        }}
+
+        function getProjectCommits(project) {{
+            return project === 'all' ? allCommits : allCommits.filter(c => c.project === project);
+        }}
+
+        function syncDateInputsToCommits(commits) {{
+            const sinceInput = document.getElementById('filterSince');
+            const untilInput = document.getElementById('filterUntil');
+            if (!commits.length) {{
+                sinceInput.value = '';
+                untilInput.value = '';
+                return;
+            }}
+            const timestamps = commits.map(c => c.ts);
+            sinceInput.value = dateTextFromTs(Math.min(...timestamps));
+            untilInput.value = dateTextFromTs(Math.max(...timestamps));
+        }}
+
+        function formatDateInput(date) {{
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${{y}}-${{m}}-${{d}}`;
+        }}
+
+        function shiftMonths(date, months) {{
+            const shifted = new Date(date);
+            const originalDay = shifted.getDate();
+            shifted.setMonth(shifted.getMonth() + months);
+            if (shifted.getDate() !== originalDay) shifted.setDate(0);
+            return shifted;
+        }}
+
+        function markCustomRange() {{
+            document.getElementById('filterRange').value = 'custom';
+        }}
+
+        function applyPresetRange() {{
+            const range = document.getElementById('filterRange').value;
+            const sinceInput = document.getElementById('filterSince');
+            const untilInput = document.getElementById('filterUntil');
+
+            if (range === 'all') {{
+                const project = document.getElementById('filterProject').value;
+                syncDateInputsToCommits(getProjectCommits(project));
+            }} else if (range !== 'custom') {{
+                const until = new Date();
+                const since = range === '1m'
+                    ? shiftMonths(until, -1)
+                    : range === '6m'
+                        ? shiftMonths(until, -6)
+                        : shiftMonths(until, -12);
+                sinceInput.value = formatDateInput(since);
+                untilInput.value = formatDateInput(until);
+            }}
+
+            applyFilters();
+        }}
 
         // 填充项目下拉
         const select = document.getElementById('filterProject');
@@ -717,9 +831,13 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             return '需改进';
         }}
 
-        // 人格名称映射
-        const CORE_MAP = {{'DS': '晨曦冲刺者', 'DM': '深度工匠', 'NS': '深夜闪电侠', 'NM': '午夜造物主'}};
-        const ICON_MAP = {{'DS': '🌅', 'DM': '🔨', 'NS': '⚡', 'NM': '🌌'}};
+        // 人格名称映射（核心人格）
+        const CORE_PERSONA = {{
+            'NS': {{name: '深夜闪电侠', icon: '⚡', desc: '凌晨两点还在敲代码，提交速度飞快，是夜晚效率之王'}},
+            'NM': {{name: '午夜造物主', icon: '🌌', desc: '深夜独处时灵感爆发，从零开始构建一切，享受安静的创造'}},
+            'DS': {{name: '晨曦突击手', icon: '🚀', desc: '早上开工就是一顿猛冲，快速迭代是你的核心竞争力'}},
+            'DM': {{name: '日光打磨者', icon: '☀️', desc: '白天稳步推进，像匠人一样打磨每一行代码，稳健是你的代名词'}},
+        }};
 
         // ============================================================
         // 图表初始化
@@ -773,7 +891,7 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             // 每月堆叠
             charts.monthly = new Chart(document.getElementById('monthlyChart'), {{
                 type: 'bar',
-                data: {{ labels: monthLabels.map(m => m.slice(-2) + '月'), datasets: stackData }},
+                data: {{ labels: monthLabels, datasets: stackData }},
                 options: {{
                     ...chartDefaults,
                     plugins: {{
@@ -787,10 +905,10 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
                 }}
             }});
 
-            // 气泡图（真实时间轴）
+            // 气泡图
             charts.bubble = new Chart(document.getElementById('bubbleChart'), {{
                 type: 'bubble',
-                data: {{ datasets: bubbleData }},
+                data: {{ labels: monthLabels, datasets: bubbleData }},
                 options: {{
                     ...chartDefaults,
                     plugins: {{
@@ -804,11 +922,7 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
                         }}
                     }},
                     scales: {{
-                        x: {{
-                            type: 'time',
-                            time: {{ unit: 'month', displayFormats: {{ month: 'yy年MM月' }} }},
-                            grid: {{ display: false }}
-                        }},
+                        x: {{ type: 'category', offset: true, grid: {{ display: false }} }},
                         y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }}
                     }}
                 }}
@@ -848,18 +962,22 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
         // ============================================================
         function applyFilters() {{
             const project = document.getElementById('filterProject').value;
+            const range = document.getElementById('filterRange').value;
             const since = document.getElementById('filterSince').value;
             const until = document.getElementById('filterUntil').value;
 
-            let filtered = allCommits;
-            if (project !== 'all') filtered = filtered.filter(c => c.project === project);
-            if (since) {{
-                const ts = new Date(since).getTime() / 1000;
-                filtered = filtered.filter(c => c.ts >= ts);
-            }}
-            if (until) {{
-                const ts = new Date(until + 'T23:59:59').getTime() / 1000;
-                filtered = filtered.filter(c => c.ts <= ts);
+            let filtered = getProjectCommits(project);
+            if (range === 'all') {{
+                syncDateInputsToCommits(filtered);
+            }} else {{
+                if (since) {{
+                    const ts = dateStartTs(since);
+                    filtered = filtered.filter(c => c.ts >= ts);
+                }}
+                if (until) {{
+                    const ts = dateEndTs(until);
+                    filtered = filtered.filter(c => c.ts <= ts);
+                }}
             }}
             if (filtered.length === 0) {{ alert('没有符合条件的数据'); return; }}
             updateAll(filtered, project);
@@ -867,8 +985,8 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
 
         function resetFilters() {{
             document.getElementById('filterProject').value = 'all';
-            document.getElementById('filterSince').value = '';
-            document.getElementById('filterUntil').value = '';
+            document.getElementById('filterRange').value = 'all';
+            syncDateInputsToCommits(allCommits);
             updateAll(allCommits, 'all');
         }}
 
@@ -882,15 +1000,34 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             const monthly = {{}};
             const types = {{}};
             const projectCounts = {{}};
+            const languageCounts = {{}};
+            const projectActiveDays = {{}};
             const activeDays = new Set();
+            let fileChanges = 0;
+            let testFiles = 0;
+            let docFiles = 0;
+            let lowInfoCommits = 0;
+            let aiSignalCount = 0;
+            const confidenceCounts = {{high: 0, medium: 0, low: 0}};
 
             commits.forEach(c => {{
+                const language = c.language || (projectMeta[c.project] || {{}}).language || 'Unknown';
                 hourly[c.hour]++;
                 weekly[c.weekday]++;
                 monthly[c.month] = (monthly[c.month] || 0) + 1;
                 types[c.type] = (types[c.type] || 0) + 1;
                 projectCounts[c.project] = (projectCounts[c.project] || 0) + 1;
-                activeDays.add(Math.floor(c.ts / 86400));
+                languageCounts[language] = (languageCounts[language] || 0) + 1;
+                const dayKey = Math.floor(c.ts / 86400);
+                activeDays.add(dayKey);
+                if (!projectActiveDays[c.project]) projectActiveDays[c.project] = new Set();
+                projectActiveDays[c.project].add(dayKey);
+                fileChanges += c.fileChangeCount || 0;
+                testFiles += c.testFiles || 0;
+                docFiles += c.docFiles || 0;
+                if (c.lowInfo) lowInfoCommits++;
+                if (c.aiSignal) aiSignalCount++;
+                confidenceCounts[c.classificationConfidence] = (confidenceCounts[c.classificationConfidence] || 0) + 1;
             }});
 
             const days = activeDays.size || 1;
@@ -905,15 +1042,23 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             const fixRatio = total > 0 ? (types.fix || 0) / total : 0;
             const refactorRatio = total > 0 ? (types.refactor || 0) / total : 0;
             const maintenanceRatio = fixRatio + refactorRatio + (total > 0 ? (types.chore || 0) / total : 0);
+            const testRatio = fileChanges > 0 ? testFiles / fileChanges : ORIG_TEST_RATIO / 100;
+            const docRatio = fileChanges > 0 ? docFiles / fileChanges : ORIG_DOC_RATIO / 100;
+            const lowInfoRatio = total > 0 ? lowInfoCommits / total : ORIG_LOW_INFO_RATIO / 100;
+            const lowConfidenceRatio = total > 0 ? confidenceCounts.low / total : 0;
+            const engSpectrum = Math.round(Math.min((testRatio + docRatio) / 0.25 * 100, 100));
+            const aiDetected = aiSignalCount >= 3;
+            const aiSpectrum = aiDetected ? 100 : 0;
 
             const projSorted = Object.entries(projectCounts).sort((a, b) => b[1] - a[1]);
             const top3Commits = projSorted.slice(0, 3).reduce((a, b) => a + b[1], 0);
             const focusIndex = total > 0 ? top3Commits / total : 0;
 
             return {{
-                total, hourly, weekly, monthly, types, projectCounts, activeDays, days,
+                total, hourly, weekly, monthly, types, projectCounts, languageCounts, projectActiveDays, activeDays, days,
                 avgPerDay, nightRatio, dayCommits, lateCommits, weekendRatio,
                 featRatio, fixRatio, refactorRatio, maintenanceRatio,
+                testRatio, docRatio, lowInfoRatio, lowConfidenceRatio, confidenceCounts, engSpectrum, aiDetected, aiSignalCount, aiSpectrum,
                 projSorted, top3Commits, focusIndex
             }};
         }}
@@ -942,12 +1087,23 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             const r = rhythmSpectrum > 50 ? 'S' : 'M';
             const f = focusSpectrum > 50 ? 'C' : 'D';
             const s = styleSpectrum > 50 ? 'P' : 'G';
-            const e = ORIG_ENG_SPECTRUM > 50 ? 'Q' : 'R';
-            const a = ORIG_AI_SPECTRUM > 50 ? 'A' : 'H';
+            const e = agg.engSpectrum > 50 ? 'Q' : 'R';
+            const a = agg.aiSpectrum > 50 ? 'A' : 'H';
             const personaCode = t + r + f + s + e + a;
             const coreKey = t + r;
-            const personaName = CORE_MAP[coreKey] || '独特开发者';
-            const personaIcon = ICON_MAP[coreKey] || '💻';
+            const core = CORE_PERSONA[coreKey] || {{name: '独特开发者', icon: '💻', desc: '你的开发风格独一无二'}};
+
+            // 风格修饰语
+            let styleMod = '';
+            if (s === 'P') {{ styleMod = t === 'N' ? '黑客' : '创造者'; }}
+            else {{ styleMod = '工匠'; }}
+            // 工程修饰语
+            let engMod = '';
+            if (e === 'Q') {{ engMod = f === 'D' ? '全能' : '质量派'; }}
+            // 组合名称
+            let personaName = core.name;
+            if (styleMod) personaName += ' · ' + styleMod;
+            if (engMod) personaName += ' · ' + engMod;
 
             const descParts = [];
             descParts.push(timeSpectrum > 50 ? `夜间 ${{timeSpectrum}}%` : `白天 ${{100 - timeSpectrum}}%`);
@@ -956,10 +1112,11 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             descParts.push(styleSpectrum > 50 ? `推进新功能 ${{styleSpectrum}}%` : `维护系统 ${{100 - styleSpectrum}}%`);
 
             document.getElementById('personaCard').innerHTML = `
-                <div style="font-size:3em;margin-bottom:8px;">${{personaIcon}}</div>
+                <div style="font-size:3em;margin-bottom:8px;">${{core.icon}}</div>
                 <div style="font-size:1.6em;font-weight:700;color:#1f2328;">${{personaName}}</div>
-                <div style="font-size:1.2em;color:#0969da;font-weight:600;margin-top:4px;">${{personaCode}}</div>
-                <div style="color:#656d76;font-size:0.9em;margin-top:8px;">${{descParts.join('，')}}</div>
+                <div style="font-size:1.1em;color:#0969da;font-weight:600;margin-top:4px;font-family:monospace;">${{personaCode}}</div>
+                <div style="color:#1f2328;font-size:0.95em;margin-top:8px;font-weight:500;">${{core.desc}}</div>
+                <div style="color:#656d76;font-size:0.85em;margin-top:4px;">${{descParts.join('，')}}</div>
             `;
 
             // 维度光谱
@@ -968,8 +1125,8 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
                 {{key: 'rhythm', name: '节奏风格', spectrum: rhythmSpectrum, left: '马拉松型', right: '冲刺型'}},
                 {{key: 'focus', name: '专注程度', spectrum: focusSpectrum, left: '分散型', right: '专注型'}},
                 {{key: 'style', name: '开发风格', spectrum: styleSpectrum, left: '守护型', right: '先锋型'}},
-                {{key: 'engineering', name: '工程取向', spectrum: ORIG_ENG_SPECTRUM, left: '快速迭代', right: '质量导向'}},
-                {{key: 'ai', name: 'AI 协作', spectrum: ORIG_AI_SPECTRUM, left: '手工型', right: 'AI 协作型'}},
+                {{key: 'engineering', name: '工程取向', spectrum: agg.engSpectrum, left: '快速迭代', right: '质量导向'}},
+                {{key: 'ai', name: 'AI 协作', spectrum: agg.aiSpectrum, left: '手工型', right: 'AI 协作型'}},
             ];
             document.getElementById('dimsDetail').innerHTML = dims.map(d => {{
                 const isRight = d.spectrum > 50;
@@ -998,9 +1155,10 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             const granularity = Math.round(Math.min(30, agg.avgPerDay / 4.5 * 30));
             const schedule = Math.round(Math.min(20, Math.max(0, (1 - agg.nightRatio / 0.4)) * 20));
             const focusScore = Math.round(Math.min(15, agg.focusIndex / 0.7 * 15));
-            const testAwareness = Math.round(Math.min(20, ORIG_TEST_RATIO / 100 / 0.15 * 20));
-            const docAwareness = Math.round(Math.min(15, ORIG_DOC_RATIO / 100 / 0.10 * 15));
+            const testAwareness = Math.round(Math.min(20, agg.testRatio / 0.15 * 20));
+            const docAwareness = Math.round(Math.min(15, agg.docRatio / 0.10 * 15));
             const totalScore = granularity + testAwareness + docAwareness + schedule + focusScore;
+            agg.habitScore = {{totalScore, granularity, testAwareness, docAwareness, schedule, focusScore}};
 
             document.getElementById('statScore').textContent = totalScore;
             document.getElementById('scoreNumber').textContent = totalScore;
@@ -1030,12 +1188,14 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
         // ============================================================
         function updateTags(agg) {{
             const tags = [];
+            const testPct = agg.testRatio * 100;
+            const docPct = agg.docRatio * 100;
             if (agg.weekendRatio >= 0.3) tags.push({{icon: '📅', name: '周末战士', desc: `周末提交占比 ${{(agg.weekendRatio*100).toFixed(0)}}%`}});
-            if (ORIG_AI_DETECTED) tags.push({{icon: '🤖', name: 'AI 协作者', desc: '使用 AI 工具辅助开发'}});
-            if (ORIG_TEST_RATIO >= 15) tags.push({{icon: '✅', name: '测试达人', desc: `测试覆盖 ${{ORIG_TEST_RATIO}}%`}});
-            else if (ORIG_TEST_RATIO < 5) tags.push({{icon: '⚠️', name: '测试待加强', desc: `测试覆盖仅 ${{ORIG_TEST_RATIO}}%`}});
-            if (ORIG_DOC_RATIO >= 10) tags.push({{icon: '📚', name: '文档之星', desc: '文档维护优秀'}});
-            else if (ORIG_DOC_RATIO < 3) tags.push({{icon: '📝', name: '文档债务', desc: '文档投入不足'}});
+            if (agg.aiDetected) tags.push({{icon: '🤖', name: 'AI 协作者', desc: '使用 AI 工具辅助开发'}});
+            if (testPct >= 15) tags.push({{icon: '✅', name: '测试达人', desc: `测试覆盖 ${{testPct.toFixed(0)}}%`}});
+            else if (testPct < 5) tags.push({{icon: '⚠️', name: '测试待加强', desc: `测试覆盖仅 ${{testPct.toFixed(0)}}%`}});
+            if (docPct >= 10) tags.push({{icon: '📚', name: '文档之星', desc: '文档维护优秀'}});
+            else if (docPct < 3) tags.push({{icon: '📝', name: '文档债务', desc: '文档投入不足'}});
             if (Object.keys(agg.projectCounts).length >= 10) tags.push({{icon: '🎪', name: '多面手', desc: `同时维护 ${{Object.keys(agg.projectCounts).length}} 个项目`}});
             if (agg.lateCommits > agg.dayCommits) tags.push({{icon: '🌙', name: '夜猫子', desc: '夜间比白天更活跃'}});
             if (agg.avgPerDay >= 5) tags.push({{icon: '🏃', name: '暴风提交', desc: `日均提交 ${{agg.avgPerDay.toFixed(1)}} 次`}});
@@ -1081,18 +1241,20 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
                 agg.commits.filter(c => !topNames.includes(c.project)).forEach(c => {{ om[c.month] = (om[c.month] || 0) + 1; }});
                 if (Object.keys(om).length > 0) stackData.push({{ label: '其他', data: sortedMonths.map(m => om[m] || 0), backgroundColor: '#9ca3af' }});
             }}
-            charts.monthly.data.labels = sortedMonths.map(m => m.slice(-2) + '月');
+            charts.monthly.data.labels = sortedMonths.map(fmtMonth);
             charts.monthly.data.datasets = stackData;
             charts.monthly.update();
 
-            // 气泡图（真实时间轴）
+            // 气泡图
             const bubbleProjList = project === 'all'
                 ? agg.projSorted.filter(([_, c]) => c >= 5).slice(0, 10)
                 : [[project, agg.total]];
+            const sortedMonthsForBubble = Object.keys(agg.monthly).sort();
+            charts.bubble.data.labels = sortedMonthsForBubble.map(fmtMonth);
             const bubbleData = bubbleProjList.map(([name, _], i) => {{
                 const pm = {{}};
                 agg.commits.filter(c => c.project === name).forEach(c => {{ pm[c.month] = (pm[c.month] || 0) + 1; }});
-                const points = Object.entries(pm).map(([m, count]) => ({{ x: m + '-15', y: count, r: Math.min(Math.max(count ** 0.5 * 2.5, 4), 30) }}));
+                const points = sortedMonthsForBubble.map(m => pm[m] ? {{ x: fmtMonth(m), y: pm[m], r: Math.min(Math.max(pm[m] ** 0.5 * 2.5, 4), 30) }} : null).filter(Boolean);
                 return {{ label: name, data: points, backgroundColor: COLORS[i % COLORS.length] + 'b3' }};
             }});
             charts.bubble.data.datasets = bubbleData;
@@ -1102,6 +1264,13 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             const typeValues = typeLabels.map(t => agg.types[t] || 0);
             charts.type.data.datasets[0].data = typeValues;
             charts.type.update();
+
+            // 语言分布
+            const langEntries = Object.entries(agg.languageCounts).sort((a, b) => b[1] - a[1]);
+            charts.lang.data.labels = langEntries.map(([name]) => name);
+            charts.lang.data.datasets[0].data = langEntries.map(([, count]) => count);
+            charts.lang.data.datasets[0].backgroundColor = langEntries.map((_, i) => COLORS[i % COLORS.length]);
+            charts.lang.update();
         }}
 
         // ============================================================
@@ -1122,12 +1291,15 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             document.getElementById('insightMonthly').innerHTML = `<strong>洞察：</strong>Top 3 项目占据 ${{top3Ratio}}% 的提交。${{top3Ratio > 60 ? '专注度高。' : '精力较分散。'}}`;
 
             // 类型洞察
-            document.getElementById('insightTypes').innerHTML = `<strong>洞察：</strong>功能开发占比 ${{(agg.featRatio*100).toFixed(1)}}%，Bug 修复 ${{(agg.fixRatio*100).toFixed(1)}}%。`;
+            document.getElementById('insightTypes').innerHTML = `<strong>洞察：</strong>功能开发占比 ${{(agg.featRatio*100).toFixed(1)}}%，测试 ${{(agg.testRatio*100).toFixed(1)}}%，文档 ${{(agg.docRatio*100).toFixed(1)}}%。${{agg.lowInfoRatio > 0.15 ? ' 低信息量 commit 占比 ' + (agg.lowInfoRatio*100).toFixed(1) + '%。' : ''}}${{agg.lowConfidenceRatio > 0.3 ? ' Commit 类型分类置信度偏低，已优先使用文件路径兜底。' : ''}}`;
 
             // 工程健康洞察
             const engInsight = [];
+            if (agg.testRatio < 0.05) engInsight.push('很少写测试，建议为新功能补充测试用例。');
+            else if (agg.testRatio >= 0.10) engInsight.push('测试习惯不错。');
+            if (agg.docRatio < 0.03) engInsight.push('文档更新较少，建议定期维护 README。');
             if (agg.nightRatio > 0.3) engInsight.push('深夜写代码比例较高，注意休息。');
-            if (agg.weekendRatio > 0.25) engInsight.push('周末提交较多。');
+            if (agg.lowInfoRatio > 0.15) engInsight.push('有些 commit 描述太简略，不利于后期回溯。');
             document.getElementById('insightEng').innerHTML = `<strong>洞察：</strong>${{engInsight.length ? engInsight.join(' ') : '各项指标正常。'}}`;
         }}
 
@@ -1135,15 +1307,18 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
         // 更新工程健康
         // ============================================================
         function updateEngHealth(agg) {{
+            const testPct = agg.testRatio * 100;
+            const docPct = agg.docRatio * 100;
+            const lowInfoPct = agg.lowInfoRatio * 100;
             const engItems = [
-                {{label: '测试覆盖', desc: '改代码时有改测试吗', val: ORIG_TEST_RATIO, color: ORIG_TEST_RATIO >= 10 ? '#1a7f37' : '#cf222e'}},
-                {{label: '文档覆盖', desc: '改代码时有更新文档吗', val: ORIG_DOC_RATIO, color: ORIG_DOC_RATIO >= 5 ? '#1a7f37' : '#bf8700'}},
+                {{label: '测试覆盖', desc: '改代码时有改测试吗', val: testPct.toFixed(1), color: testPct >= 10 ? '#1a7f37' : '#cf222e'}},
+                {{label: '文档覆盖', desc: '改代码时有更新文档吗', val: docPct.toFixed(1), color: docPct >= 5 ? '#1a7f37' : '#bf8700'}},
                 {{label: '功能开发', desc: '写新功能的时间占比', val: (agg.featRatio*100).toFixed(1), color: '#0969da'}},
                 {{label: 'Bug 修复', desc: '修 bug 的时间占比', val: (agg.fixRatio*100).toFixed(1), color: '#cf222e'}},
                 {{label: '重构', desc: '优化老代码的时间占比', val: (agg.refactorRatio*100).toFixed(1), color: '#8250df'}},
                 {{label: '夜间提交', desc: '深夜写的代码占比', val: (agg.nightRatio*100).toFixed(1), color: agg.nightRatio > 0.25 ? '#bf8700' : '#656d76'}},
                 {{label: '周末提交', desc: '周末写的代码占比', val: (agg.weekendRatio*100).toFixed(1), color: agg.weekendRatio > 0.25 ? '#8250df' : '#656d76'}},
-                {{label: '低信息量', desc: 'commit 信息够详细吗', val: ORIG_LOW_INFO_RATIO, color: ORIG_LOW_INFO_RATIO > 20 ? '#cf222e' : '#1a7f37'}},
+                {{label: '低信息量', desc: 'commit 信息够详细吗', val: lowInfoPct.toFixed(1), color: lowInfoPct > 20 ? '#cf222e' : '#1a7f37'}},
             ];
             document.getElementById('engHealthGrid').innerHTML = engItems.map(item =>
                 `<div class="eng-item">
@@ -1159,9 +1334,14 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
         // ============================================================
         function updateRanking(agg) {{
             document.getElementById('projectsRanking').innerHTML = agg.projSorted.slice(0, 8).map(([name, count], i) => {{
+                const meta = projectMeta[name] || {{}};
+                const activeDays = agg.projectActiveDays[name] ? agg.projectActiveDays[name].size : 0;
                 return `<div class="rank-row">
                     <div class="rank-num">${{i + 1}}</div>
-                    <div class="rank-info"><div class="rank-name">${{name}}</div></div>
+                    <div class="rank-info">
+                        <div class="rank-name">${{name}}</div>
+                        <div class="rank-meta"><span>${{meta.language || 'Unknown'}}</span><span>${{activeDays}} 天活跃</span></div>
+                    </div>
                     <div class="rank-commits">${{count}}</div>
                 </div>`;
             }}).join('');
@@ -1183,6 +1363,40 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
         }}
 
         // ============================================================
+        // 更新 AI Impact
+        // ============================================================
+        function updateAiImpact(agg) {{
+            document.getElementById('aiImpact').innerHTML = agg.aiDetected ? `
+                <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:24px;text-align:center;">
+                    <div style="font-size:2.2em;margin-bottom:8px;">🤖</div>
+                    <div style="font-weight:700;font-size:1.05em;color:#1f2328;">检测到 AI 辅助开发</div>
+                    <div style="color:#656d76;font-size:0.85em;margin-top:4px;">发现 ${{agg.aiSignalCount}} 个 AI 工具使用信号</div>
+                </div>` : `
+                <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:24px;text-align:center;">
+                    <div style="color:#656d76;">未检测到明显的 AI 辅助开发痕迹</div>
+                </div>`;
+        }}
+
+        // ============================================================
+        // 更新建议
+        // ============================================================
+        function updateSuggestions(agg) {{
+            const suggestions = [];
+            if (agg.habitScore.testAwareness < 10) suggestions.push('提高测试意识：尝试为每个新功能编写测试用例');
+            if (agg.habitScore.docAwareness < 10) suggestions.push('增加文档投入：定期更新 README 和文档');
+            if (agg.nightRatio > 0.30) suggestions.push('注意作息健康：夜间提交比例较高，建议调整节奏');
+            if (agg.lowInfoRatio > 0.20) suggestions.push('优化 Commit Message：建议使用 Conventional Commits 规范');
+            if (agg.focusIndex < 0.50) suggestions.push('提高项目聚焦度：建议集中精力在核心项目上');
+            if (!suggestions.length) suggestions.push('继续保持良好的开发习惯！');
+
+            document.getElementById('suggestions').innerHTML = suggestions.map((s, i) => `
+                <div class="sug-item">
+                    <div class="sug-num">${{i + 1}}</div>
+                    <div class="sug-text">${{s}}</div>
+                </div>`).join('');
+        }}
+
+        // ============================================================
         // 主更新函数
         // ============================================================
         function updateAll(commits, project) {{
@@ -1198,6 +1412,8 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
             updateEngHealth(agg);
             updateRanking(agg);
             updateTypeBars(agg);
+            updateAiImpact(agg);
+            updateSuggestions(agg);
         }}
 
         // ============================================================
@@ -1205,14 +1421,20 @@ def _build_js(all_commits_json, project_names_json, month_labels_json,
         // ============================================================
         const initHourly = {init_hourly_json};
         const initWeekly = {init_weekly_json};
+        syncDateInputsToCommits(allCommits);
         initCharts(initHourly, initWeekly, {init_type_values_json}, {init_stack_json}, {init_bubble_json}, {init_month_labels_json});
     """
 
 
-def main():
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    data_path = os.path.join(script_dir, 'data.json')
-    output_path = os.path.join(script_dir, OUTPUT_FILE)
+def main(data_path=None, output_path=None):
+    if data_path is None:
+        data_path = 'data.json'
+    if output_path is None:
+        output_path = OUTPUT_FILE
+
+    data_path = os.path.abspath(os.path.expanduser(data_path))
+    output_path = os.path.abspath(os.path.expanduser(output_path))
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
     print("📊 加载分析数据...")
     data = load_data(data_path)
@@ -1224,7 +1446,13 @@ def main():
         f.write(html)
 
     print(f"✅ 报告已生成: {output_path}")
+    return output_path
 
 
 if __name__ == '__main__':
-    main()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('data_path', nargs='?', default=None, help='数据文件路径')
+    parser.add_argument('--output', default=None, help='报告输出路径')
+    args = parser.parse_args()
+    main(data_path=args.data_path, output_path=args.output)

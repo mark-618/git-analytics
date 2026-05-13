@@ -135,19 +135,29 @@ def collect_repo_data(repo_path, since=None, until=None):
     file_changes = []
 
     # 获取最近 commit 的文件变更
-    recent_hashes = [c['hash'] for c in commits[:100]]
-    for hash_val in recent_hashes[:20]:  # 只采样 20 个 commit
+    # 前端筛选后需要重新计算指标，所以这里记录每个 commit 的文件统计
+    for c in commits:
+        commit_file_changes = []
         diff_output = run_git(repo_path, [
-            'diff-tree', '--no-commit-id', '-r', '--name-only', hash_val
+            'diff-tree', '--no-commit-id', '-r', '--name-only', c['hash']
         ])
         if diff_output:
             for f in diff_output.split('\n'):
                 f = f.strip()
                 if f:
                     file_changes.append(f)
+                    commit_file_changes.append(f)
                     ext = Path(f).suffix.lower()
                     if ext:
                         file_extensions[ext] += 1
+
+        c['changed_files'] = commit_file_changes
+        c['file_change_count'] = len(commit_file_changes)
+        c['test_files'] = sum(1 for f in commit_file_changes if any(re.search(p, f, re.I) for p in TEST_PATTERNS))
+        c['doc_files'] = sum(1 for f in commit_file_changes if any(re.search(p, f, re.I) for p in DOC_PATTERNS))
+        c['ai_signal'] = any(re.search(p, c['message'], re.I) for p in AI_PATTERNS) or any(
+            any(re.search(p, f, re.I) for p in AI_PATTERNS) for f in commit_file_changes
+        )
 
     # 判断主要语言
     lang_map = {
@@ -167,27 +177,46 @@ def collect_repo_data(repo_path, since=None, until=None):
 
     main_language = lang_counter.most_common(1)[0][0] if lang_counter else 'Unknown'
 
-    # 分析 commit 类型（基于 message）
-    def classify_commit(msg):
-        msg = msg.lower()
+    # 分析 commit 类型（message 优先，文件路径兜底）
+    def classify_commit(msg, files):
+        msg = msg.lower().strip()
         if any(msg.startswith(p) for p in ['feat', 'feature', 'add', 'new']):
-            return 'feat'
+            return 'feat', 'message'
         elif any(msg.startswith(p) for p in ['fix', 'bug', 'patch', 'hotfix']):
-            return 'fix'
+            return 'fix', 'message'
         elif any(msg.startswith(p) for p in ['doc', 'readme', 'comment']):
-            return 'docs'
+            return 'docs', 'message'
         elif any(msg.startswith(p) for p in ['test', 'spec']):
-            return 'test'
+            return 'test', 'message'
         elif any(msg.startswith(p) for p in ['refactor', 'clean', 'restructure']):
-            return 'refactor'
+            return 'refactor', 'message'
         elif any(msg.startswith(p) for p in ['chore', 'build', 'ci', 'deps']):
-            return 'chore'
-        else:
-            return 'other'
+            return 'chore', 'message'
+
+        if files:
+            test_count = sum(1 for f in files if any(re.search(p, f, re.I) for p in TEST_PATTERNS))
+            doc_count = sum(1 for f in files if any(re.search(p, f, re.I) for p in DOC_PATTERNS))
+            config_count = sum(1 for f in files if Path(f).name.lower() in {
+                'package.json', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock',
+                'requirements.txt', 'pyproject.toml', 'poetry.lock', 'dockerfile',
+                'docker-compose.yml', 'makefile', 'cmakelists.txt'
+            } or any(part in f.lower() for part in ['.github/', 'ci/', '.circleci/']))
+            if test_count and test_count >= max(doc_count, len(files) - test_count):
+                return 'test', 'files'
+            if doc_count and doc_count >= max(test_count, len(files) - doc_count):
+                return 'docs', 'files'
+            if config_count and config_count >= len(files) / 2:
+                return 'chore', 'files'
+
+        return 'other', 'unknown'
 
     commit_types = Counter()
     for c in commits:
-        c['type'] = classify_commit(c['message'])
+        c['type'], c['classification_source'] = classify_commit(c['message'], c.get('changed_files', []))
+        c['classification_confidence'] = 'high' if c['classification_source'] == 'message' else (
+            'medium' if c['classification_source'] == 'files' else 'low'
+        )
+        c['low_info'] = any(re.match(p, c['message'].lower()) for p in LOW_INFO_PATTERNS)
         commit_types[c['type']] += 1
 
     # 时间分布
@@ -253,7 +282,13 @@ def collect_repo_data(repo_path, since=None, until=None):
         )),
         'commit_messages': [c['message'] for c in commits[:50]],
         'commits': [{'ts': c['timestamp'], 'hour': c['hour'], 'weekday': c['weekday'],
-                      'month': c['month'], 'type': c['type']} for c in commits]
+                      'month': c['month'], 'type': c['type'],
+                      'file_change_count': c.get('file_change_count', 0),
+                      'test_files': c.get('test_files', 0),
+                      'doc_files': c.get('doc_files', 0),
+                      'low_info': c.get('low_info', False),
+                      'ai_signal': c.get('ai_signal', False),
+                      'classification_confidence': c.get('classification_confidence', 'low')} for c in commits]
     }
 
 
@@ -376,34 +411,41 @@ def analyze_habits(all_repos):
     # 组合人格类型 (6位)
     persona_code = time_type + rhythm_type + focus_type + style_type + eng_type + ai_type
 
-    # 基于主要特征生成人格名称（简化版，不穷举 64 种）
+    # 基于主要特征生成人格名称
     def generate_persona_name(code):
         """根据 6 位代码生成人格名称"""
         t, r, f, s, e, a = code[0], code[1], code[2], code[3], code[4], code[5]
 
-        # 核心类型（基于时间 + 节奏）
-        core_map = {
-            'DS': '晨曦冲刺者',
-            'DM': '深度工匠',
-            'NS': '深夜闪电侠',
-            'NM': '午夜造物主',
+        # 核心人格（时间 × 节奏）
+        CORE = {
+            'NS': {'name': '深夜闪电侠', 'icon': '⚡', 'desc': '凌晨两点还在敲代码，提交速度飞快，是夜晚效率之王'},
+            'NM': {'name': '午夜造物主', 'icon': '🌌', 'desc': '深夜独处时灵感爆发，从零开始构建一切，享受安静的创造'},
+            'DS': {'name': '晨曦突击手', 'icon': '🚀', 'desc': '早上开工就是一顿猛冲，快速迭代是你的核心竞争力'},
+            'DM': {'name': '日光打磨者', 'icon': '☀️', 'desc': '白天稳步推进，像匠人一样打磨每一行代码，稳健是你的代名词'},
         }
-        core = core_map.get(t + r, '独特开发者')
+        core = CORE.get(t + r, {'name': '独特开发者', 'icon': '💻', 'desc': '你的开发风格独一无二'})
 
-        # 风格修饰
-        style_map = {
-            'P': '开拓',
-            'G': '守护',
-        }
+        # 风格修饰语（开发风格维度）
+        style_mod = ''
+        if s == 'P':
+            style_mod = '黑客' if t == 'N' else '创造者'
+        else:
+            style_mod = '工匠'
+
+        # 工程修饰语（工程取向维度，仅质量导向时添加）
+        eng_mod = ''
+        if e == 'Q':
+            eng_mod = '全能' if f == 'D' else '质量派'
+
+        # 组合人格名称
+        name = core['name']
+        if style_mod:
+            name += ' · ' + style_mod
+        if eng_mod:
+            name += ' · ' + eng_mod
 
         # 图标
-        icon_map = {
-            'DS': '🌅',
-            'DM': '🔨',
-            'NS': '⚡',
-            'NM': '🌌',
-        }
-        icon = icon_map.get(t + r, '💻')
+        icon = core['icon']
 
         # 描述生成（带光谱百分比）
         desc_parts = []
@@ -415,9 +457,10 @@ def analyze_habits(all_repos):
         desc_parts.append(f'善用 AI' if a == 'A' else f'纯手工开发')
 
         return {
-            'name': core,
+            'name': name,
             'icon': icon,
-            'desc': '，'.join(desc_parts[:4])  # 取前 4 个特征
+            'desc': core['desc'],
+            'detail': '，'.join(desc_parts[:4])  # 取前 4 个特征
         }
 
     persona_info = generate_persona_name(persona_code)
@@ -425,7 +468,8 @@ def analyze_habits(all_repos):
         'code': persona_code,
         'name': persona_info['name'],
         'icon': persona_info['icon'],
-        'desc': persona_info['desc']
+        'desc': persona_info['desc'],
+        'detail': persona_info['detail']
     }
 
     # 基础标签
@@ -434,6 +478,7 @@ def analyze_habits(all_repos):
             'icon': persona['icon'],
             'name': persona['name'],
             'desc': persona['desc'],
+            'detail': persona['detail'],
             'code': persona_code,
             'is_primary': True
         }
@@ -551,6 +596,7 @@ def analyze_habits(all_repos):
             'name': persona['name'],
             'icon': persona['icon'],
             'desc': persona['desc'],
+            'detail': persona['detail'],
             'dimensions': {
                 'time': {'code': time_type, 'spectrum': time_spectrum, 'left': '白天型', 'right': '夜猫型'},
                 'rhythm': {'code': rhythm_type, 'spectrum': rhythm_spectrum, 'left': '马拉松型', 'right': '冲刺型'},
@@ -612,10 +658,14 @@ def analyze_habits(all_repos):
 # ============================================================
 # 主函数
 # ============================================================
-def main(scan_dir=None, since=None, until=None, project=None):
+def main(scan_dir=None, since=None, until=None, project=None, output_dir=None):
     """主函数"""
     if scan_dir is None:
         scan_dir = DEFAULT_SCAN_DIR
+    if output_dir is None:
+        output_dir = os.getcwd()
+    output_dir = os.path.abspath(os.path.expanduser(output_dir))
+    os.makedirs(output_dir, exist_ok=True)
 
     print(f"🔍 扫描目录: {scan_dir}")
     if since or until:
@@ -671,7 +721,7 @@ def main(scan_dir=None, since=None, until=None, project=None):
     }
 
     # 4. 保存数据
-    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), OUTPUT_DATA)
+    output_path = os.path.join(output_dir, OUTPUT_DATA)
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(analysis, f, ensure_ascii=False, indent=2)
 
@@ -689,5 +739,6 @@ if __name__ == '__main__':
     parser.add_argument('--since', help='起始日期')
     parser.add_argument('--until', help='截止日期')
     parser.add_argument('--project', help='指定项目')
+    parser.add_argument('--output-dir', default=None, help='输出目录')
     args = parser.parse_args()
-    main(scan_dir=args.scan_dir, since=args.since, until=args.until, project=args.project)
+    main(scan_dir=args.scan_dir, since=args.since, until=args.until, project=args.project, output_dir=args.output_dir)
