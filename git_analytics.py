@@ -295,98 +295,74 @@ def analyze_habits(all_repos):
     # ============================================================
 
     # 1. 提交粒度得分 (30分)
-    # 小步快跑 = 高分，大包提交 = 低分
+    # 小步快跑 = 高分，大包提交 = 低分，线性插值
     avg_commits_per_day = total_commits / max(sum(r['active_days'] for r in all_repos), 1)
-    if avg_commits_per_day >= 3:
-        granularity_score = 30
-    elif avg_commits_per_day >= 2:
-        granularity_score = 25
-    elif avg_commits_per_day >= 1:
-        granularity_score = 20
-    else:
-        granularity_score = 15
+    granularity_score = round(min(30, avg_commits_per_day / 4.5 * 30))
 
     # 2. 测试意识得分 (20分)
     test_ratio = total_test_files / max(total_file_changes, 1)
-    if test_ratio >= 0.15:
-        test_score = 20
-    elif test_ratio >= 0.10:
-        test_score = 15
-    elif test_ratio >= 0.05:
-        test_score = 10
-    else:
-        test_score = 5
+    test_score = round(min(20, test_ratio / 0.15 * 20))
 
     # 3. 文档意识得分 (15分)
     doc_ratio = total_doc_files / max(total_file_changes, 1)
-    if doc_ratio >= 0.10:
-        doc_score = 15
-    elif doc_ratio >= 0.05:
-        doc_score = 10
-    elif doc_ratio >= 0.02:
-        doc_score = 7
-    else:
-        doc_score = 3
+    doc_score = round(min(15, doc_ratio / 0.10 * 15))
 
     # 4. 作息规律得分 (20分)
-    # 夜间提交 (22:00-04:00) 占比
+    # 夜间提交 (22:00-04:00) 占比，越规律分越高
     night_commits = sum(total_hourly[h] for h in range(22, 24)) + sum(total_hourly[h] for h in range(0, 5))
     night_ratio = night_commits / max(total_commits, 1)
-    if night_ratio <= 0.15:
-        schedule_score = 20
-    elif night_ratio <= 0.25:
-        schedule_score = 15
-    elif night_ratio <= 0.35:
-        schedule_score = 10
-    else:
-        schedule_score = 5
+    schedule_score = round(min(20, max(0, (1 - night_ratio / 0.4)) * 20))
 
     # 5. 项目聚焦度得分 (15分)
     # Focus Index = Top 3 项目提交数 / 总提交数
     sorted_repos = sorted(all_repos, key=lambda x: x['total_commits'], reverse=True)
     top3_commits = sum(r['total_commits'] for r in sorted_repos[:3])
     focus_index = top3_commits / max(total_commits, 1)
-    if focus_index >= 0.7:
-        focus_score = 15
-    elif focus_index >= 0.5:
-        focus_score = 12
-    elif focus_index >= 0.3:
-        focus_score = 8
-    else:
-        focus_score = 5
+    focus_score = round(min(15, focus_index / 0.7 * 15))
 
     total_score = granularity_score + test_score + doc_score + schedule_score + focus_score
 
     # ============================================================
-    # 开发者人格系统 (DevPersona) - 6 维度分类
+    # 开发者人格系统 (DevPersona) - 6 维度光谱分类
     # ============================================================
 
     # 计算各维度指标
     # 1. 时间维度 (T): D=Day 白天型, N=Night 夜猫型
+    #    spectrum: 0=纯白天, 100=纯夜间
     day_commits = sum(total_hourly[h] for h in range(8, 20))
     night_commits = sum(total_hourly[h] for h in range(20, 24)) + sum(total_hourly[h] for h in range(0, 6))
-    time_type = 'N' if night_commits > day_commits * 0.6 else 'D'
+    time_spectrum = round(night_commits / max(day_commits + night_commits, 1) * 100)
+    time_type = 'N' if time_spectrum > 50 else 'D'
 
     # 2. 节奏维度 (R): S=Sprint 冲刺型, M=Marathon 马拉松型
-    rhythm_type = 'S' if avg_commits_per_day >= 2.5 else 'M'
+    #    spectrum: 0=极慢, 100=极速(5次/天)
+    rhythm_spectrum = round(min(avg_commits_per_day / 5 * 100, 100))
+    rhythm_type = 'S' if rhythm_spectrum > 50 else 'M'
 
     # 3. 专注维度 (F): C=Concentrated 专注型, D=Distributed 分散型
-    focus_type = 'C' if focus_index >= 0.5 else 'D'
+    #    spectrum: 0=极度分散, 100=极度集中
+    focus_spectrum = round(focus_index * 100)
+    focus_type = 'C' if focus_spectrum > 50 else 'D'
 
     # 4. 风格维度 (S): P=Pioneer 先锋型, G=Guardian 守护型
+    #    spectrum: 0=纯维护, 100=纯新功能
     feat_ratio = total_types.get('feat', 0) / max(total_commits, 1)
     fix_ratio = total_types.get('fix', 0) / max(total_commits, 1)
     refactor_ratio = total_types.get('refactor', 0) / max(total_commits, 1)
     maintenance_ratio = (fix_ratio + refactor_ratio + total_types.get('chore', 0) / max(total_commits, 1))
-    style_type = 'P' if feat_ratio > maintenance_ratio else 'G'
+    style_spectrum = round(feat_ratio / max(feat_ratio + maintenance_ratio, 0.01) * 100)
+    style_type = 'P' if style_spectrum > 50 else 'G'
 
     # 5. 工程维度 (E): R=Rapid 快速迭代, Q=Quality 质量导向
-    engineering_score = (test_ratio * 0.5 + doc_ratio * 0.5)
-    eng_type = 'Q' if engineering_score >= 0.08 else 'R'
+    #    spectrum: 0=纯速度, 100=纯质量(测试+文档占比25%为满分)
+    eng_spectrum = round(min((test_ratio + doc_ratio) / 0.25 * 100, 100))
+    eng_type = 'Q' if eng_spectrum > 50 else 'R'
 
     # 6. AI 维度 (A): H=Handcraft 手工型, A=AI-assisted AI 协作型
+    #    spectrum: 0=纯手工, 100=AI 辅助
     ai_detected = len(all_ai_signals) >= 3
-    ai_type = 'A' if ai_detected else 'H'
+    ai_spectrum = 100 if ai_detected else 0
+    ai_type = 'A' if ai_spectrum > 50 else 'H'
 
     # 组合人格类型 (6位)
     persona_code = time_type + rhythm_type + focus_type + style_type + eng_type + ai_type
@@ -420,14 +396,14 @@ def analyze_habits(all_repos):
         }
         icon = icon_map.get(t + r, '💻')
 
-        # 描述生成
+        # 描述生成（带光谱百分比）
         desc_parts = []
-        desc_parts.append('夜间' if t == 'N' else '白天')
-        desc_parts.append('高频提交' if r == 'S' else '深度专注')
-        desc_parts.append('专注核心项目' if f == 'C' else '多项目并行')
-        desc_parts.append('推进新功能' if s == 'P' else '维护系统')
-        desc_parts.append('注重质量' if e == 'Q' else '快速迭代')
-        desc_parts.append('善用 AI' if a == 'A' else '纯手工开发')
+        desc_parts.append(f'夜间 {time_spectrum}%' if t == 'N' else f'白天 {100 - time_spectrum}%')
+        desc_parts.append(f'高频提交 {rhythm_spectrum}%' if r == 'S' else f'深度专注 {100 - rhythm_spectrum}%')
+        desc_parts.append(f'专注核心 {focus_spectrum}%' if f == 'C' else f'多项目并行 {100 - focus_spectrum}%')
+        desc_parts.append(f'推进新功能 {style_spectrum}%' if s == 'P' else f'维护系统 {100 - style_spectrum}%')
+        desc_parts.append(f'注重质量 {eng_spectrum}%' if e == 'Q' else f'快速迭代 {100 - eng_spectrum}%')
+        desc_parts.append(f'善用 AI' if a == 'A' else f'纯手工开发')
 
         return {
             'name': core,
@@ -563,12 +539,12 @@ def analyze_habits(all_repos):
             'icon': persona['icon'],
             'desc': persona['desc'],
             'dimensions': {
-                'time': {'code': time_type, 'name': '夜猫型' if time_type == 'N' else '白天型', 'value': round(night_commits / max(total_commits, 1) * 100)},
-                'rhythm': {'code': rhythm_type, 'name': '冲刺型' if rhythm_type == 'S' else '马拉松型', 'value': round(avg_commits_per_day, 1)},
-                'focus': {'code': focus_type, 'name': '专注型' if focus_type == 'C' else '分散型', 'value': round(focus_index * 100)},
-                'style': {'code': style_type, 'name': '先锋型' if style_type == 'P' else '守护型', 'value': round(feat_ratio * 100)},
-                'engineering': {'code': eng_type, 'name': '质量导向' if eng_type == 'Q' else '快速迭代', 'value': round(engineering_score * 100)},
-                'ai': {'code': ai_type, 'name': 'AI 协作型' if ai_type == 'A' else '手工型', 'value': len(all_ai_signals)}
+                'time': {'code': time_type, 'spectrum': time_spectrum, 'left': '白天型', 'right': '夜猫型'},
+                'rhythm': {'code': rhythm_type, 'spectrum': rhythm_spectrum, 'left': '马拉松型', 'right': '冲刺型'},
+                'focus': {'code': focus_type, 'spectrum': focus_spectrum, 'left': '分散型', 'right': '专注型'},
+                'style': {'code': style_type, 'spectrum': style_spectrum, 'left': '守护型', 'right': '先锋型'},
+                'engineering': {'code': eng_type, 'spectrum': eng_spectrum, 'left': '快速迭代', 'right': '质量导向'},
+                'ai': {'code': ai_type, 'spectrum': ai_spectrum, 'left': '手工型', 'right': 'AI 协作型'}
             }
         },
 

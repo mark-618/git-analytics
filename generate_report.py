@@ -123,7 +123,7 @@ def generate_report(data):
             <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
                 <div style="width:{pct}%;height:100%;background:{color};border-radius:4px;"></div>
             </div>
-            <div style="width:50px;font-size:0.85em;color:#1f2328;text-align:right;">{score}/{max_score}</div>
+            <div style="width:70px;font-size:0.85em;color:#1f2328;text-align:right;">{score}/{max_score} <span style="color:#656d76;font-size:0.8em;">({pct:.0f}%)</span></div>
         </div>'''
 
     # 开发者标签（跳过第一个主类型，已单独展示）
@@ -196,31 +196,32 @@ def generate_report(data):
     # 月度标签简化
     month_short = [m[-2:] + '月' for m in month_labels]
 
-    # 生成维度详情 HTML（6 维度）
+    # 生成维度详情 HTML（6 维度光谱）
     dims = persona.get('dimensions', {})
-    dim_labels = [
-        ('time', '时间偏好', '白天型', '夜猫型', ['N']),
-        ('rhythm', '节奏风格', '马拉松型', '冲刺型', ['S']),
-        ('focus', '专注程度', '分散型', '专注型', ['C']),
-        ('style', '开发风格', '守护型', '先锋型', ['P']),
-        ('engineering', '工程取向', '快速迭代', '质量导向', ['Q']),
-        ('ai', 'AI 协作', '手工型', 'AI 协作型', ['A']),
-    ]
+    dim_keys = ['time', 'rhythm', 'focus', 'style', 'engineering', 'ai']
+    dim_names = {'time': '时间偏好', 'rhythm': '节奏风格', 'focus': '专注程度', 'style': '开发风格', 'engineering': '工程取向', 'ai': 'AI 协作'}
 
     dims_detail_html = ""
-    for dim_key, dim_name, left_label, right_label, right_codes in dim_labels:
+    for dim_key in dim_keys:
         dim = dims.get(dim_key, {})
-        is_right = dim.get('code', '') in right_codes
+        spectrum = dim.get('spectrum', 50)
+        left_label = dim.get('left', '')
+        right_label = dim.get('right', '')
+        dim_name = dim_names[dim_key]
+        # spectrum > 50 说明偏右
+        is_right = spectrum > 50
+        pct = spectrum if is_right else (100 - spectrum)
         dims_detail_html += f'''
         <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:12px;">
             <div style="font-size:0.8em;color:#656d76;margin-bottom:6px;">{dim_name}</div>
             <div style="display:flex;align-items:center;gap:8px;">
-                <span style="font-size:0.85em;color:{'#656d76' if is_right else '#1f2328'};font-weight:{'400' if is_right else '600'};">{left_label}</span>
+                <span style="font-size:0.8em;min-width:52px;text-align:right;color:{'#656d76' if is_right else '#1f2328'};font-weight:{'400' if is_right else '600'};">{left_label}</span>
                 <div style="flex:1;height:6px;background:#d8dee4;border-radius:3px;position:relative;">
-                    <div style="position:absolute;{'right' if is_right else 'left'}:0;top:0;width:50%;height:100%;background:#0969da;border-radius:3px;"></div>
+                    <div style="position:absolute;left:0;top:0;width:{spectrum}%;height:100%;background:#0969da;border-radius:3px;"></div>
                 </div>
-                <span style="font-size:0.85em;color:{'#1f2328' if is_right else '#656d76'};font-weight:{'600' if is_right else '400'};">{right_label}</span>
+                <span style="font-size:0.8em;min-width:52px;color:{'#1f2328' if is_right else '#656d76'};font-weight:{'600' if is_right else '400'};">{right_label}</span>
             </div>
+            <div style="text-align:{'right' if is_right else 'left'};font-size:0.75em;color:#656d76;margin-top:4px;">{pct}%</div>
         </div>'''
 
     html = f'''<!DOCTYPE html>

@@ -1,64 +1,70 @@
 {
-  "generated_at": "2026-05-13T14:19:00Z",
+  "generated_at": "2026-05-13T14:33:18Z",
   "scan_dir": "/Users/mark/Desktop",
   "summary": {
     "total_projects": 20,
-    "total_commits": 588,
+    "total_commits": 589,
     "total_active_days": 196,
     "avg_commits_per_day": 3.0
   },
   "habit_score": {
-    "total": 87,
-    "granularity": 30,
+    "total": 70,
+    "granularity": 20,
     "test_awareness": 20,
     "doc_awareness": 15,
-    "schedule": 10,
-    "focus": 12
+    "schedule": 4,
+    "focus": 11
   },
   "persona": {
-    "code": "NSCPQA",
-    "name": "深夜闪电侠",
-    "icon": "⚡",
-    "desc": "夜间，高频提交，专注核心项目，推进新功能",
+    "code": "DSCPQA",
+    "name": "晨曦冲刺者",
+    "icon": "🌅",
+    "desc": "白天 62%，高频提交 60%，专注核心 52%，推进新功能 61%",
     "dimensions": {
       "time": {
-        "code": "N",
-        "name": "夜猫型",
-        "value": 38
+        "code": "D",
+        "spectrum": 38,
+        "left": "白天型",
+        "right": "夜猫型"
       },
       "rhythm": {
         "code": "S",
-        "name": "冲刺型",
-        "value": 3.0
+        "spectrum": 60,
+        "left": "马拉松型",
+        "right": "冲刺型"
       },
       "focus": {
         "code": "C",
-        "name": "专注型",
-        "value": 52
+        "spectrum": 52,
+        "left": "分散型",
+        "right": "专注型"
       },
       "style": {
         "code": "P",
-        "name": "先锋型",
-        "value": 24
+        "spectrum": 61,
+        "left": "守护型",
+        "right": "先锋型"
       },
       "engineering": {
         "code": "Q",
-        "name": "质量导向",
-        "value": 26
+        "spectrum": 100,
+        "left": "快速迭代",
+        "right": "质量导向"
       },
       "ai": {
         "code": "A",
-        "name": "AI 协作型",
-        "value": 63
+        "spectrum": 100,
+        "left": "手工型",
+        "right": "AI 协作型"
       }
     }
   },
   "developer_tags": [
     {
-      "icon": "⚡",
-      "name": "深夜闪电侠",
-      "desc": "夜间，高频提交，专注核心项目，推进新功能",
-      "code": "NSCPQA",
+      "icon": "🌅",
+      "name": "晨曦冲刺者",
+      "desc": "白天 62%，高频提交 60%，专注核心 52%，推进新功能 61%",
+      "code": "DSCPQA",
       "is_primary": true
     },
     {
@@ -102,7 +108,7 @@
     45,
     22,
     19,
-    29,
+    30,
     42,
     56,
     29,
@@ -118,12 +124,12 @@
     "5": 79,
     "4": 68,
     "1": 103,
-    "2": 76,
+    "2": 77,
     "0": 91,
     "3": 69
   },
   "monthly": {
-    "2026-05": 181,
+    "2026-05": 182,
     "2026-04": 214,
     "2025-11": 3,
     "2025-10": 15,
@@ -608,6 +614,43 @@
       }
     },
     {
+      "name": "git-analytics",
+      "commits": 5,
+      "language": "Python",
+      "active_days": 1,
+      "first_commit": "2026-05-13",
+      "last_commit": "2026-05-13",
+      "hourly": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "monthly": {
+        "2026-05": 5
+      }
+    },
+    {
       "name": "polymarket_bit",
       "commits": 4,
       "language": "Markdown",
@@ -643,43 +686,6 @@
       "monthly": {
         "2026-05": 1,
         "2026-04": 3
-      }
-    },
-    {
-      "name": "git-analytics",
-      "commits": 4,
-      "language": "Python",
-      "active_days": 1,
-      "first_commit": "2026-05-13",
-      "last_commit": "2026-05-13",
-      "hourly": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        2,
-        2,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ],
-      "monthly": {
-        "2026-05": 4
       }
     },
     {
@@ -911,18 +917,18 @@
     "chore": 22,
     "fix": 55,
     "refactor": 12,
-    "feat": 140,
+    "feat": 141,
     "test": 2
   },
   "engineering_health": {
-    "test_ratio": 24.5,
+    "test_ratio": 24.4,
     "doc_ratio": 27.8,
-    "feat_ratio": 23.8,
-    "fix_ratio": 9.4,
+    "feat_ratio": 23.9,
+    "fix_ratio": 9.3,
     "refactor_ratio": 2.0,
     "night_ratio": 31.6,
-    "weekend_ratio": 30.8,
-    "low_info_ratio": 0.9
+    "weekend_ratio": 30.7,
+    "low_info_ratio": 0.8
   },
   "ai_signals": {
     "detected": true,
@@ -935,6 +941,6 @@
       "AI file: CLAUDE.md"
     ]
   },
-  "focus_index": 51.9,
+  "focus_index": 51.8,
   "night_owl_index": 31.6
 }
