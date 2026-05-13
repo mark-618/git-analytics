@@ -168,23 +168,27 @@ def collect_repo_data(repo_path, since=None, until=None):
     main_language = lang_counter.most_common(1)[0][0] if lang_counter else 'Unknown'
 
     # 分析 commit 类型（基于 message）
+    def classify_commit(msg):
+        msg = msg.lower()
+        if any(msg.startswith(p) for p in ['feat', 'feature', 'add', 'new']):
+            return 'feat'
+        elif any(msg.startswith(p) for p in ['fix', 'bug', 'patch', 'hotfix']):
+            return 'fix'
+        elif any(msg.startswith(p) for p in ['doc', 'readme', 'comment']):
+            return 'docs'
+        elif any(msg.startswith(p) for p in ['test', 'spec']):
+            return 'test'
+        elif any(msg.startswith(p) for p in ['refactor', 'clean', 'restructure']):
+            return 'refactor'
+        elif any(msg.startswith(p) for p in ['chore', 'build', 'ci', 'deps']):
+            return 'chore'
+        else:
+            return 'other'
+
     commit_types = Counter()
     for c in commits:
-        msg = c['message'].lower()
-        if any(msg.startswith(p) for p in ['feat', 'feature', 'add', 'new']):
-            commit_types['feat'] += 1
-        elif any(msg.startswith(p) for p in ['fix', 'bug', 'patch', 'hotfix']):
-            commit_types['fix'] += 1
-        elif any(msg.startswith(p) for p in ['doc', 'readme', 'comment']):
-            commit_types['docs'] += 1
-        elif any(msg.startswith(p) for p in ['test', 'spec']):
-            commit_types['test'] += 1
-        elif any(msg.startswith(p) for p in ['refactor', 'clean', 'restructure']):
-            commit_types['refactor'] += 1
-        elif any(msg.startswith(p) for p in ['chore', 'build', 'ci', 'deps']):
-            commit_types['chore'] += 1
-        else:
-            commit_types['other'] += 1
+        c['type'] = classify_commit(c['message'])
+        commit_types[c['type']] += 1
 
     # 时间分布
     hourly = [0] * 24
@@ -247,7 +251,9 @@ def collect_repo_data(repo_path, since=None, until=None):
         'low_info_commits': sum(1 for c in commits if any(
             re.match(p, c['message'].lower()) for p in LOW_INFO_PATTERNS
         )),
-        'commit_messages': [c['message'] for c in commits[:50]]
+        'commit_messages': [c['message'] for c in commits[:50]],
+        'commits': [{'ts': c['timestamp'], 'hour': c['hour'], 'weekday': c['weekday'],
+                      'month': c['month'], 'type': c['type']} for c in commits]
     }
 
 
@@ -483,9 +489,10 @@ def analyze_habits(all_repos):
     developer_tags = developer_tags[:6]
 
     # ============================================================
-    # 项目排行榜
+    # 项目排行榜 + 原始 commit 数据
     # ============================================================
     project_ranking = []
+    all_commits = []
     for r in sorted_repos:
         project_ranking.append({
             'name': r['name'],
@@ -495,8 +502,11 @@ def analyze_habits(all_repos):
             'first_commit': r['first_commit'],
             'last_commit': r['last_commit'],
             'hourly': r['hourly'],
-            'monthly': r['monthly']
+            'monthly': r['monthly'],
+            'raw_commits': r.get('commits', [])
         })
+        for c in r.get('commits', []):
+            all_commits.append({**c, 'project': r['name']})
 
     # ============================================================
     # 时间习惯分析
@@ -590,7 +600,10 @@ def analyze_habits(all_repos):
         'focus_index': round(focus_index * 100, 1),
 
         # 夜猫指数
-        'night_owl_index': round(night_ratio * 100, 1)
+        'night_owl_index': round(night_ratio * 100, 1),
+
+        # 原始 commit 数据（用于前端筛选）
+        'all_commits': all_commits
     }
 
     return analysis

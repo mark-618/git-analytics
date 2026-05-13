@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Git Analytics - 个人代码习惯体检报告生成器
-使用 Chart.js 生成可视化报告
+使用 Chart.js 生成可视化报告，支持交互式筛选
 """
 
 import json
@@ -42,6 +42,10 @@ def generate_report(data):
     ai = data['ai_signals']
     peak_hours = data['peak_hours']
     peak_weekdays = data['peak_weekdays']
+    all_commits = data.get('all_commits', [])
+
+    # 项目名列表
+    project_names = [p['name'] for p in projects]
 
     # 准备月度数据
     monthly_sorted = sorted(monthly.items())
@@ -62,7 +66,6 @@ def generate_report(data):
             'backgroundColor': colors[i % len(colors)]
         })
 
-    # 其他项目
     other_projects = [p for p in projects if p['commits'] < 10]
     if other_projects:
         other_data = [0] * len(month_labels)
@@ -95,7 +98,7 @@ def generate_report(data):
     type_colors = ['#0969da', '#cf222e', '#1a7f37', '#bf8700', '#8250df', '#6e7781', '#afb8c1']
     type_values = [commit_types.get(t, 0) for t in type_labels]
 
-    # 语言分布（从项目数据聚合）
+    # 语言分布
     lang_counter = {}
     for p in projects:
         lang = p.get('language', 'Unknown')
@@ -126,9 +129,9 @@ def generate_report(data):
             <div style="width:70px;font-size:0.85em;color:#1f2328;text-align:right;">{score}/{max_score} <span style="color:#656d76;font-size:0.8em;">({pct:.0f}%)</span></div>
         </div>'''
 
-    # 开发者标签（跳过第一个主类型，已单独展示）
+    # 开发者标签
     tags_html = ""
-    for tag in tags[1:]:  # 跳过第一个人格类型
+    for tag in tags[1:]:
         tags_html += f'''
         <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:14px;text-align:center;">
             <div style="font-size:1.5em;margin-bottom:4px;">{tag['icon']}</div>
@@ -196,7 +199,7 @@ def generate_report(data):
     # 月度标签简化
     month_short = [m[-2:] + '月' for m in month_labels]
 
-    # 生成维度详情 HTML（6 维度光谱）
+    # 维度详情 HTML
     dims = persona.get('dimensions', {})
     dim_keys = ['time', 'rhythm', 'focus', 'style', 'engineering', 'ai']
     dim_names = {'time': '时间偏好', 'rhythm': '节奏风格', 'focus': '专注程度', 'style': '开发风格', 'engineering': '工程取向', 'ai': 'AI 协作'}
@@ -208,7 +211,6 @@ def generate_report(data):
         left_label = dim.get('left', '')
         right_label = dim.get('right', '')
         dim_name = dim_names[dim_key]
-        # spectrum > 50 说明偏右
         is_right = spectrum > 50
         pct = spectrum if is_right else (100 - spectrum)
         dims_detail_html += f'''
@@ -244,7 +246,6 @@ def generate_report(data):
             <div style="font-size:0.7em;color:#656d76;margin-top:2px;">{desc}</div>
         </div>'''
 
-    # 工程健康洞察
     eng_insight_parts = []
     if health['test_ratio'] < 5:
         eng_insight_parts.append('很少写测试，建议为新功能补充测试用例。')
@@ -258,18 +259,15 @@ def generate_report(data):
         eng_insight_parts.append('有些 commit 描述太简略，不利于后期回溯。')
     eng_insight_html = ' '.join(eng_insight_parts) if eng_insight_parts else '各项指标正常。'
 
-    # 筛选条件
-    filters = data.get('filters', {})
-    filter_parts = []
-    if filters.get('since') or filters.get('until'):
-        since_str = filters.get('since') or '起始'
-        until_str = filters.get('until') or '至今'
-        filter_parts.append(f"{since_str} ~ {until_str}")
-    if filters.get('project'):
-        filter_parts.append(f"项目: {filters['project']}")
-    filter_html = ""
-    if filter_parts:
-        filter_html = f'''<div style="text-align:center;margin-bottom:24px;padding:8px 16px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;display:inline-block;font-size:0.9em;color:#656d76;">筛选条件: {' · '.join(filter_parts)}</div>'''
+    # 嵌入的原始数据（用于 JS 筛选）
+    all_commits_json = json.dumps(all_commits, ensure_ascii=False)
+    project_names_json = json.dumps(project_names, ensure_ascii=False)
+    month_labels_json = json.dumps(month_labels)
+    month_short_json = json.dumps(month_short)
+    type_labels_json = json.dumps(type_labels)
+    type_names_json = json.dumps(type_names)
+    type_colors_json = json.dumps(type_colors)
+    colors_json = json.dumps(colors)
 
     html = f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -288,7 +286,7 @@ def generate_report(data):
             padding: 40px 20px;
         }}
         .container {{ max-width: 1100px; margin: 0 auto; }}
-        .header {{ text-align: center; margin-bottom: 48px; }}
+        .header {{ text-align: center; margin-bottom: 32px; }}
         .header h1 {{ font-size: 2.4em; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; color: #1f2328; }}
         .header p {{ color: #656d76; font-size: 1.1em; }}
         .stats-row {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }}
@@ -296,9 +294,7 @@ def generate_report(data):
             background: #fff; border-radius: 6px; padding: 24px; text-align: center;
             border: 1px solid #d0d7de;
         }}
-        .stat-number {{
-            font-size: 2.4em; font-weight: 700; color: #0969da;
-        }}
+        .stat-number {{ font-size: 2.4em; font-weight: 700; color: #0969da; }}
         .stat-label {{ color: #656d76; font-size: 0.85em; margin-top: 4px; }}
         .section {{ margin-bottom: 40px; }}
         .section-title {{
@@ -320,10 +316,29 @@ def generate_report(data):
         .insight-card strong {{ color: #0969da; }}
         .footer {{ text-align: center; margin-top: 48px; padding: 24px; color: #656d76; font-size: 0.8em; border-top: 1px solid #d8dee4; }}
         .two-cols {{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }}
+        .filter-bar {{
+            background: #fff; border: 1px solid #d0d7de; border-radius: 6px;
+            padding: 16px 20px; margin-bottom: 32px;
+            display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+        }}
+        .filter-bar label {{ font-size: 0.85em; color: #656d76; font-weight: 600; }}
+        .filter-bar select, .filter-bar input {{
+            padding: 6px 10px; border: 1px solid #d0d7de; border-radius: 6px;
+            font-size: 0.9em; background: #fff; color: #1f2328;
+        }}
+        .filter-bar select:focus, .filter-bar input:focus {{ outline: none; border-color: #0969da; }}
+        .filter-bar button {{
+            padding: 6px 16px; background: #0969da; color: #fff; border: none;
+            border-radius: 6px; font-size: 0.9em; cursor: pointer; font-weight: 600;
+        }}
+        .filter-bar button:hover {{ background: #0550ae; }}
+        .filter-bar .reset-btn {{ background: #fff; color: #656d76; border: 1px solid #d0d7de; }}
+        .filter-bar .reset-btn:hover {{ background: #f6f8fa; }}
         @media (max-width: 768px) {{
             .stats-row {{ grid-template-columns: repeat(2, 1fr); }}
             .two-cols {{ grid-template-columns: 1fr; }}
             .header h1 {{ font-size: 1.8em; }}
+            .filter-bar {{ flex-direction: column; align-items: stretch; }}
         }}
     </style>
 </head>
@@ -331,25 +346,37 @@ def generate_report(data):
     <div class="container">
         <div class="header">
             <h1>代码习惯体检报告</h1>
-            <p>{summary['total_projects']} 个项目 · {summary['total_commits']} 次提交 · {summary['total_active_days']} 天活跃</p>
+            <p id="headerSubtitle">{summary['total_projects']} 个项目 · {summary['total_commits']} 次提交 · {summary['total_active_days']} 天活跃</p>
         </div>
-        {filter_html}
+
+        <div class="filter-bar">
+            <label>项目</label>
+            <select id="filterProject">
+                <option value="all">全部项目</option>
+            </select>
+            <label>从</label>
+            <input type="date" id="filterSince">
+            <label>至</label>
+            <input type="date" id="filterUntil">
+            <button onclick="applyFilters()">筛选</button>
+            <button class="reset-btn" onclick="resetFilters()">重置</button>
+        </div>
 
         <div class="stats-row">
             <div class="stat-card">
-                <div class="stat-number">{habit_score['total']}</div>
+                <div class="stat-number" id="statScore">{habit_score['total']}</div>
                 <div class="stat-label">习惯健康分</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{summary['total_projects']}</div>
+                <div class="stat-number" id="statProjects">{summary['total_projects']}</div>
                 <div class="stat-label">项目总数</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{summary['total_commits']}</div>
+                <div class="stat-number" id="statCommits">{summary['total_commits']}</div>
                 <div class="stat-label">总提交数</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{summary['avg_commits_per_day']}</div>
+                <div class="stat-number" id="statDaily">{summary['avg_commits_per_day']}</div>
                 <div class="stat-label">日均提交</div>
             </div>
         </div>
@@ -360,14 +387,14 @@ def generate_report(data):
             <div class="card">
                 <h3>你的开发者人格</h3>
                 <div style="display:flex;align-items:center;gap:40px;padding:10px 0;">
-                    <div style="text-align:center;">
+                    <div style="text-align:center;" id="personaCard">
                         <div style="font-size:3em;margin-bottom:8px;">{persona.get('icon', '❓')}</div>
                         <div style="font-size:1.6em;font-weight:700;color:#1f2328;">{persona.get('name', '未知')}</div>
                         <div style="font-size:1.2em;color:#0969da;font-weight:600;margin-top:4px;">{persona.get('code', '????')}</div>
                         <div style="color:#656d76;font-size:0.9em;margin-top:8px;">{persona.get('desc', '')}</div>
                     </div>
                     <div style="flex:1;">
-                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;" id="dimsDetail">
                         {dims_detail_html}
                         </div>
                     </div>
@@ -377,16 +404,16 @@ def generate_report(data):
                 <div class="card">
                     <h3>Developer Habit Score</h3>
                     <div style="display:flex;align-items:center;gap:30px;">
-                        <div style="text-align:center;">
-                            <div style="font-size:4em;font-weight:700;color:{get_score_color(habit_score['total'])};line-height:1;">{habit_score['total']}</div>
-                            <div style="color:#656d76;font-size:0.9em;margin-top:4px;">/ 100 · {get_score_label(habit_score['total'])}</div>
+                        <div style="text-align:center;" id="scoreCircle">
+                            <div style="font-size:4em;font-weight:700;color:{get_score_color(habit_score['total'])};line-height:1;" id="scoreNumber">{habit_score['total']}</div>
+                            <div style="color:#656d76;font-size:0.9em;margin-top:4px;" id="scoreLabel">/ 100 · {get_score_label(habit_score['total'])}</div>
                         </div>
-                        <div style="flex:1;">{dims_html}</div>
+                        <div style="flex:1;" id="scoreDims">{dims_html}</div>
                     </div>
                 </div>
                 <div class="card">
                     <h3>特征标签</h3>
-                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">{tags_html}</div>
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;" id="tagsGrid">{tags_html}</div>
                 </div>
             </div>
         </div>
@@ -399,7 +426,7 @@ def generate_report(data):
                 <div class="chart-container">
                     <canvas id="hourChart"></canvas>
                 </div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightHour">
                     <strong>洞察：</strong>最活跃时段 {', '.join([f'{h}:00' for h in peak_hours])}。
                     {'夜间提交占比 ' + str(health['night_ratio']) + '%，属于夜间爆发型。' if health['night_ratio'] > 25 else '作息相对规律。'}
                 </div>
@@ -409,7 +436,7 @@ def generate_report(data):
                 <div class="chart-container" style="height:260px;">
                     <canvas id="weekChart"></canvas>
                 </div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightWeek">
                     <strong>洞察：</strong>最活跃 {', '.join(peak_weekdays)}。
                     {'周末提交占比 ' + str(health['weekend_ratio']) + '%。' if health['weekend_ratio'] > 20 else '以工作日为主。'}
                 </div>
@@ -424,7 +451,7 @@ def generate_report(data):
                 <div class="chart-container" style="height:380px;">
                     <canvas id="monthlyChart"></canvas>
                 </div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightMonthly">
                     <strong>洞察：</strong>Top 3 项目占据 {top3_ratio:.0f}% 的提交。
                     {'专注度高。' if top3_ratio > 60 else '精力较分散。'}
                 </div>
@@ -437,7 +464,7 @@ def generate_report(data):
             </div>
             <div class="card">
                 <h3>项目排行榜</h3>
-                {projects_html}
+                <div id="projectsRanking">{projects_html}</div>
             </div>
         </div>
 
@@ -461,7 +488,7 @@ def generate_report(data):
             <div class="card">
                 <h3>提交类型详情</h3>
                 <div id="typeBars"></div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightTypes">
                     <strong>洞察：</strong>
                     功能开发占比 {health['feat_ratio']}%，测试 {health['test_ratio']}%，文档 {health['doc_ratio']}%。
                     {'测试投入偏低。' if health['test_ratio'] < 5 else ''}
@@ -474,11 +501,11 @@ def generate_report(data):
         <div class="section">
             <div class="section-title">🏥 工程健康</div>
             <div class="card">
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" id="engHealthGrid">
                     {eng_health_html}
                 </div>
             </div>
-            <div class="insight-card">
+            <div class="insight-card" id="insightEng">
                 <strong>洞察：</strong>{eng_insight_html}
             </div>
         </div>
@@ -502,143 +529,343 @@ def generate_report(data):
     </div>
 
     <script>
+        // 原始数据
+        const allCommits = {all_commits_json};
+        const projectNames = {project_names_json};
+        const monthLabels = {month_labels_json};
+        const monthShort = {month_short_json};
+        const typeLabels = {type_labels_json};
+        const typeNames = {type_names_json};
+        const typeColors = {type_colors_json};
+        const COLORS = {colors_json};
+
+        // 填充项目下拉
+        const select = document.getElementById('filterProject');
+        projectNames.forEach(name => {{
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = name;
+            select.appendChild(opt);
+        }});
+
+        // Chart.js 全局配置
         const chartDefaults = {{
             responsive: true,
             maintainAspectRatio: false,
             plugins: {{ legend: {{ labels: {{ padding: 14, usePointStyle: true, font: {{ size: 11 }} }} }} }}
         }};
 
-        // 24小时分布
-        new Chart(document.getElementById('hourChart'), {{
-            type: 'bar',
-            data: {{
-                labels: {json.dumps([f'{h:02d}:00' for h in range(24)])},
-                datasets: [{{
-                    data: {json.dumps(hourly)},
-                    backgroundColor: {json.dumps([f'rgba(9,105,218,{0.2 + v/max(hourly)*0.8})' if max(hourly) > 0 else 'rgba(9,105,218,0.2)' for v in hourly])},
-                    borderRadius: 6
-                }}]
-            }},
-            options: {{
-                ...chartDefaults,
-                plugins: {{ legend: {{ display: false }} }},
-                scales: {{
-                    y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }},
-                    x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }} }} }}
-                }}
-            }}
-        }});
+        // 存储图表实例
+        const charts = {{}};
 
-        // 星期分布
-        new Chart(document.getElementById('weekChart'), {{
-            type: 'bar',
-            data: {{
-                labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-                datasets: [{{
-                    data: {[weekly.get(str(i), 0) for i in range(7)]},
-                    backgroundColor: ['#0969da', '#0969da', '#0969da', '#0969da', '#0969da', '#8250df', '#8250df'],
-                    borderRadius: 6
-                }}]
-            }},
-            options: {{
-                ...chartDefaults,
-                plugins: {{ legend: {{ display: false }} }},
-                scales: {{
-                    y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }},
-                    x: {{ grid: {{ display: false }} }}
-                }}
-            }}
-        }});
-
-        // 每月堆叠图
-        new Chart(document.getElementById('monthlyChart'), {{
-            type: 'bar',
-            data: {{
-                labels: {json.dumps(month_short)},
-                datasets: {json.dumps(stack_datasets)}
-            }},
-            options: {{
-                ...chartDefaults,
-                plugins: {{
-                    legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true, font: {{ size: 11 }} }} }},
-                    tooltip: {{ mode: 'index', intersect: false }}
+        // 初始化图表
+        function initCharts(hourly, weekly, monthlyData, typeValues, stackData, bubbleData) {{
+            // 24小时
+            charts.hour = new Chart(document.getElementById('hourChart'), {{
+                type: 'bar',
+                data: {{
+                    labels: Array.from({{length: 24}}, (_, i) => i.toString().padStart(2, '0') + ':00'),
+                    datasets: [{{
+                        data: hourly,
+                        backgroundColor: hourly.map(v => {{
+                            const max = Math.max(...hourly, 1);
+                            return `rgba(9,105,218,${{0.2 + v/max*0.8}})`;
+                        }}),
+                        borderRadius: 6
+                    }}]
                 }},
-                scales: {{
-                    x: {{ stacked: true, grid: {{ display: false }} }},
-                    y: {{ stacked: true, beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }}
+                options: {{
+                    ...chartDefaults,
+                    plugins: {{ legend: {{ display: false }} }},
+                    scales: {{
+                        y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }},
+                        x: {{ grid: {{ display: false }}, ticks: {{ font: {{ size: 10 }} }} }}
+                    }}
                 }}
-            }}
-        }});
+            }});
 
-        // 项目气泡图
-        new Chart(document.getElementById('bubbleChart'), {{
-            type: 'bubble',
-            data: {{ datasets: {json.dumps(bubble_datasets)} }},
-            options: {{
-                ...chartDefaults,
-                plugins: {{
-                    legend: {{ position: 'bottom', labels: {{ padding: 10, usePointStyle: true, font: {{ size: 10 }} }} }},
-                    tooltip: {{
-                        callbacks: {{
-                            label: function(ctx) {{
-                                const months = {json.dumps(month_short)};
-                                return ctx.dataset.label + ': ' + months[ctx.parsed.x] + ' ' + ctx.parsed.y + ' 次';
+            // 星期
+            charts.week = new Chart(document.getElementById('weekChart'), {{
+                type: 'bar',
+                data: {{
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    datasets: [{{
+                        data: weekly,
+                        backgroundColor: ['#0969da','#0969da','#0969da','#0969da','#0969da','#8250df','#8250df'],
+                        borderRadius: 6
+                    }}]
+                }},
+                options: {{
+                    ...chartDefaults,
+                    plugins: {{ legend: {{ display: false }} }},
+                    scales: {{
+                        y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }},
+                        x: {{ grid: {{ display: false }} }}
+                    }}
+                }}
+            }});
+
+            // 每月堆叠
+            charts.monthly = new Chart(document.getElementById('monthlyChart'), {{
+                type: 'bar',
+                data: {{ labels: monthShort, datasets: stackData }},
+                options: {{
+                    ...chartDefaults,
+                    plugins: {{
+                        legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true, font: {{ size: 11 }} }} }},
+                        tooltip: {{ mode: 'index', intersect: false }}
+                    }},
+                    scales: {{
+                        x: {{ stacked: true, grid: {{ display: false }} }},
+                        y: {{ stacked: true, beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }}
+                    }}
+                }}
+            }});
+
+            // 气泡图
+            charts.bubble = new Chart(document.getElementById('bubbleChart'), {{
+                type: 'bubble',
+                data: {{ datasets: bubbleData }},
+                options: {{
+                    ...chartDefaults,
+                    plugins: {{
+                        legend: {{ position: 'bottom', labels: {{ padding: 10, usePointStyle: true, font: {{ size: 10 }} }} }},
+                        tooltip: {{
+                            callbacks: {{
+                                label: function(ctx) {{
+                                    return ctx.dataset.label + ': ' + monthShort[ctx.parsed.x] + ' ' + ctx.parsed.y + ' 次';
+                                }}
                             }}
                         }}
-                    }}
-                }},
-                scales: {{
-                    x: {{
-                        type: 'linear', min: -0.5, max: {len(month_labels) - 0.5},
-                        ticks: {{ stepSize: 1, callback: function(val) {{ return {json.dumps(month_short)}[val] || ''; }} }},
-                        grid: {{ display: false }}
                     }},
-                    y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }}
+                    scales: {{
+                        x: {{
+                            type: 'linear', min: -0.5, max: monthLabels.length - 0.5,
+                            ticks: {{ stepSize: 1, callback: function(val) {{ return monthShort[val] || ''; }} }},
+                            grid: {{ display: false }}
+                        }},
+                        y: {{ beginAtZero: true, grid: {{ color: 'rgba(0,0,0,0.04)' }} }}
+                    }}
+                }}
+            }});
+
+            // 类型环形图
+            charts.type = new Chart(document.getElementById('typeChart'), {{
+                type: 'doughnut',
+                data: {{
+                    labels: typeNames,
+                    datasets: [{{ data: typeValues, backgroundColor: typeColors, borderWidth: 0 }}]
+                }},
+                options: {{
+                    ...chartDefaults,
+                    plugins: {{ legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true }} }} }},
+                    cutout: '60%'
+                }}
+            }});
+
+            // 语言环形图
+            charts.lang = new Chart(document.getElementById('langChart'), {{
+                type: 'doughnut',
+                data: {{
+                    labels: [],
+                    datasets: [{{ data: [], backgroundColor: COLORS, borderWidth: 0 }}]
+                }},
+                options: {{
+                    ...chartDefaults,
+                    plugins: {{ legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true }} }} }},
+                    cutout: '60%'
+                }}
+            }});
+        }}
+
+        // 筛选逻辑
+        function applyFilters() {{
+            const project = document.getElementById('filterProject').value;
+            const since = document.getElementById('filterSince').value;
+            const until = document.getElementById('filterUntil').value;
+
+            let filtered = allCommits;
+            if (project !== 'all') {{
+                filtered = filtered.filter(c => c.project === project);
+            }}
+            if (since) {{
+                const sinceTs = new Date(since).getTime() / 1000;
+                filtered = filtered.filter(c => c.ts >= sinceTs);
+            }}
+            if (until) {{
+                const untilTs = new Date(until + 'T23:59:59').getTime() / 1000;
+                filtered = filtered.filter(c => c.ts <= untilTs);
+            }}
+
+            if (filtered.length === 0) {{
+                alert('没有符合条件的数据');
+                return;
+            }}
+
+            updateAll(filtered, project);
+        }}
+
+        function resetFilters() {{
+            document.getElementById('filterProject').value = 'all';
+            document.getElementById('filterSince').value = '';
+            document.getElementById('filterUntil').value = '';
+            updateAll(allCommits, 'all');
+        }}
+
+        function updateAll(commits, project) {{
+            const total = commits.length;
+
+            // 聚合
+            const hourly = new Array(24).fill(0);
+            const weekly = new Array(7).fill(0);
+            const monthly = {{}};
+            const types = {{}};
+            const projects = {{}};
+            let activeDays = new Set();
+
+            commits.forEach(c => {{
+                hourly[c.hour]++;
+                weekly[c.weekday]++;
+                monthly[c.month] = (monthly[c.month] || 0) + 1;
+                types[c.type] = (types[c.type] || 0) + 1;
+                projects[c.project] = (projects[c.project] || 0) + 1;
+                activeDays.add(Math.floor(c.ts / 86400));
+            }});
+
+            // 更新统计卡片
+            const days = activeDays.size || 1;
+            document.getElementById('statCommits').textContent = total;
+            document.getElementById('statProjects').textContent = project === 'all' ? Object.keys(projects).length : 1;
+            document.getElementById('statDaily').textContent = (total / days).toFixed(1);
+
+            // 更新头部
+            const projText = project === 'all' ? Object.keys(projects).length + ' 个项目' : project;
+            document.getElementById('headerSubtitle').textContent = `${{projText}} · ${{total}} 次提交 · ${{days}} 天活跃`;
+
+            // 更新 24 小时图
+            charts.hour.data.datasets[0].data = hourly;
+            const maxH = Math.max(...hourly, 1);
+            charts.hour.data.datasets[0].backgroundColor = hourly.map(v => `rgba(9,105,218,${{0.2 + v/maxH*0.8}})`);
+            charts.hour.update();
+
+            // 洞察
+            const peakHours = hourly.map((v, i) => ({{v, i}})).sort((a, b) => b.v - a.v).slice(0, 3).map(x => x.i);
+            const nightCommits = hourly.slice(22).reduce((a, b) => a + b, 0) + hourly.slice(0, 5).reduce((a, b) => a + b, 0);
+            const nightRatio = (nightCommits / total * 100).toFixed(1);
+            document.getElementById('insightHour').innerHTML = `<strong>洞察：</strong>最活跃时段 ${{peakHours.map(h => h + ':00').join(', ')}}。${{nightRatio > 25 ? '夜间提交占比 ' + nightRatio + '%。' : '作息相对规律。'}}`;
+
+            // 更新星期图
+            charts.week.data.datasets[0].data = weekly;
+            charts.week.update();
+
+            const weekdayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+            const peakWeekdays = weekly.map((v, i) => ({{v, i}})).sort((a, b) => b.v - a.v).slice(0, 3).map(x => weekdayNames[x.i]);
+            const weekendCommits = weekly[5] + weekly[6];
+            const weekendRatio = (weekendCommits / total * 100).toFixed(1);
+            document.getElementById('insightWeek').innerHTML = `<strong>洞察：</strong>最活跃 ${{peakWeekdays.join(', ')}}。${{weekendRatio > 20 ? '周末提交占比 ' + weekendRatio + '%。' : '以工作日为主。'}}`;
+
+            // 更新每月图
+            const sortedMonths = Object.keys(monthly).sort();
+            const stackData = [];
+            const projList = project === 'all'
+                ? Object.entries(projects).sort((a, b) => b[1] - a[1]).slice(0, 7)
+                : [[project, total]];
+
+            projList.forEach(([name, _], i) => {{
+                const projCommits = commits.filter(c => c.project === name);
+                const projMonthly = {{}};
+                projCommits.forEach(c => {{ projMonthly[c.month] = (projMonthly[c.month] || 0) + 1; }});
+                stackData.push({{
+                    label: name,
+                    data: sortedMonths.map(m => projMonthly[m] || 0),
+                    backgroundColor: COLORS[i % COLORS.length]
+                }});
+            }});
+
+            // 其他项目
+            if (project === 'all' && Object.keys(projects).length > 7) {{
+                const topNames = projList.map(p => p[0]);
+                const otherMonthly = {{}};
+                commits.filter(c => !topNames.includes(c.project)).forEach(c => {{
+                    otherMonthly[c.month] = (otherMonthly[c.month] || 0) + 1;
+                }});
+                if (Object.keys(otherMonthly).length > 0) {{
+                    stackData.push({{
+                        label: '其他',
+                        data: sortedMonths.map(m => otherMonthly[m] || 0),
+                        backgroundColor: '#9ca3af'
+                    }});
                 }}
             }}
-        }});
 
-        // Commit 类型环形图
-        new Chart(document.getElementById('typeChart'), {{
-            type: 'doughnut',
-            data: {{
-                labels: {json.dumps(type_names)},
-                datasets: [{{ data: {json.dumps(type_values)}, backgroundColor: {json.dumps(type_colors)}, borderWidth: 0 }}]
-            }},
-            options: {{
-                ...chartDefaults,
-                plugins: {{ legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true }} }} }},
-                cutout: '60%'
-            }}
-        }});
+            charts.monthly.data.labels = sortedMonths.map(m => m.slice(-2) + '月');
+            charts.monthly.data.datasets = stackData;
+            charts.monthly.update();
 
-        // 语言分布环形图
-        new Chart(document.getElementById('langChart'), {{
-            type: 'doughnut',
-            data: {{
-                labels: {json.dumps(lang_labels)},
-                datasets: [{{ data: {json.dumps(lang_values)}, backgroundColor: {json.dumps(lang_colors[:len(lang_labels)])}, borderWidth: 0 }}]
-            }},
-            options: {{
-                ...chartDefaults,
-                plugins: {{ legend: {{ position: 'bottom', labels: {{ padding: 12, usePointStyle: true }} }} }},
-                cutout: '60%'
-            }}
-        }});
+            // 更新类型图
+            const typeValues = typeLabels.map(t => types[t] || 0);
+            charts.type.data.datasets[0].data = typeValues;
+            charts.type.update();
 
-        // 类型条形图
-        const typeData = {json.dumps(list(zip(type_names, type_values, type_colors)))};
-        const maxType = Math.max(...typeData.map(d => d[1]));
-        document.getElementById('typeBars').innerHTML = typeData.map(([name, val, color]) => {{
-            const pct = (val / {max(summary['total_commits'], 1)} * 100).toFixed(1);
-            return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-                <div style="width:70px;font-size:0.85em;color:#656d76;">${{name}}</div>
-                <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
-                    <div style="width:${{pct}}%;height:100%;background:${{color}};border-radius:4px;"></div>
-                </div>
-                <div style="width:90px;font-size:0.85em;color:#1f2328;text-align:right;">${{val}} (${{pct}}%)</div>
-            </div>`;
-        }}).join('');
+            // 更新类型条形图
+            const maxType = Math.max(...typeValues, 1);
+            document.getElementById('typeBars').innerHTML = typeValues.map((val, i) => {{
+                const pct = (val / total * 100).toFixed(1);
+                return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                    <div style="width:70px;font-size:0.85em;color:#656d76;">${{typeNames[i]}}</div>
+                    <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
+                        <div style="width:${{pct}}%;height:100%;background:${{typeColors[i]}};border-radius:4px;"></div>
+                    </div>
+                    <div style="width:90px;font-size:0.85em;color:#1f2328;text-align:right;">${{val}} (${{pct}}%)</div>
+                </div>`;
+            }}).join('');
+
+            // 项目排行榜
+            const ranked = Object.entries(projects).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            document.getElementById('projectsRanking').innerHTML = ranked.map(([name, count], i) => {{
+                const sep = i > 0 ? 'border-top:1px solid #d8dee4;' : '';
+                return `<div style="display:flex;align-items:center;gap:14px;padding:12px 0;${{sep}}">
+                    <div style="width:24px;height:24px;background:#0969da;color:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">${{i + 1}}</div>
+                    <div style="flex:1;">
+                        <div style="font-weight:600;font-size:0.95em;">${{name}}</div>
+                    </div>
+                    <div style="font-size:1em;font-weight:700;color:#0969da;">${{count}}</div>
+                </div>`;
+            }}).join('');
+
+            // 工程健康
+            const featRatio = ((types.feat || 0) / total * 100).toFixed(1);
+            const fixRatio = ((types.fix || 0) / total * 100).toFixed(1);
+            const refactorRatio = ((types.refactor || 0) / total * 100).toFixed(1);
+            const lowInfoRatio = '0.0'; // 需要原始 message 才能计算
+
+            const engItems = [
+                {{label: '功能开发', desc: '写新功能的时间占比', val: featRatio, color: '#0969da'}},
+                {{label: 'Bug 修复', desc: '修 bug 的时间占比', val: fixRatio, color: '#cf222e'}},
+                {{label: '重构', desc: '优化老代码的时间占比', val: refactorRatio, color: '#8250df'}},
+                {{label: '夜间提交', desc: '深夜写的代码占比', val: nightRatio, color: nightRatio > 25 ? '#bf8700' : '#656d76'}},
+                {{label: '周末提交', desc: '周末写的代码占比', val: weekendRatio, color: weekendRatio > 25 ? '#8250df' : '#656d76'}},
+            ];
+            document.getElementById('engHealthGrid').innerHTML = engItems.map(item => {{
+                return `<div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
+                    <div style="font-size:1.8em;font-weight:700;color:${{item.color}};">${{item.val}}%</div>
+                    <div style="font-size:0.82em;font-weight:600;color:#1f2328;margin-top:4px;">${{item.label}}</div>
+                    <div style="font-size:0.7em;color:#656d76;margin-top:2px;">${{item.desc}}</div>
+                </div>`;
+            }}).join('');
+
+            // 洞察文字
+            const engInsight = [];
+            if (nightRatio > 30) engInsight.push('深夜写代码比例较高，注意休息。');
+            if (weekendRatio > 25) engInsight.push('周末提交较多。');
+            document.getElementById('insightEng').innerHTML = `<strong>洞察：</strong>${{engInsight.length ? engInsight.join(' ') : '各项指标正常。'}}`;
+            document.getElementById('insightTypes').innerHTML = `<strong>洞察：</strong>功能开发占比 ${{featRatio}}%。`;
+        }}
+
+        // 初始化
+        const initHourly = {json.dumps(hourly)};
+        const initWeekly = {[weekly.get(str(i), 0) for i in range(7)]};
+        initCharts(initHourly, initWeekly, null, {json.dumps(type_values)}, {json.dumps(stack_datasets)}, {json.dumps(bubble_datasets)});
     </script>
 </body>
 </html>'''

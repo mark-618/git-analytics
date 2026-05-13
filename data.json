@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-05-13T16:36:46Z",
+  "generated_at": "2026-05-13T20:01:35Z",
   "scan_dir": "/Users/mark/Desktop",
   "summary": {
     "total_projects": 20,
-    "total_commits": 600,
+    "total_commits": 601,
     "total_active_days": 197,
-    "avg_commits_per_day": 3.0
+    "avg_commits_per_day": 3.1
   },
   "habit_score": {
     "total": 71,
@@ -110,7 +110,7 @@
     19,
     37,
     45,
-    57,
+    58,
     29,
     18,
     11,
@@ -124,12 +124,12 @@
     "5": 79,
     "4": 68,
     "1": 103,
-    "2": 88,
+    "2": 89,
     "0": 91,
     "3": 69
   },
   "monthly": {
-    "2026-05": 193,
+    "2026-05": 194,
     "2026-04": 214,
     "2025-11": 3,
     "2025-10": 15,
@@ -186,7 +186,947 @@
       "monthly": {
         "2026-05": 106,
         "2026-04": 28
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1778656650,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778655768,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778655343,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778654224,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778654043,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778651833,
+          "hour": 13,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778635650,
+          "hour": 9,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778606943,
+          "hour": 1,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778605633,
+          "hour": 1,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778604523,
+          "hour": 0,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778603021,
+          "hour": 0,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778567449,
+          "hour": 14,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778559875,
+          "hour": 12,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778514241,
+          "hour": 23,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778489537,
+          "hour": 16,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778484627,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778484402,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778484020,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778483986,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778481545,
+          "hour": 14,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778480479,
+          "hour": 14,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778477292,
+          "hour": 13,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778477078,
+          "hour": 13,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778466510,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778465773,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778465232,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778465193,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778465154,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778464877,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778464066,
+          "hour": 9,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778462723,
+          "hour": 9,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778458282,
+          "hour": 8,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778431309,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778431051,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778430514,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778430092,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1778427868,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778427448,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778426521,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778422568,
+          "hour": 22,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778420856,
+          "hour": 21,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778411723,
+          "hour": 19,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778407947,
+          "hour": 18,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778407793,
+          "hour": 18,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778407700,
+          "hour": 18,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778407336,
+          "hour": 18,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778405407,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778402412,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778399607,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778388999,
+          "hour": 12,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1778388690,
+          "hour": 12,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778381014,
+          "hour": 10,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778380553,
+          "hour": 10,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778317647,
+          "hour": 17,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778291258,
+          "hour": 9,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778289571,
+          "hour": 9,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778254892,
+          "hour": 23,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778225222,
+          "hour": 15,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778222184,
+          "hour": 14,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778213660,
+          "hour": 12,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1778211524,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778209410,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778209399,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778209269,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "refactor"
+        },
+        {
+          "ts": 1778208525,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1778208164,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778207981,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778205992,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778205774,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778169978,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778169691,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778080556,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778053138,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778036107,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777992689,
+          "hour": 22,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777987365,
+          "hour": 21,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777979951,
+          "hour": 19,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777979673,
+          "hour": 19,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777979435,
+          "hour": 19,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777978769,
+          "hour": 18,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777978673,
+          "hour": 18,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777978039,
+          "hour": 18,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777956586,
+          "hour": 12,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777955020,
+          "hour": 12,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777954173,
+          "hour": 12,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777953707,
+          "hour": 12,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777946984,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777908245,
+          "hour": 23,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777892713,
+          "hour": 19,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777881031,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777870939,
+          "hour": 13,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777870352,
+          "hour": 12,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777819531,
+          "hour": 22,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777808690,
+          "hour": 19,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777780437,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777761245,
+          "hour": 6,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777738375,
+          "hour": 0,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777732165,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777681860,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777680221,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777654475,
+          "hour": 0,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777654324,
+          "hour": 0,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "test"
+        },
+        {
+          "ts": 1777645952,
+          "hour": 22,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777626138,
+          "hour": 17,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777625463,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777624732,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777564768,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777346693,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777169439,
+          "hour": 10,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777110820,
+          "hour": 17,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777110582,
+          "hour": 17,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777076472,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776959885,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776953921,
+          "hour": 22,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776910195,
+          "hour": 10,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776879403,
+          "hour": 1,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776878738,
+          "hour": 1,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776870117,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776867393,
+          "hour": 22,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776844619,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776831383,
+          "hour": 12,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776826725,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776738208,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776700980,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776694254,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776665838,
+          "hour": 14,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776655255,
+          "hour": 11,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776617343,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776610512,
+          "hour": 22,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776594132,
+          "hour": 18,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776583185,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776581617,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776573866,
+          "hour": 12,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776537362,
+          "hour": 2,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "CTP_LIVE",
@@ -226,7 +1166,709 @@
         "2026-04": 34,
         "2026-03": 58,
         "2026-02": 7
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777732137,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1776700948,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776242098,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776240846,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776239328,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776225079,
+          "hour": 11,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776222473,
+          "hour": 11,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776175534,
+          "hour": 22,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776155415,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776145928,
+          "hour": 13,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776145745,
+          "hour": 13,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776145227,
+          "hour": 13,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776136643,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776136572,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776136112,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776135921,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776135557,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776101182,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776100922,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776100833,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776100383,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776089859,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776088333,
+          "hour": 21,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776088156,
+          "hour": 21,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776086058,
+          "hour": 21,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776006124,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776003979,
+          "hour": 22,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1775874039,
+          "hour": 10,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1775749923,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775749735,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775749315,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775663368,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1775661572,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1775529306,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "chore"
+        },
+        {
+          "ts": 1775124024,
+          "hour": 18,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1774888326,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774888184,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774880044,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1774879897,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1774854794,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774839779,
+          "hour": 11,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1774839474,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1774835782,
+          "hour": 9,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1774597773,
+          "hour": 15,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1774597621,
+          "hour": 15,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1774320872,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774320913,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1774320872,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774320646,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774320646,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774165294,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1774008818,
+          "hour": 20,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774008717,
+          "hour": 20,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773973624,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773938453,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773935990,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1773931714,
+          "hour": 22,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773928465,
+          "hour": 21,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773924838,
+          "hour": 20,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773851939,
+          "hour": 0,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1773848954,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1773799404,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773799398,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773757985,
+          "hour": 22,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1773757898,
+          "hour": 22,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1773680768,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1773680631,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1773592725,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1773592599,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773557292,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1773370815,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773280773,
+          "hour": 9,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1773252018,
+          "hour": 2,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1773246957,
+          "hour": 0,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773234707,
+          "hour": 21,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773212661,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773198424,
+          "hour": 11,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773120487,
+          "hour": 13,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773109809,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773067911,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1772988974,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1772941848,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1772881607,
+          "hour": 19,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1772876758,
+          "hour": 17,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1772778878,
+          "hour": 14,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1772698343,
+          "hour": 16,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1772697425,
+          "hour": 15,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1772592106,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1772553007,
+          "hour": 23,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1772514737,
+          "hour": 13,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1772374853,
+          "hour": 22,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1772373497,
+          "hour": 21,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1772356108,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1772293408,
+          "hour": 23,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "fix"
+        },
+        {
+          "ts": 1772290428,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1772288167,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1772283696,
+          "hour": 21,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1772282818,
+          "hour": 20,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1772256481,
+          "hour": 13,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771149048,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-02",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "Momentum",
@@ -264,7 +1906,541 @@
       "monthly": {
         "2026-05": 19,
         "2026-04": 57
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1778035448,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778035019,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777994703,
+          "hour": 23,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777992103,
+          "hour": 22,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777971019,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777968953,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777968409,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777967004,
+          "hour": 15,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777947538,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777945982,
+          "hour": 9,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777883846,
+          "hour": 16,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777777235,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777761217,
+          "hour": 6,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777741589,
+          "hour": 1,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777738375,
+          "hour": 0,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777680034,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777648741,
+          "hour": 23,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777626473,
+          "hour": 17,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777625261,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777553692,
+          "hour": 20,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777545680,
+          "hour": 18,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777522326,
+          "hour": 12,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777519363,
+          "hour": 11,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777515063,
+          "hour": 10,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777474629,
+          "hour": 22,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777345444,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1777304648,
+          "hour": 23,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777299573,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777275597,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777275437,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777275265,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777275045,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777272129,
+          "hour": 14,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777271333,
+          "hour": 14,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777270486,
+          "hour": 14,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777270453,
+          "hour": 14,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777260389,
+          "hour": 11,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777257628,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777217307,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777217108,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777216914,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777209417,
+          "hour": 21,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777204545,
+          "hour": 19,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777196227,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777194593,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777190361,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777184395,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777183993,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777179238,
+          "hour": 12,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777174572,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777174386,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777168711,
+          "hour": 9,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777098036,
+          "hour": 14,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777093006,
+          "hour": 12,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777076557,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777052570,
+          "hour": 1,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1777043780,
+          "hour": 23,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777035136,
+          "hour": 20,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776963835,
+          "hour": 1,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776948042,
+          "hour": 20,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776842458,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776836246,
+          "hour": 13,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1776785031,
+          "hour": 23,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776784186,
+          "hour": 23,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776782671,
+          "hour": 22,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776739085,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776738208,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776701164,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776700977,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776700968,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776697830,
+          "hour": 23,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776650816,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776443111,
+          "hour": 0,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776443030,
+          "hour": 0,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776437943,
+          "hour": 22,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776437730,
+          "hour": 22,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "CTP",
@@ -304,7 +2480,499 @@
         "2026-04": 13,
         "2026-03": 25,
         "2026-02": 31
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777732669,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1776700928,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776156714,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776155414,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775703200,
+          "hour": 10,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1775660728,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775653338,
+          "hour": 21,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775632789,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775619239,
+          "hour": 11,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775578229,
+          "hour": 0,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775542157,
+          "hour": 14,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775492442,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1775466016,
+          "hour": 17,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775466016,
+          "hour": 17,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1774839778,
+          "hour": 11,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1774839473,
+          "hour": 10,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "chore"
+        },
+        {
+          "ts": 1774707131,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "refactor"
+        },
+        {
+          "ts": 1774703546,
+          "hour": 21,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774703159,
+          "hour": 21,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774662490,
+          "hour": 9,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774529452,
+          "hour": 20,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774529452,
+          "hour": 20,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774331908,
+          "hour": 13,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1774235443,
+          "hour": 11,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774195280,
+          "hour": 0,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "refactor"
+        },
+        {
+          "ts": 1774193794,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1774193118,
+          "hour": 23,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "refactor"
+        },
+        {
+          "ts": 1774184742,
+          "hour": 21,
+          "weekday": 6,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774089979,
+          "hour": 18,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774089577,
+          "hour": 18,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774088772,
+          "hour": 18,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774080884,
+          "hour": 16,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774079387,
+          "hour": 15,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1774078493,
+          "hour": 15,
+          "weekday": 5,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1773935973,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1773848940,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1773848923,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1773680557,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "docs"
+        },
+        {
+          "ts": 1773676346,
+          "hour": 23,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "test"
+        },
+        {
+          "ts": 1772184565,
+          "hour": 17,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1772182194,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1772174142,
+          "hour": 14,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1772163176,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1772161586,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1772161494,
+          "hour": 11,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1772158189,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "chore"
+        },
+        {
+          "ts": 1772158114,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "chore"
+        },
+        {
+          "ts": 1772157961,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "chore"
+        },
+        {
+          "ts": 1772097770,
+          "hour": 17,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "fix"
+        },
+        {
+          "ts": 1772008578,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771731567,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771731207,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771730764,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771729876,
+          "hour": 11,
+          "weekday": 6,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771247769,
+          "hour": 21,
+          "weekday": 0,
+          "month": "2026-02",
+          "type": "docs"
+        },
+        {
+          "ts": 1771246173,
+          "hour": 20,
+          "weekday": 0,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771128597,
+          "hour": 12,
+          "weekday": 6,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771079336,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771079297,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771078664,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771078623,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771078590,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770910538,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1770361407,
+          "hour": 15,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770192777,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770186749,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770134337,
+          "hour": 23,
+          "weekday": 1,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770089433,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770016551,
+          "hour": 15,
+          "weekday": 0,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770906112,
+          "hour": 22,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "LIQ",
@@ -344,7 +3012,359 @@
         "2026-04": 2,
         "2026-03": 12,
         "2026-02": 35
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777732169,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1776700956,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776155415,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1774872932,
+          "hour": 20,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774598011,
+          "hour": 15,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774591829,
+          "hour": 14,
+          "weekday": 4,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1774455050,
+          "hour": 0,
+          "weekday": 3,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1774319275,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774278989,
+          "hour": 23,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1774277559,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774276729,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774276357,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774274569,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774274097,
+          "hour": 21,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1773237698,
+          "hour": 22,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1772117556,
+          "hour": 22,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1772096076,
+          "hour": 16,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1772090292,
+          "hour": 15,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "fix"
+        },
+        {
+          "ts": 1772084384,
+          "hour": 13,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1772073243,
+          "hour": 10,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "fix"
+        },
+        {
+          "ts": 1772037514,
+          "hour": 0,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "docs"
+        },
+        {
+          "ts": 1772010125,
+          "hour": 17,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1772009870,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "chore"
+        },
+        {
+          "ts": 1772005447,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "fix"
+        },
+        {
+          "ts": 1772003724,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771986529,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "refactor"
+        },
+        {
+          "ts": 1771986283,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "docs"
+        },
+        {
+          "ts": 1771958037,
+          "hour": 2,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "fix"
+        },
+        {
+          "ts": 1771957877,
+          "hour": 2,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771950345,
+          "hour": 0,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771910069,
+          "hour": 13,
+          "weekday": 1,
+          "month": "2026-02",
+          "type": "fix"
+        },
+        {
+          "ts": 1771898465,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771578443,
+          "hour": 17,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771578220,
+          "hour": 17,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771577698,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771577454,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771509148,
+          "hour": 21,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771480399,
+          "hour": 13,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771472508,
+          "hour": 11,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771471997,
+          "hour": 11,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1771471617,
+          "hour": 11,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "docs"
+        },
+        {
+          "ts": 1771471255,
+          "hour": 11,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771432781,
+          "hour": 0,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771430378,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771428482,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-02",
+          "type": "feat"
+        },
+        {
+          "ts": 1771317452,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770950163,
+          "hour": 10,
+          "weekday": 4,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770896876,
+          "hour": 19,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770878293,
+          "hour": 14,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        },
+        {
+          "ts": 1770878113,
+          "hour": 14,
+          "weekday": 3,
+          "month": "2026-02",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "Extract_data",
@@ -383,7 +3403,310 @@
         "2026-05": 6,
         "2026-04": 33,
         "2026-03": 4
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1778661396,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778228447,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778228039,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778226853,
+          "hour": 15,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778149023,
+          "hour": 18,
+          "weekday": 3,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777738375,
+          "hour": 0,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777523644,
+          "hour": 12,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777452187,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777444409,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777367310,
+          "hour": 17,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777367092,
+          "hour": 17,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1777366428,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777297365,
+          "hour": 21,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777280531,
+          "hour": 17,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777280225,
+          "hour": 16,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1777279941,
+          "hour": 16,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1777019660,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776934497,
+          "hour": 16,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776932493,
+          "hour": 16,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776856497,
+          "hour": 19,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776847920,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776764741,
+          "hour": 17,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776764527,
+          "hour": 17,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776763181,
+          "hour": 17,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776700953,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776415765,
+          "hour": 16,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776342789,
+          "hour": 20,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776155415,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775803115,
+          "hour": 14,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775659931,
+          "hour": 22,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775659292,
+          "hour": 22,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775578616,
+          "hour": 0,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775235303,
+          "hour": 0,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775232837,
+          "hour": 0,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775213994,
+          "hour": 18,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1775131161,
+          "hour": 19,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "refactor"
+        },
+        {
+          "ts": 1775124186,
+          "hour": 18,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775057662,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1775056553,
+          "hour": 23,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1774849022,
+          "hour": 13,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "fix"
+        },
+        {
+          "ts": 1774848468,
+          "hour": 13,
+          "weekday": 0,
+          "month": "2026-03",
+          "type": "feat"
+        },
+        {
+          "ts": 1774446748,
+          "hour": 21,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "other"
+        },
+        {
+          "ts": 1774423907,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-03",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "TongHuaShun",
@@ -421,7 +3744,254 @@
       "monthly": {
         "2026-05": 21,
         "2026-04": 14
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777741549,
+          "hour": 1,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777738375,
+          "hour": 0,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777734431,
+          "hour": 23,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777732736,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777732678,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "chore"
+        },
+        {
+          "ts": 1777731116,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777702024,
+          "hour": 14,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777701864,
+          "hour": 14,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777699312,
+          "hour": 13,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777697004,
+          "hour": 12,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777694049,
+          "hour": 11,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777693559,
+          "hour": 11,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777690691,
+          "hour": 10,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777689783,
+          "hour": 10,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777688200,
+          "hour": 10,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "refactor"
+        },
+        {
+          "ts": 1777681876,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777681657,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "chore"
+        },
+        {
+          "ts": 1777680048,
+          "hour": 8,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "refactor"
+        },
+        {
+          "ts": 1777679878,
+          "hour": 7,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "refactor"
+        },
+        {
+          "ts": 1777678772,
+          "hour": 7,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777646967,
+          "hour": 22,
+          "weekday": 4,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1776700983,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776155415,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775986758,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "fix"
+        },
+        {
+          "ts": 1775985412,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1775976669,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775982627,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775982495,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775976669,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775976669,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775927032,
+          "hour": 1,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "refactor"
+        },
+        {
+          "ts": 1775904644,
+          "hour": 18,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775899233,
+          "hour": 17,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775893760,
+          "hour": 15,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775881127,
+          "hour": 12,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "statistical-edge-analysis-app",
@@ -459,7 +4029,170 @@
       "monthly": {
         "2026-05": 1,
         "2026-04": 22
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777732594,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1776700988,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776155415,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775833478,
+          "hour": 23,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775749127,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775745446,
+          "hour": 22,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "refactor"
+        },
+        {
+          "ts": 1775495848,
+          "hour": 1,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "chore"
+        },
+        {
+          "ts": 1775451298,
+          "hour": 12,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775436844,
+          "hour": 8,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775436844,
+          "hour": 8,
+          "weekday": 0,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775399946,
+          "hour": 22,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775376246,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "chore"
+        },
+        {
+          "ts": 1775370780,
+          "hour": 14,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775363989,
+          "hour": 12,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775309106,
+          "hour": 21,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775309106,
+          "hour": 21,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775308281,
+          "hour": 21,
+          "weekday": 5,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775148878,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775147776,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775145715,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775144521,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775142673,
+          "hour": 23,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1775136890,
+          "hour": 21,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "deribit_trading",
@@ -499,7 +4232,156 @@
         "2026-04": 2,
         "2025-11": 3,
         "2025-10": 15
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777733031,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1776700986,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776155459,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1762051440,
+          "hour": 10,
+          "weekday": 6,
+          "month": "2025-11",
+          "type": "fix"
+        },
+        {
+          "ts": 1762049046,
+          "hour": 10,
+          "weekday": 6,
+          "month": "2025-11",
+          "type": "other"
+        },
+        {
+          "ts": 1761966124,
+          "hour": 11,
+          "weekday": 5,
+          "month": "2025-11",
+          "type": "other"
+        },
+        {
+          "ts": 1761888290,
+          "hour": 13,
+          "weekday": 4,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761792854,
+          "hour": 10,
+          "weekday": 3,
+          "month": "2025-10",
+          "type": "feat"
+        },
+        {
+          "ts": 1761780853,
+          "hour": 7,
+          "weekday": 3,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761749842,
+          "hour": 22,
+          "weekday": 2,
+          "month": "2025-10",
+          "type": "feat"
+        },
+        {
+          "ts": 1761712634,
+          "hour": 12,
+          "weekday": 2,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761706524,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761695814,
+          "hour": 7,
+          "weekday": 2,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761623782,
+          "hour": 11,
+          "weekday": 1,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761436422,
+          "hour": 7,
+          "weekday": 6,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761226546,
+          "hour": 21,
+          "weekday": 3,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761191196,
+          "hour": 11,
+          "weekday": 3,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761150940,
+          "hour": 0,
+          "weekday": 3,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761107833,
+          "hour": 12,
+          "weekday": 2,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1761011197,
+          "hour": 9,
+          "weekday": 1,
+          "month": "2025-10",
+          "type": "other"
+        },
+        {
+          "ts": 1760883143,
+          "hour": 22,
+          "weekday": 6,
+          "month": "2025-10",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "mimo-auth",
@@ -536,11 +4418,132 @@
       ],
       "monthly": {
         "2026-05": 17
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777905564,
+          "hour": 22,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "refactor"
+        },
+        {
+          "ts": 1777799526,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1777799002,
+          "hour": 17,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777798455,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777798119,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777797388,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777796747,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777796623,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777796495,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777796415,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777795994,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777795924,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777793884,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777793733,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777793563,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1777793254,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1777793174,
+          "hour": 15,
+          "weekday": 6,
+          "month": "2026-05",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "git-analytics",
-      "commits": 10,
+      "commits": 11,
       "language": "Python",
       "active_days": 1,
       "first_commit": "2026-05-13",
@@ -562,7 +4565,7 @@
         0,
         5,
         1,
-        0,
+        1,
         0,
         0,
         0,
@@ -572,8 +4575,87 @@
         0
       ],
       "monthly": {
-        "2026-05": 10
-      }
+        "2026-05": 11
+      },
+      "raw_commits": [
+        {
+          "ts": 1778661428,
+          "hour": 16,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778656680,
+          "hour": 15,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778655531,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778655096,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778654832,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778654052,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "refactor"
+        },
+        {
+          "ts": 1778653157,
+          "hour": 14,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778642561,
+          "hour": 11,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778641610,
+          "hour": 11,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778640993,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778640479,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-05",
+          "type": "feat"
+        }
+      ]
     },
     {
       "name": "StorageRunbook",
@@ -611,7 +4693,51 @@
       "monthly": {
         "2026-05": 2,
         "2026-04": 4
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777733448,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1777733101,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1776963680,
+          "hour": 1,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1776963139,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "docs"
+        },
+        {
+          "ts": 1776962966,
+          "hour": 0,
+          "weekday": 4,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776928673,
+          "hour": 15,
+          "weekday": 3,
+          "month": "2026-04",
+          "type": "feat"
+        }
+      ]
     },
     {
       "name": "trading-instruction-generator",
@@ -648,7 +4774,44 @@
       ],
       "monthly": {
         "2026-05": 5
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1778552376,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778552253,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "fix"
+        },
+        {
+          "ts": 1778552122,
+          "hour": 10,
+          "weekday": 1,
+          "month": "2026-05",
+          "type": "feat"
+        },
+        {
+          "ts": 1778488928,
+          "hour": 16,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        },
+        {
+          "ts": 1778488882,
+          "hour": 16,
+          "weekday": 0,
+          "month": "2026-05",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "polymarket_bit",
@@ -686,7 +4849,37 @@
       "monthly": {
         "2026-05": 1,
         "2026-04": 3
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777732121,
+          "hour": 22,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "docs"
+        },
+        {
+          "ts": 1776700986,
+          "hour": 0,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "other"
+        },
+        {
+          "ts": 1776155415,
+          "hour": 16,
+          "weekday": 1,
+          "month": "2026-04",
+          "type": "feat"
+        },
+        {
+          "ts": 1775010235,
+          "hour": 10,
+          "weekday": 2,
+          "month": "2026-04",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "Polymarket",
@@ -723,7 +4916,16 @@
       ],
       "monthly": {
         "2026-05": 1
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1777735107,
+          "hour": 23,
+          "weekday": 5,
+          "month": "2026-05",
+          "type": "other"
+        }
+      ]
     },
     {
       "name": "macos-automator-mcp",
@@ -760,7 +4962,16 @@
       ],
       "monthly": {
         "2025-12": 1
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1766886590,
+          "hour": 9,
+          "weekday": 6,
+          "month": "2025-12",
+          "type": "chore"
+        }
+      ]
     },
     {
       "name": "jupyter-mcp-server",
@@ -797,7 +5008,16 @@
       ],
       "monthly": {
         "2026-04": 1
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1775378566,
+          "hour": 16,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "docs"
+        }
+      ]
     },
     {
       "name": "mcp-server-duckdb",
@@ -834,7 +5054,16 @@
       ],
       "monthly": {
         "2025-05": 1
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1746442484,
+          "hour": 18,
+          "weekday": 0,
+          "month": "2025-05",
+          "type": "chore"
+        }
+      ]
     },
     {
       "name": "mcp-ssh",
@@ -871,7 +5100,16 @@
       ],
       "monthly": {
         "2026-04": 1
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1775924839,
+          "hour": 0,
+          "weekday": 6,
+          "month": "2026-04",
+          "type": "chore"
+        }
+      ]
     },
     {
       "name": "ssh-mcp-server",
@@ -908,7 +5146,16 @@
       ],
       "monthly": {
         "2025-06": 1
-      }
+      },
+      "raw_commits": [
+        {
+          "ts": 1749672327,
+          "hour": 4,
+          "weekday": 3,
+          "month": "2025-06",
+          "type": "other"
+        }
+      ]
     }
   ],
   "commit_types": {
@@ -917,17 +5164,17 @@
     "chore": 22,
     "fix": 56,
     "refactor": 13,
-    "feat": 144,
+    "feat": 145,
     "test": 2
   },
   "engineering_health": {
     "test_ratio": 25.6,
     "doc_ratio": 26.9,
-    "feat_ratio": 24.0,
+    "feat_ratio": 24.1,
     "fix_ratio": 9.3,
     "refactor_ratio": 2.2,
-    "night_ratio": 31.0,
-    "weekend_ratio": 30.2,
+    "night_ratio": 30.9,
+    "weekend_ratio": 30.1,
     "low_info_ratio": 0.8
   },
   "ai_signals": {
@@ -941,8 +5188,4818 @@
       "AI file: CLAUDE.md"
     ]
   },
-  "focus_index": 51.7,
-  "night_owl_index": 31.0,
+  "focus_index": 51.6,
+  "night_owl_index": 30.9,
+  "all_commits": [
+    {
+      "ts": 1778656650,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778655768,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778655343,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778654224,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778654043,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778651833,
+      "hour": 13,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778635650,
+      "hour": 9,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778606943,
+      "hour": 1,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778605633,
+      "hour": 1,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778604523,
+      "hour": 0,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778603021,
+      "hour": 0,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778567449,
+      "hour": 14,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778559875,
+      "hour": 12,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778514241,
+      "hour": 23,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778489537,
+      "hour": 16,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1778484627,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778484402,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778484020,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778483986,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1778481545,
+      "hour": 14,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778480479,
+      "hour": 14,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778477292,
+      "hour": 13,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778477078,
+      "hour": 13,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778466510,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778465773,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778465232,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778465193,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778465154,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1778464877,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778464066,
+      "hour": 9,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1778462723,
+      "hour": 9,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778458282,
+      "hour": 8,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1778431309,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778431051,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778430514,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778430092,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1778427868,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778427448,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778426521,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778422568,
+      "hour": 22,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778420856,
+      "hour": 21,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778411723,
+      "hour": 19,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778407947,
+      "hour": 18,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778407793,
+      "hour": 18,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778407700,
+      "hour": 18,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778407336,
+      "hour": 18,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778405407,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778402412,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778399607,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778388999,
+      "hour": 12,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1778388690,
+      "hour": 12,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778381014,
+      "hour": 10,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778380553,
+      "hour": 10,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778317647,
+      "hour": 17,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778291258,
+      "hour": 9,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778289571,
+      "hour": 9,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778254892,
+      "hour": 23,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778225222,
+      "hour": 15,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778222184,
+      "hour": 14,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778213660,
+      "hour": 12,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1778211524,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778209410,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778209399,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778209269,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "refactor",
+      "project": "Option"
+    },
+    {
+      "ts": 1778208525,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1778208164,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778207981,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778205992,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778205774,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778169978,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778169691,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778080556,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1778053138,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1778036107,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777992689,
+      "hour": 22,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777987365,
+      "hour": 21,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777979951,
+      "hour": 19,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777979673,
+      "hour": 19,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777979435,
+      "hour": 19,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777978769,
+      "hour": 18,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777978673,
+      "hour": 18,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777978039,
+      "hour": 18,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777956586,
+      "hour": 12,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777955020,
+      "hour": 12,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777954173,
+      "hour": 12,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777953707,
+      "hour": 12,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777946984,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777908245,
+      "hour": 23,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777892713,
+      "hour": 19,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777881031,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777870939,
+      "hour": 13,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777870352,
+      "hour": 12,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777819531,
+      "hour": 22,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777808690,
+      "hour": 19,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777780437,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777761245,
+      "hour": 6,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777738375,
+      "hour": 0,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1777732165,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777681860,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1777680221,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1777654475,
+      "hour": 0,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777654324,
+      "hour": 0,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "test",
+      "project": "Option"
+    },
+    {
+      "ts": 1777645952,
+      "hour": 22,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777626138,
+      "hour": 17,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777625463,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777624732,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1777564768,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777346693,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777169439,
+      "hour": 10,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777110820,
+      "hour": 17,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1777110582,
+      "hour": 17,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1777076472,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776959885,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1776953921,
+      "hour": 22,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776910195,
+      "hour": 10,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776879403,
+      "hour": 1,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776878738,
+      "hour": 1,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776870117,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776867393,
+      "hour": 22,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776844619,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776831383,
+      "hour": 12,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776826725,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776738208,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1776700980,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776694254,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776665838,
+      "hour": 14,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776655255,
+      "hour": 11,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776617343,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1776610512,
+      "hour": 22,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Option"
+    },
+    {
+      "ts": 1776594132,
+      "hour": 18,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Option"
+    },
+    {
+      "ts": 1776583185,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776581617,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1776573866,
+      "hour": 12,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Option"
+    },
+    {
+      "ts": 1776537362,
+      "hour": 2,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Option"
+    },
+    {
+      "ts": 1777732137,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776700948,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776242098,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776240846,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776239328,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776225079,
+      "hour": 11,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776222473,
+      "hour": 11,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776175534,
+      "hour": 22,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776155415,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776145928,
+      "hour": 13,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776145745,
+      "hour": 13,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776145227,
+      "hour": 13,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776136643,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776136572,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776136112,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776135921,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776135557,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776101182,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776100922,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776100833,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776100383,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776089859,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776088333,
+      "hour": 21,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776088156,
+      "hour": 21,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776086058,
+      "hour": 21,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776006124,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1776003979,
+      "hour": 22,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775874039,
+      "hour": 10,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775749923,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775749735,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775749315,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775663368,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775661572,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775529306,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1775124024,
+      "hour": 18,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774888326,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774888184,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774880044,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774879897,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774854794,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774839779,
+      "hour": 11,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774839474,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774835782,
+      "hour": 9,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774597773,
+      "hour": 15,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774597621,
+      "hour": 15,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774320872,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774320913,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774320872,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774320646,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774320646,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774165294,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774008818,
+      "hour": 20,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1774008717,
+      "hour": 20,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773973624,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773938453,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773935990,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773931714,
+      "hour": 22,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773928465,
+      "hour": 21,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773924838,
+      "hour": 20,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773851939,
+      "hour": 0,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773848954,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773799404,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773799398,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773757985,
+      "hour": 22,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773757898,
+      "hour": 22,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773680768,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773680631,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773592725,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773592599,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773557292,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773370815,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773280773,
+      "hour": 9,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773252018,
+      "hour": 2,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773246957,
+      "hour": 0,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773234707,
+      "hour": 21,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773212661,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773198424,
+      "hour": 11,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773120487,
+      "hour": 13,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773109809,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1773067911,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772988974,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772941848,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772881607,
+      "hour": 19,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772876758,
+      "hour": 17,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772778878,
+      "hour": 14,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772698343,
+      "hour": 16,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772697425,
+      "hour": 15,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772592106,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772553007,
+      "hour": 23,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772514737,
+      "hour": 13,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772374853,
+      "hour": 22,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772373497,
+      "hour": 21,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772356108,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772293408,
+      "hour": 23,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "fix",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772290428,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772288167,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772283696,
+      "hour": 21,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772282818,
+      "hour": 20,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1772256481,
+      "hour": 13,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1771149048,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP_LIVE"
+    },
+    {
+      "ts": 1778035448,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1778035019,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777994703,
+      "hour": 23,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777992103,
+      "hour": 22,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777971019,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777968953,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777968409,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777967004,
+      "hour": 15,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777947538,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777945982,
+      "hour": 9,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777883846,
+      "hour": 16,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777777235,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777761217,
+      "hour": 6,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777741589,
+      "hour": 1,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777738375,
+      "hour": 0,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777680034,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777648741,
+      "hour": 23,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777626473,
+      "hour": 17,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777625261,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777553692,
+      "hour": 20,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777545680,
+      "hour": 18,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777522326,
+      "hour": 12,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777519363,
+      "hour": 11,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777515063,
+      "hour": 10,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777474629,
+      "hour": 22,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777345444,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777304648,
+      "hour": 23,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777299573,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777275597,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777275437,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777275265,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777275045,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777272129,
+      "hour": 14,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777271333,
+      "hour": 14,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777270486,
+      "hour": 14,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777270453,
+      "hour": 14,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777260389,
+      "hour": 11,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777257628,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777217307,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777217108,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777216914,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777209417,
+      "hour": 21,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777204545,
+      "hour": 19,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777196227,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777194593,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777190361,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777184395,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777183993,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777179238,
+      "hour": 12,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777174572,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777174386,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777168711,
+      "hour": 9,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777098036,
+      "hour": 14,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777093006,
+      "hour": 12,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777076557,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777052570,
+      "hour": 1,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777043780,
+      "hour": 23,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777035136,
+      "hour": 20,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776963835,
+      "hour": 1,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776948042,
+      "hour": 20,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776842458,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776836246,
+      "hour": 13,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776785031,
+      "hour": 23,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776784186,
+      "hour": 23,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776782671,
+      "hour": 22,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776739085,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776738208,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776701164,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776700977,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776700968,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776697830,
+      "hour": 23,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776650816,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776443111,
+      "hour": 0,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776443030,
+      "hour": 0,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776437943,
+      "hour": 22,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1776437730,
+      "hour": 22,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Momentum"
+    },
+    {
+      "ts": 1777732669,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1776700928,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1776156714,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1776155414,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775703200,
+      "hour": 10,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775660728,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775653338,
+      "hour": 21,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775632789,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775619239,
+      "hour": 11,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775578229,
+      "hour": 0,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775542157,
+      "hour": 14,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775492442,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775466016,
+      "hour": 17,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1775466016,
+      "hour": 17,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774839778,
+      "hour": 11,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774839473,
+      "hour": 10,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "chore",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774707131,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "refactor",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774703546,
+      "hour": 21,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774703159,
+      "hour": 21,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774662490,
+      "hour": 9,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774529452,
+      "hour": 20,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774529452,
+      "hour": 20,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774331908,
+      "hour": 13,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774235443,
+      "hour": 11,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774195280,
+      "hour": 0,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "refactor",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774193794,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774193118,
+      "hour": 23,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "refactor",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774184742,
+      "hour": 21,
+      "weekday": 6,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774089979,
+      "hour": 18,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774089577,
+      "hour": 18,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774088772,
+      "hour": 18,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774080884,
+      "hour": 16,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774079387,
+      "hour": 15,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1774078493,
+      "hour": 15,
+      "weekday": 5,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1773935973,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1773848940,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1773848923,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1773680557,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1773676346,
+      "hour": 23,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "test",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772184565,
+      "hour": 17,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772182194,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772174142,
+      "hour": 14,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772163176,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772161586,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772161494,
+      "hour": 11,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772158189,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "chore",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772158114,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "chore",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772157961,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "chore",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772097770,
+      "hour": 17,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "fix",
+      "project": "CTP"
+    },
+    {
+      "ts": 1772008578,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771731567,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771731207,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771730764,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771729876,
+      "hour": 11,
+      "weekday": 6,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771247769,
+      "hour": 21,
+      "weekday": 0,
+      "month": "2026-02",
+      "type": "docs",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771246173,
+      "hour": 20,
+      "weekday": 0,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771128597,
+      "hour": 12,
+      "weekday": 6,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771079336,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771079297,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771078664,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771078623,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1771078590,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770910538,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770361407,
+      "hour": 15,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770192777,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770186749,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770134337,
+      "hour": 23,
+      "weekday": 1,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770089433,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770016551,
+      "hour": 15,
+      "weekday": 0,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1770906112,
+      "hour": 22,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "CTP"
+    },
+    {
+      "ts": 1777732169,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1776700956,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1776155415,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774872932,
+      "hour": 20,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774598011,
+      "hour": 15,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774591829,
+      "hour": 14,
+      "weekday": 4,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774455050,
+      "hour": 0,
+      "weekday": 3,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774319275,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774278989,
+      "hour": 23,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774277559,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774276729,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774276357,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774274569,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1774274097,
+      "hour": 21,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1773237698,
+      "hour": 22,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772117556,
+      "hour": 22,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772096076,
+      "hour": 16,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772090292,
+      "hour": 15,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "fix",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772084384,
+      "hour": 13,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772073243,
+      "hour": 10,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "fix",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772037514,
+      "hour": 0,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "docs",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772010125,
+      "hour": 17,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772009870,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "chore",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772005447,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "fix",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1772003724,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771986529,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "refactor",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771986283,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "docs",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771958037,
+      "hour": 2,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "fix",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771957877,
+      "hour": 2,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771950345,
+      "hour": 0,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771910069,
+      "hour": 13,
+      "weekday": 1,
+      "month": "2026-02",
+      "type": "fix",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771898465,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771578443,
+      "hour": 17,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771578220,
+      "hour": 17,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771577698,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771577454,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771509148,
+      "hour": 21,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771480399,
+      "hour": 13,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771472508,
+      "hour": 11,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771471997,
+      "hour": 11,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771471617,
+      "hour": 11,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "docs",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771471255,
+      "hour": 11,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771432781,
+      "hour": 0,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771430378,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771428482,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-02",
+      "type": "feat",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1771317452,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1770950163,
+      "hour": 10,
+      "weekday": 4,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1770896876,
+      "hour": 19,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1770878293,
+      "hour": 14,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1770878113,
+      "hour": 14,
+      "weekday": 3,
+      "month": "2026-02",
+      "type": "other",
+      "project": "LIQ"
+    },
+    {
+      "ts": 1778661396,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1778228447,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1778228039,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1778226853,
+      "hour": 15,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1778149023,
+      "hour": 18,
+      "weekday": 3,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777738375,
+      "hour": 0,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777523644,
+      "hour": 12,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777452187,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777444409,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777367310,
+      "hour": 17,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777367092,
+      "hour": 17,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777366428,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777297365,
+      "hour": 21,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777280531,
+      "hour": 17,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777280225,
+      "hour": 16,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777279941,
+      "hour": 16,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777019660,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776934497,
+      "hour": 16,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776932493,
+      "hour": 16,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776856497,
+      "hour": 19,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776847920,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776764741,
+      "hour": 17,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776764527,
+      "hour": 17,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776763181,
+      "hour": 17,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776700953,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776415765,
+      "hour": 16,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776342789,
+      "hour": 20,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1776155415,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775803115,
+      "hour": 14,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775659931,
+      "hour": 22,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775659292,
+      "hour": 22,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775578616,
+      "hour": 0,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775235303,
+      "hour": 0,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775232837,
+      "hour": 0,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775213994,
+      "hour": 18,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775131161,
+      "hour": 19,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "refactor",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775124186,
+      "hour": 18,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775057662,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1775056553,
+      "hour": 23,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1774849022,
+      "hour": 13,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "fix",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1774848468,
+      "hour": 13,
+      "weekday": 0,
+      "month": "2026-03",
+      "type": "feat",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1774446748,
+      "hour": 21,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1774423907,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-03",
+      "type": "other",
+      "project": "Extract_data"
+    },
+    {
+      "ts": 1777741549,
+      "hour": 1,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777738375,
+      "hour": 0,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777734431,
+      "hour": 23,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777732736,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777732678,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "chore",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777731116,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777702024,
+      "hour": 14,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777701864,
+      "hour": 14,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777699312,
+      "hour": 13,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777697004,
+      "hour": 12,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777694049,
+      "hour": 11,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777693559,
+      "hour": 11,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777690691,
+      "hour": 10,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777689783,
+      "hour": 10,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777688200,
+      "hour": 10,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "refactor",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777681876,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777681657,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "chore",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777680048,
+      "hour": 8,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "refactor",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777679878,
+      "hour": 7,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "refactor",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777678772,
+      "hour": 7,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777646967,
+      "hour": 22,
+      "weekday": 4,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1776700983,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1776155415,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775986758,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "fix",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775985412,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775976669,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775982627,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775982495,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775976669,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775976669,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775927032,
+      "hour": 1,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "refactor",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775904644,
+      "hour": 18,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775899233,
+      "hour": 17,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775893760,
+      "hour": 15,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1775881127,
+      "hour": 12,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "TongHuaShun"
+    },
+    {
+      "ts": 1777732594,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1776700988,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1776155415,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775833478,
+      "hour": 23,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775749127,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775745446,
+      "hour": 22,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "refactor",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775495848,
+      "hour": 1,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "chore",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775451298,
+      "hour": 12,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775436844,
+      "hour": 8,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775436844,
+      "hour": 8,
+      "weekday": 0,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775399946,
+      "hour": 22,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775376246,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "chore",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775370780,
+      "hour": 14,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775363989,
+      "hour": 12,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775309106,
+      "hour": 21,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775309106,
+      "hour": 21,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775308281,
+      "hour": 21,
+      "weekday": 5,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775148878,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775147776,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775145715,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775144521,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775142673,
+      "hour": 23,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1775136890,
+      "hour": 21,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "other",
+      "project": "statistical-edge-analysis-app"
+    },
+    {
+      "ts": 1777733031,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1776700986,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1776155459,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1762051440,
+      "hour": 10,
+      "weekday": 6,
+      "month": "2025-11",
+      "type": "fix",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1762049046,
+      "hour": 10,
+      "weekday": 6,
+      "month": "2025-11",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761966124,
+      "hour": 11,
+      "weekday": 5,
+      "month": "2025-11",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761888290,
+      "hour": 13,
+      "weekday": 4,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761792854,
+      "hour": 10,
+      "weekday": 3,
+      "month": "2025-10",
+      "type": "feat",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761780853,
+      "hour": 7,
+      "weekday": 3,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761749842,
+      "hour": 22,
+      "weekday": 2,
+      "month": "2025-10",
+      "type": "feat",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761712634,
+      "hour": 12,
+      "weekday": 2,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761706524,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761695814,
+      "hour": 7,
+      "weekday": 2,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761623782,
+      "hour": 11,
+      "weekday": 1,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761436422,
+      "hour": 7,
+      "weekday": 6,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761226546,
+      "hour": 21,
+      "weekday": 3,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761191196,
+      "hour": 11,
+      "weekday": 3,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761150940,
+      "hour": 0,
+      "weekday": 3,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761107833,
+      "hour": 12,
+      "weekday": 2,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1761011197,
+      "hour": 9,
+      "weekday": 1,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1760883143,
+      "hour": 22,
+      "weekday": 6,
+      "month": "2025-10",
+      "type": "other",
+      "project": "deribit_trading"
+    },
+    {
+      "ts": 1777905564,
+      "hour": 22,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "refactor",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777799526,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777799002,
+      "hour": 17,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777798455,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777798119,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777797388,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777796747,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777796623,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777796495,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777796415,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777795994,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777795924,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777793884,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777793733,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777793563,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777793254,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1777793174,
+      "hour": 15,
+      "weekday": 6,
+      "month": "2026-05",
+      "type": "other",
+      "project": "mimo-auth"
+    },
+    {
+      "ts": 1778661428,
+      "hour": 16,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778656680,
+      "hour": 15,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778655531,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778655096,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778654832,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778654052,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "refactor",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778653157,
+      "hour": 14,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778642561,
+      "hour": 11,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778641610,
+      "hour": 11,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778640993,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "other",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1778640479,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "git-analytics"
+    },
+    {
+      "ts": 1777733448,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "StorageRunbook"
+    },
+    {
+      "ts": 1777733101,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "StorageRunbook"
+    },
+    {
+      "ts": 1776963680,
+      "hour": 1,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "StorageRunbook"
+    },
+    {
+      "ts": 1776963139,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "StorageRunbook"
+    },
+    {
+      "ts": 1776962966,
+      "hour": 0,
+      "weekday": 4,
+      "month": "2026-04",
+      "type": "other",
+      "project": "StorageRunbook"
+    },
+    {
+      "ts": 1776928673,
+      "hour": 15,
+      "weekday": 3,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "StorageRunbook"
+    },
+    {
+      "ts": 1778552376,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "trading-instruction-generator"
+    },
+    {
+      "ts": 1778552253,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "fix",
+      "project": "trading-instruction-generator"
+    },
+    {
+      "ts": 1778552122,
+      "hour": 10,
+      "weekday": 1,
+      "month": "2026-05",
+      "type": "feat",
+      "project": "trading-instruction-generator"
+    },
+    {
+      "ts": 1778488928,
+      "hour": 16,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "trading-instruction-generator"
+    },
+    {
+      "ts": 1778488882,
+      "hour": 16,
+      "weekday": 0,
+      "month": "2026-05",
+      "type": "other",
+      "project": "trading-instruction-generator"
+    },
+    {
+      "ts": 1777732121,
+      "hour": 22,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "docs",
+      "project": "polymarket_bit"
+    },
+    {
+      "ts": 1776700986,
+      "hour": 0,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "other",
+      "project": "polymarket_bit"
+    },
+    {
+      "ts": 1776155415,
+      "hour": 16,
+      "weekday": 1,
+      "month": "2026-04",
+      "type": "feat",
+      "project": "polymarket_bit"
+    },
+    {
+      "ts": 1775010235,
+      "hour": 10,
+      "weekday": 2,
+      "month": "2026-04",
+      "type": "other",
+      "project": "polymarket_bit"
+    },
+    {
+      "ts": 1777735107,
+      "hour": 23,
+      "weekday": 5,
+      "month": "2026-05",
+      "type": "other",
+      "project": "Polymarket"
+    },
+    {
+      "ts": 1766886590,
+      "hour": 9,
+      "weekday": 6,
+      "month": "2025-12",
+      "type": "chore",
+      "project": "macos-automator-mcp"
+    },
+    {
+      "ts": 1775378566,
+      "hour": 16,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "docs",
+      "project": "jupyter-mcp-server"
+    },
+    {
+      "ts": 1746442484,
+      "hour": 18,
+      "weekday": 0,
+      "month": "2025-05",
+      "type": "chore",
+      "project": "mcp-server-duckdb"
+    },
+    {
+      "ts": 1775924839,
+      "hour": 0,
+      "weekday": 6,
+      "month": "2026-04",
+      "type": "chore",
+      "project": "mcp-ssh"
+    },
+    {
+      "ts": 1749672327,
+      "hour": 4,
+      "weekday": 3,
+      "month": "2025-06",
+      "type": "other",
+      "project": "ssh-mcp-server"
+    }
+  ],
   "filters": {
     "since": null,
     "until": null,

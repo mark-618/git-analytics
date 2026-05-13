@@ -15,7 +15,7 @@
             padding: 40px 20px;
         }
         .container { max-width: 1100px; margin: 0 auto; }
-        .header { text-align: center; margin-bottom: 48px; }
+        .header { text-align: center; margin-bottom: 32px; }
         .header h1 { font-size: 2.4em; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; color: #1f2328; }
         .header p { color: #656d76; font-size: 1.1em; }
         .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
@@ -23,9 +23,7 @@
             background: #fff; border-radius: 6px; padding: 24px; text-align: center;
             border: 1px solid #d0d7de;
         }
-        .stat-number {
-            font-size: 2.4em; font-weight: 700; color: #0969da;
-        }
+        .stat-number { font-size: 2.4em; font-weight: 700; color: #0969da; }
         .stat-label { color: #656d76; font-size: 0.85em; margin-top: 4px; }
         .section { margin-bottom: 40px; }
         .section-title {
@@ -47,10 +45,29 @@
         .insight-card strong { color: #0969da; }
         .footer { text-align: center; margin-top: 48px; padding: 24px; color: #656d76; font-size: 0.8em; border-top: 1px solid #d8dee4; }
         .two-cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .filter-bar {
+            background: #fff; border: 1px solid #d0d7de; border-radius: 6px;
+            padding: 16px 20px; margin-bottom: 32px;
+            display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+        }
+        .filter-bar label { font-size: 0.85em; color: #656d76; font-weight: 600; }
+        .filter-bar select, .filter-bar input {
+            padding: 6px 10px; border: 1px solid #d0d7de; border-radius: 6px;
+            font-size: 0.9em; background: #fff; color: #1f2328;
+        }
+        .filter-bar select:focus, .filter-bar input:focus { outline: none; border-color: #0969da; }
+        .filter-bar button {
+            padding: 6px 16px; background: #0969da; color: #fff; border: none;
+            border-radius: 6px; font-size: 0.9em; cursor: pointer; font-weight: 600;
+        }
+        .filter-bar button:hover { background: #0550ae; }
+        .filter-bar .reset-btn { background: #fff; color: #656d76; border: 1px solid #d0d7de; }
+        .filter-bar .reset-btn:hover { background: #f6f8fa; }
         @media (max-width: 768px) {
             .stats-row { grid-template-columns: repeat(2, 1fr); }
             .two-cols { grid-template-columns: 1fr; }
             .header h1 { font-size: 1.8em; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -58,25 +75,37 @@
     <div class="container">
         <div class="header">
             <h1>代码习惯体检报告</h1>
-            <p>20 个项目 · 600 次提交 · 197 天活跃</p>
+            <p id="headerSubtitle">20 个项目 · 601 次提交 · 197 天活跃</p>
         </div>
-        
+
+        <div class="filter-bar">
+            <label>项目</label>
+            <select id="filterProject">
+                <option value="all">全部项目</option>
+            </select>
+            <label>从</label>
+            <input type="date" id="filterSince">
+            <label>至</label>
+            <input type="date" id="filterUntil">
+            <button onclick="applyFilters()">筛选</button>
+            <button class="reset-btn" onclick="resetFilters()">重置</button>
+        </div>
 
         <div class="stats-row">
             <div class="stat-card">
-                <div class="stat-number">71</div>
+                <div class="stat-number" id="statScore">71</div>
                 <div class="stat-label">习惯健康分</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">20</div>
+                <div class="stat-number" id="statProjects">20</div>
                 <div class="stat-label">项目总数</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">600</div>
+                <div class="stat-number" id="statCommits">601</div>
                 <div class="stat-label">总提交数</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">3.0</div>
+                <div class="stat-number" id="statDaily">3.1</div>
                 <div class="stat-label">日均提交</div>
             </div>
         </div>
@@ -87,14 +116,14 @@
             <div class="card">
                 <h3>你的开发者人格</h3>
                 <div style="display:flex;align-items:center;gap:40px;padding:10px 0;">
-                    <div style="text-align:center;">
+                    <div style="text-align:center;" id="personaCard">
                         <div style="font-size:3em;margin-bottom:8px;">🌅</div>
                         <div style="font-size:1.6em;font-weight:700;color:#1f2328;">晨曦冲刺者</div>
                         <div style="font-size:1.2em;color:#0969da;font-weight:600;margin-top:4px;">DSCPQA</div>
                         <div style="color:#656d76;font-size:0.9em;margin-top:8px;">白天 63%，高频提交 61%，专注核心 52%，推进新功能 61%</div>
                     </div>
                     <div style="flex:1;">
-                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;" id="dimsDetail">
                         
         <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:12px;">
             <div style="font-size:0.8em;color:#656d76;margin-bottom:6px;">时间偏好</div>
@@ -170,11 +199,11 @@
                 <div class="card">
                     <h3>Developer Habit Score</h3>
                     <div style="display:flex;align-items:center;gap:30px;">
-                        <div style="text-align:center;">
-                            <div style="font-size:4em;font-weight:700;color:#bf8700;line-height:1;">71</div>
-                            <div style="color:#656d76;font-size:0.9em;margin-top:4px;">/ 100 · 良好</div>
+                        <div style="text-align:center;" id="scoreCircle">
+                            <div style="font-size:4em;font-weight:700;color:#bf8700;line-height:1;" id="scoreNumber">71</div>
+                            <div style="color:#656d76;font-size:0.9em;margin-top:4px;" id="scoreLabel">/ 100 · 良好</div>
                         </div>
-                        <div style="flex:1;">
+                        <div style="flex:1;" id="scoreDims">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
             <div style="width:70px;font-size:0.85em;color:#656d76;">提交粒度</div>
             <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
@@ -214,7 +243,7 @@
                 </div>
                 <div class="card">
                     <h3>特征标签</h3>
-                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;" id="tagsGrid">
         <div style="background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;padding:14px;text-align:center;">
             <div style="font-size:1.5em;margin-bottom:4px;">📅</div>
             <div style="font-weight:600;font-size:0.85em;margin-bottom:2px;">周末战士</div>
@@ -252,9 +281,9 @@
                 <div class="chart-container">
                     <canvas id="hourChart"></canvas>
                 </div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightHour">
                     <strong>洞察：</strong>最活跃时段 10:00, 22:00, 16:00。
-                    夜间提交占比 31.0%，属于夜间爆发型。
+                    夜间提交占比 30.9%，属于夜间爆发型。
                 </div>
             </div>
             <div class="card">
@@ -262,9 +291,9 @@
                 <div class="chart-container" style="height:260px;">
                     <canvas id="weekChart"></canvas>
                 </div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightWeek">
                     <strong>洞察：</strong>最活跃 周二, 周日, 周一。
-                    周末提交占比 30.2%。
+                    周末提交占比 30.1%。
                 </div>
             </div>
         </div>
@@ -277,7 +306,7 @@
                 <div class="chart-container" style="height:380px;">
                     <canvas id="monthlyChart"></canvas>
                 </div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightMonthly">
                     <strong>洞察：</strong>Top 3 项目占据 52% 的提交。
                     精力较分散。
                 </div>
@@ -290,7 +319,7 @@
             </div>
             <div class="card">
                 <h3>项目排行榜</h3>
-                
+                <div id="projectsRanking">
         <div style="display:flex;align-items:center;gap:14px;padding:12px 0;">
             <div style="width:24px;height:24px;background:#0969da;color:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">1</div>
             <div style="flex:1;">
@@ -378,7 +407,7 @@
                 </div>
             </div>
             <div style="font-size:1em;font-weight:700;color:#0969da;">23</div>
-        </div>
+        </div></div>
             </div>
         </div>
 
@@ -402,9 +431,9 @@
             <div class="card">
                 <h3>提交类型详情</h3>
                 <div id="typeBars"></div>
-                <div class="insight-card">
+                <div class="insight-card" id="insightTypes">
                     <strong>洞察：</strong>
-                    功能开发占比 24.0%，测试 25.6%，文档 26.9%。
+                    功能开发占比 24.1%，测试 25.6%，文档 26.9%。
                     
                     
                 </div>
@@ -415,7 +444,7 @@
         <div class="section">
             <div class="section-title">🏥 工程健康</div>
             <div class="card">
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" id="engHealthGrid">
                     
         <div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
             <div style="font-size:1.8em;font-weight:700;color:#1a7f37;">25.6%</div>
@@ -428,7 +457,7 @@
             <div style="font-size:0.7em;color:#656d76;margin-top:2px;">改代码时有更新文档吗</div>
         </div>
         <div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
-            <div style="font-size:1.8em;font-weight:700;color:#0969da;">24.0%</div>
+            <div style="font-size:1.8em;font-weight:700;color:#0969da;">24.1%</div>
             <div style="font-size:0.82em;font-weight:600;color:#1f2328;margin-top:4px;">功能开发</div>
             <div style="font-size:0.7em;color:#656d76;margin-top:2px;">写新功能的时间占比</div>
         </div>
@@ -443,12 +472,12 @@
             <div style="font-size:0.7em;color:#656d76;margin-top:2px;">优化老代码的时间占比</div>
         </div>
         <div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
-            <div style="font-size:1.8em;font-weight:700;color:#bf8700;">31.0%</div>
+            <div style="font-size:1.8em;font-weight:700;color:#bf8700;">30.9%</div>
             <div style="font-size:0.82em;font-weight:600;color:#1f2328;margin-top:4px;">夜间提交</div>
             <div style="font-size:0.7em;color:#656d76;margin-top:2px;">深夜写的代码占比</div>
         </div>
         <div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
-            <div style="font-size:1.8em;font-weight:700;color:#8250df;">30.2%</div>
+            <div style="font-size:1.8em;font-weight:700;color:#8250df;">30.1%</div>
             <div style="font-size:0.82em;font-weight:600;color:#1f2328;margin-top:4px;">周末提交</div>
             <div style="font-size:0.7em;color:#656d76;margin-top:2px;">周末写的代码占比</div>
         </div>
@@ -459,7 +488,7 @@
         </div>
                 </div>
             </div>
-            <div class="insight-card">
+            <div class="insight-card" id="insightEng">
                 <strong>洞察：</strong>测试习惯不错。 深夜写代码比例较高，注意休息。
             </div>
         </div>
@@ -486,149 +515,349 @@
         </div>
 
         <div class="footer">
-            <p>生成时间: 2026-05-13T16:36:46Z</p>
+            <p>生成时间: 2026-05-13T20:01:35Z</p>
             <p style="margin-top:6px;">Git Analytics - 本地优先的个人代码习惯分析工具</p>
         </div>
     </div>
 
     <script>
+        // 原始数据
+        const allCommits = [{"ts": 1778656650, "hour": 15, "weekday": 2, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778655768, "hour": 15, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778655343, "hour": 14, "weekday": 2, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778654224, "hour": 14, "weekday": 2, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778654043, "hour": 14, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778651833, "hour": 13, "weekday": 2, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778635650, "hour": 9, "weekday": 2, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778606943, "hour": 1, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778605633, "hour": 1, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778604523, "hour": 0, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778603021, "hour": 0, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778567449, "hour": 14, "weekday": 1, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778559875, "hour": 12, "weekday": 1, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778514241, "hour": 23, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778489537, "hour": 16, "weekday": 0, "month": "2026-05", "type": "fix", "project": "Option"}, {"ts": 1778484627, "hour": 15, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778484402, "hour": 15, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778484020, "hour": 15, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778483986, "hour": 15, "weekday": 0, "month": "2026-05", "type": "fix", "project": "Option"}, {"ts": 1778481545, "hour": 14, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778480479, "hour": 14, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778477292, "hour": 13, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778477078, "hour": 13, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778466510, "hour": 10, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778465773, "hour": 10, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778465232, "hour": 10, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778465193, "hour": 10, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778465154, "hour": 10, "weekday": 0, "month": "2026-05", "type": "fix", "project": "Option"}, {"ts": 1778464877, "hour": 10, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778464066, "hour": 9, "weekday": 0, "month": "2026-05", "type": "fix", "project": "Option"}, {"ts": 1778462723, "hour": 9, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778458282, "hour": 8, "weekday": 0, "month": "2026-05", "type": "fix", "project": "Option"}, {"ts": 1778431309, "hour": 0, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778431051, "hour": 0, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778430514, "hour": 0, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778430092, "hour": 0, "weekday": 0, "month": "2026-05", "type": "docs", "project": "Option"}, {"ts": 1778427868, "hour": 23, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778427448, "hour": 23, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778426521, "hour": 23, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778422568, "hour": 22, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778420856, "hour": 21, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778411723, "hour": 19, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778407947, "hour": 18, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778407793, "hour": 18, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778407700, "hour": 18, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778407336, "hour": 18, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778405407, "hour": 17, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778402412, "hour": 16, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778399607, "hour": 15, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778388999, "hour": 12, "weekday": 6, "month": "2026-05", "type": "docs", "project": "Option"}, {"ts": 1778388690, "hour": 12, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778381014, "hour": 10, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778380553, "hour": 10, "weekday": 6, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778317647, "hour": 17, "weekday": 5, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778291258, "hour": 9, "weekday": 5, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778289571, "hour": 9, "weekday": 5, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778254892, "hour": 23, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778225222, "hour": 15, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778222184, "hour": 14, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778213660, "hour": 12, "weekday": 4, "month": "2026-05", "type": "docs", "project": "Option"}, {"ts": 1778211524, "hour": 11, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778209410, "hour": 11, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778209399, "hour": 11, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778209269, "hour": 11, "weekday": 4, "month": "2026-05", "type": "refactor", "project": "Option"}, {"ts": 1778208525, "hour": 10, "weekday": 4, "month": "2026-05", "type": "docs", "project": "Option"}, {"ts": 1778208164, "hour": 10, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778207981, "hour": 10, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778205992, "hour": 10, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778205774, "hour": 10, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778169978, "hour": 0, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778169691, "hour": 0, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778080556, "hour": 23, "weekday": 2, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1778053138, "hour": 15, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1778036107, "hour": 10, "weekday": 2, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777992689, "hour": 22, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777987365, "hour": 21, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777979951, "hour": 19, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777979673, "hour": 19, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777979435, "hour": 19, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777978769, "hour": 18, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777978673, "hour": 18, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777978039, "hour": 18, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777956586, "hour": 12, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777955020, "hour": 12, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777954173, "hour": 12, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777953707, "hour": 12, "weekday": 1, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777946984, "hour": 10, "weekday": 1, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777908245, "hour": 23, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777892713, "hour": 19, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777881031, "hour": 15, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777870939, "hour": 13, "weekday": 0, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777870352, "hour": 12, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777819531, "hour": 22, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777808690, "hour": 19, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777780437, "hour": 11, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777761245, "hour": 6, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777738375, "hour": 0, "weekday": 6, "month": "2026-05", "type": "docs", "project": "Option"}, {"ts": 1777732165, "hour": 22, "weekday": 5, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777681860, "hour": 8, "weekday": 5, "month": "2026-05", "type": "docs", "project": "Option"}, {"ts": 1777680221, "hour": 8, "weekday": 5, "month": "2026-05", "type": "fix", "project": "Option"}, {"ts": 1777654475, "hour": 0, "weekday": 5, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777654324, "hour": 0, "weekday": 5, "month": "2026-05", "type": "test", "project": "Option"}, {"ts": 1777645952, "hour": 22, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777626138, "hour": 17, "weekday": 4, "month": "2026-05", "type": "other", "project": "Option"}, {"ts": 1777625463, "hour": 16, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Option"}, {"ts": 1777624732, "hour": 16, "weekday": 4, "month": "2026-05", "type": "fix", "project": "Option"}, {"ts": 1777564768, "hour": 23, "weekday": 3, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1777346693, "hour": 11, "weekday": 1, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1777169439, "hour": 10, "weekday": 6, "month": "2026-04", "type": "feat", "project": "Option"}, {"ts": 1777110820, "hour": 17, "weekday": 5, "month": "2026-04", "type": "feat", "project": "Option"}, {"ts": 1777110582, "hour": 17, "weekday": 5, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1777076472, "hour": 8, "weekday": 5, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776959885, "hour": 23, "weekday": 3, "month": "2026-04", "type": "feat", "project": "Option"}, {"ts": 1776953921, "hour": 22, "weekday": 3, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776910195, "hour": 10, "weekday": 3, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776879403, "hour": 1, "weekday": 3, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776878738, "hour": 1, "weekday": 3, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776870117, "hour": 23, "weekday": 2, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776867393, "hour": 22, "weekday": 2, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776844619, "hour": 15, "weekday": 2, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776831383, "hour": 12, "weekday": 2, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776826725, "hour": 10, "weekday": 2, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776738208, "hour": 10, "weekday": 1, "month": "2026-04", "type": "feat", "project": "Option"}, {"ts": 1776700980, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776694254, "hour": 22, "weekday": 0, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776665838, "hour": 14, "weekday": 0, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776655255, "hour": 11, "weekday": 0, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776617343, "hour": 0, "weekday": 0, "month": "2026-04", "type": "fix", "project": "Option"}, {"ts": 1776610512, "hour": 22, "weekday": 6, "month": "2026-04", "type": "fix", "project": "Option"}, {"ts": 1776594132, "hour": 18, "weekday": 6, "month": "2026-04", "type": "docs", "project": "Option"}, {"ts": 1776583185, "hour": 15, "weekday": 6, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776581617, "hour": 14, "weekday": 6, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1776573866, "hour": 12, "weekday": 6, "month": "2026-04", "type": "feat", "project": "Option"}, {"ts": 1776537362, "hour": 2, "weekday": 6, "month": "2026-04", "type": "other", "project": "Option"}, {"ts": 1777732137, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1776700948, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776242098, "hour": 16, "weekday": 2, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1776240846, "hour": 16, "weekday": 2, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776239328, "hour": 15, "weekday": 2, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1776225079, "hour": 11, "weekday": 2, "month": "2026-04", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1776222473, "hour": 11, "weekday": 2, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1776175534, "hour": 22, "weekday": 1, "month": "2026-04", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1776155415, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1776145928, "hour": 13, "weekday": 1, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1776145745, "hour": 13, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776145227, "hour": 13, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776136643, "hour": 11, "weekday": 1, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1776136572, "hour": 11, "weekday": 1, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1776136112, "hour": 11, "weekday": 1, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1776135921, "hour": 11, "weekday": 1, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1776135557, "hour": 10, "weekday": 1, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1776101182, "hour": 1, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776100922, "hour": 1, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776100833, "hour": 1, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776100383, "hour": 1, "weekday": 1, "month": "2026-04", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1776089859, "hour": 22, "weekday": 0, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1776088333, "hour": 21, "weekday": 0, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1776088156, "hour": 21, "weekday": 0, "month": "2026-04", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1776086058, "hour": 21, "weekday": 0, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1776006124, "hour": 23, "weekday": 6, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1776003979, "hour": 22, "weekday": 6, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1775874039, "hour": 10, "weekday": 5, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1775749923, "hour": 23, "weekday": 3, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1775749735, "hour": 23, "weekday": 3, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1775749315, "hour": 23, "weekday": 3, "month": "2026-04", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1775663368, "hour": 23, "weekday": 2, "month": "2026-04", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1775661572, "hour": 23, "weekday": 2, "month": "2026-04", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1775529306, "hour": 10, "weekday": 1, "month": "2026-04", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1775124024, "hour": 18, "weekday": 3, "month": "2026-04", "type": "other", "project": "CTP_LIVE"}, {"ts": 1774888326, "hour": 0, "weekday": 1, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1774888184, "hour": 0, "weekday": 1, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1774880044, "hour": 22, "weekday": 0, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1774879897, "hour": 22, "weekday": 0, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1774854794, "hour": 15, "weekday": 0, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1774839779, "hour": 11, "weekday": 0, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1774839474, "hour": 10, "weekday": 0, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1774835782, "hour": 9, "weekday": 0, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1774597773, "hour": 15, "weekday": 4, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1774597621, "hour": 15, "weekday": 4, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1774320872, "hour": 10, "weekday": 1, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1774320913, "hour": 10, "weekday": 1, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1774320872, "hour": 10, "weekday": 1, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1774320646, "hour": 10, "weekday": 1, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1774320646, "hour": 10, "weekday": 1, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1774165294, "hour": 15, "weekday": 6, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1774008818, "hour": 20, "weekday": 4, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1774008717, "hour": 20, "weekday": 4, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773973624, "hour": 10, "weekday": 4, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773938453, "hour": 0, "weekday": 4, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773935990, "hour": 23, "weekday": 3, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1773931714, "hour": 22, "weekday": 3, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773928465, "hour": 21, "weekday": 3, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773924838, "hour": 20, "weekday": 3, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773851939, "hour": 0, "weekday": 3, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1773848954, "hour": 23, "weekday": 2, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1773799404, "hour": 10, "weekday": 2, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773799398, "hour": 10, "weekday": 2, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773757985, "hour": 22, "weekday": 1, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1773757898, "hour": 22, "weekday": 1, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1773680768, "hour": 1, "weekday": 1, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1773680631, "hour": 1, "weekday": 1, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1773592725, "hour": 0, "weekday": 0, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1773592599, "hour": 0, "weekday": 0, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773557292, "hour": 14, "weekday": 6, "month": "2026-03", "type": "chore", "project": "CTP_LIVE"}, {"ts": 1773370815, "hour": 11, "weekday": 4, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773280773, "hour": 9, "weekday": 3, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1773252018, "hour": 2, "weekday": 3, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1773246957, "hour": 0, "weekday": 3, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773234707, "hour": 21, "weekday": 2, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773212661, "hour": 15, "weekday": 2, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773198424, "hour": 11, "weekday": 2, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773120487, "hour": 13, "weekday": 1, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773109809, "hour": 10, "weekday": 1, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1773067911, "hour": 22, "weekday": 0, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1772988974, "hour": 0, "weekday": 0, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1772941848, "hour": 11, "weekday": 6, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1772881607, "hour": 19, "weekday": 5, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772876758, "hour": 17, "weekday": 5, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772778878, "hour": 14, "weekday": 4, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772698343, "hour": 16, "weekday": 3, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1772697425, "hour": 15, "weekday": 3, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1772592106, "hour": 10, "weekday": 2, "month": "2026-03", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1772553007, "hour": 23, "weekday": 1, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772514737, "hour": 13, "weekday": 1, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772374853, "hour": 22, "weekday": 6, "month": "2026-03", "type": "docs", "project": "CTP_LIVE"}, {"ts": 1772373497, "hour": 21, "weekday": 6, "month": "2026-03", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772356108, "hour": 17, "weekday": 6, "month": "2026-03", "type": "other", "project": "CTP_LIVE"}, {"ts": 1772293408, "hour": 23, "weekday": 5, "month": "2026-02", "type": "fix", "project": "CTP_LIVE"}, {"ts": 1772290428, "hour": 22, "weekday": 5, "month": "2026-02", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772288167, "hour": 22, "weekday": 5, "month": "2026-02", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772283696, "hour": 21, "weekday": 5, "month": "2026-02", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772282818, "hour": 20, "weekday": 5, "month": "2026-02", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1772256481, "hour": 13, "weekday": 5, "month": "2026-02", "type": "feat", "project": "CTP_LIVE"}, {"ts": 1771149048, "hour": 17, "weekday": 6, "month": "2026-02", "type": "other", "project": "CTP_LIVE"}, {"ts": 1778035448, "hour": 10, "weekday": 2, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1778035019, "hour": 10, "weekday": 2, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777994703, "hour": 23, "weekday": 1, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777992103, "hour": 22, "weekday": 1, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777971019, "hour": 16, "weekday": 1, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777968953, "hour": 16, "weekday": 1, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777968409, "hour": 16, "weekday": 1, "month": "2026-05", "type": "fix", "project": "Momentum"}, {"ts": 1777967004, "hour": 15, "weekday": 1, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777947538, "hour": 10, "weekday": 1, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777945982, "hour": 9, "weekday": 1, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777883846, "hour": 16, "weekday": 0, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777777235, "hour": 11, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777761217, "hour": 6, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777741589, "hour": 1, "weekday": 6, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777738375, "hour": 0, "weekday": 6, "month": "2026-05", "type": "docs", "project": "Momentum"}, {"ts": 1777680034, "hour": 8, "weekday": 5, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777648741, "hour": 23, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777626473, "hour": 17, "weekday": 4, "month": "2026-05", "type": "other", "project": "Momentum"}, {"ts": 1777625261, "hour": 16, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Momentum"}, {"ts": 1777553692, "hour": 20, "weekday": 3, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777545680, "hour": 18, "weekday": 3, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777522326, "hour": 12, "weekday": 3, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777519363, "hour": 11, "weekday": 3, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777515063, "hour": 10, "weekday": 3, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777474629, "hour": 22, "weekday": 2, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777345444, "hour": 11, "weekday": 1, "month": "2026-04", "type": "fix", "project": "Momentum"}, {"ts": 1777304648, "hour": 23, "weekday": 0, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777299573, "hour": 22, "weekday": 0, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777275597, "hour": 15, "weekday": 0, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777275437, "hour": 15, "weekday": 0, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777275265, "hour": 15, "weekday": 0, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777275045, "hour": 15, "weekday": 0, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777272129, "hour": 14, "weekday": 0, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777271333, "hour": 14, "weekday": 0, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777270486, "hour": 14, "weekday": 0, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777270453, "hour": 14, "weekday": 0, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777260389, "hour": 11, "weekday": 0, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777257628, "hour": 10, "weekday": 0, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777217307, "hour": 23, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777217108, "hour": 23, "weekday": 6, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777216914, "hour": 23, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777209417, "hour": 21, "weekday": 6, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777204545, "hour": 19, "weekday": 6, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1777196227, "hour": 17, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777194593, "hour": 17, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777190361, "hour": 15, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777184395, "hour": 14, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777183993, "hour": 14, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777179238, "hour": 12, "weekday": 6, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777174572, "hour": 11, "weekday": 6, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777174386, "hour": 11, "weekday": 6, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777168711, "hour": 9, "weekday": 6, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777098036, "hour": 14, "weekday": 5, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777093006, "hour": 12, "weekday": 5, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777076557, "hour": 8, "weekday": 5, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777052570, "hour": 1, "weekday": 5, "month": "2026-04", "type": "fix", "project": "Momentum"}, {"ts": 1777043780, "hour": 23, "weekday": 4, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1777035136, "hour": 20, "weekday": 4, "month": "2026-04", "type": "fix", "project": "Momentum"}, {"ts": 1776963835, "hour": 1, "weekday": 4, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1776948042, "hour": 20, "weekday": 3, "month": "2026-04", "type": "fix", "project": "Momentum"}, {"ts": 1776842458, "hour": 15, "weekday": 2, "month": "2026-04", "type": "fix", "project": "Momentum"}, {"ts": 1776836246, "hour": 13, "weekday": 2, "month": "2026-04", "type": "fix", "project": "Momentum"}, {"ts": 1776785031, "hour": 23, "weekday": 1, "month": "2026-04", "type": "docs", "project": "Momentum"}, {"ts": 1776784186, "hour": 23, "weekday": 1, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1776782671, "hour": 22, "weekday": 1, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776739085, "hour": 10, "weekday": 1, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776738208, "hour": 10, "weekday": 1, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1776701164, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776700977, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776700968, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776697830, "hour": 23, "weekday": 0, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776650816, "hour": 10, "weekday": 0, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776443111, "hour": 0, "weekday": 5, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776443030, "hour": 0, "weekday": 5, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1776437943, "hour": 22, "weekday": 4, "month": "2026-04", "type": "feat", "project": "Momentum"}, {"ts": 1776437730, "hour": 22, "weekday": 4, "month": "2026-04", "type": "other", "project": "Momentum"}, {"ts": 1777732669, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "CTP"}, {"ts": 1776700928, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP"}, {"ts": 1776156714, "hour": 16, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP"}, {"ts": 1776155414, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "CTP"}, {"ts": 1775703200, "hour": 10, "weekday": 3, "month": "2026-04", "type": "fix", "project": "CTP"}, {"ts": 1775660728, "hour": 23, "weekday": 2, "month": "2026-04", "type": "feat", "project": "CTP"}, {"ts": 1775653338, "hour": 21, "weekday": 2, "month": "2026-04", "type": "other", "project": "CTP"}, {"ts": 1775632789, "hour": 15, "weekday": 2, "month": "2026-04", "type": "feat", "project": "CTP"}, {"ts": 1775619239, "hour": 11, "weekday": 2, "month": "2026-04", "type": "other", "project": "CTP"}, {"ts": 1775578229, "hour": 0, "weekday": 2, "month": "2026-04", "type": "feat", "project": "CTP"}, {"ts": 1775542157, "hour": 14, "weekday": 1, "month": "2026-04", "type": "other", "project": "CTP"}, {"ts": 1775492442, "hour": 0, "weekday": 1, "month": "2026-04", "type": "docs", "project": "CTP"}, {"ts": 1775466016, "hour": 17, "weekday": 0, "month": "2026-04", "type": "other", "project": "CTP"}, {"ts": 1775466016, "hour": 17, "weekday": 0, "month": "2026-04", "type": "other", "project": "CTP"}, {"ts": 1774839778, "hour": 11, "weekday": 0, "month": "2026-03", "type": "chore", "project": "CTP"}, {"ts": 1774839473, "hour": 10, "weekday": 0, "month": "2026-03", "type": "chore", "project": "CTP"}, {"ts": 1774707131, "hour": 22, "weekday": 5, "month": "2026-03", "type": "refactor", "project": "CTP"}, {"ts": 1774703546, "hour": 21, "weekday": 5, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774703159, "hour": 21, "weekday": 5, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774662490, "hour": 9, "weekday": 5, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774529452, "hour": 20, "weekday": 3, "month": "2026-03", "type": "other", "project": "CTP"}, {"ts": 1774529452, "hour": 20, "weekday": 3, "month": "2026-03", "type": "other", "project": "CTP"}, {"ts": 1774331908, "hour": 13, "weekday": 1, "month": "2026-03", "type": "feat", "project": "CTP"}, {"ts": 1774235443, "hour": 11, "weekday": 0, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774195280, "hour": 0, "weekday": 0, "month": "2026-03", "type": "refactor", "project": "CTP"}, {"ts": 1774193794, "hour": 23, "weekday": 6, "month": "2026-03", "type": "fix", "project": "CTP"}, {"ts": 1774193118, "hour": 23, "weekday": 6, "month": "2026-03", "type": "refactor", "project": "CTP"}, {"ts": 1774184742, "hour": 21, "weekday": 6, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774089979, "hour": 18, "weekday": 5, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774089577, "hour": 18, "weekday": 5, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774088772, "hour": 18, "weekday": 5, "month": "2026-03", "type": "other", "project": "CTP"}, {"ts": 1774080884, "hour": 16, "weekday": 5, "month": "2026-03", "type": "other", "project": "CTP"}, {"ts": 1774079387, "hour": 15, "weekday": 5, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1774078493, "hour": 15, "weekday": 5, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1773935973, "hour": 23, "weekday": 3, "month": "2026-03", "type": "feat", "project": "CTP"}, {"ts": 1773848940, "hour": 23, "weekday": 2, "month": "2026-03", "type": "feat", "project": "CTP"}, {"ts": 1773848923, "hour": 23, "weekday": 2, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1773680557, "hour": 1, "weekday": 1, "month": "2026-03", "type": "docs", "project": "CTP"}, {"ts": 1773676346, "hour": 23, "weekday": 0, "month": "2026-03", "type": "test", "project": "CTP"}, {"ts": 1772184565, "hour": 17, "weekday": 4, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1772182194, "hour": 16, "weekday": 4, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1772174142, "hour": 14, "weekday": 4, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1772163176, "hour": 11, "weekday": 4, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1772161586, "hour": 11, "weekday": 4, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1772161494, "hour": 11, "weekday": 4, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1772158189, "hour": 10, "weekday": 4, "month": "2026-02", "type": "chore", "project": "CTP"}, {"ts": 1772158114, "hour": 10, "weekday": 4, "month": "2026-02", "type": "chore", "project": "CTP"}, {"ts": 1772157961, "hour": 10, "weekday": 4, "month": "2026-02", "type": "chore", "project": "CTP"}, {"ts": 1772097770, "hour": 17, "weekday": 3, "month": "2026-02", "type": "fix", "project": "CTP"}, {"ts": 1772008578, "hour": 16, "weekday": 2, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771731567, "hour": 11, "weekday": 6, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771731207, "hour": 11, "weekday": 6, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771730764, "hour": 11, "weekday": 6, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771729876, "hour": 11, "weekday": 6, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771247769, "hour": 21, "weekday": 0, "month": "2026-02", "type": "docs", "project": "CTP"}, {"ts": 1771246173, "hour": 20, "weekday": 0, "month": "2026-02", "type": "feat", "project": "CTP"}, {"ts": 1771128597, "hour": 12, "weekday": 6, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771079336, "hour": 22, "weekday": 5, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771079297, "hour": 22, "weekday": 5, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771078664, "hour": 22, "weekday": 5, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771078623, "hour": 22, "weekday": 5, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1771078590, "hour": 22, "weekday": 5, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1770910538, "hour": 23, "weekday": 3, "month": "2026-02", "type": "feat", "project": "CTP"}, {"ts": 1770361407, "hour": 15, "weekday": 4, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1770192777, "hour": 16, "weekday": 2, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1770186749, "hour": 14, "weekday": 2, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1770134337, "hour": 23, "weekday": 1, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1770089433, "hour": 11, "weekday": 1, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1770016551, "hour": 15, "weekday": 0, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1770906112, "hour": 22, "weekday": 3, "month": "2026-02", "type": "other", "project": "CTP"}, {"ts": 1777732169, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "LIQ"}, {"ts": 1776700956, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "LIQ"}, {"ts": 1776155415, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "LIQ"}, {"ts": 1774872932, "hour": 20, "weekday": 0, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1774598011, "hour": 15, "weekday": 4, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1774591829, "hour": 14, "weekday": 4, "month": "2026-03", "type": "feat", "project": "LIQ"}, {"ts": 1774455050, "hour": 0, "weekday": 3, "month": "2026-03", "type": "feat", "project": "LIQ"}, {"ts": 1774319275, "hour": 10, "weekday": 1, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1774278989, "hour": 23, "weekday": 0, "month": "2026-03", "type": "feat", "project": "LIQ"}, {"ts": 1774277559, "hour": 22, "weekday": 0, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1774276729, "hour": 22, "weekday": 0, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1774276357, "hour": 22, "weekday": 0, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1774274569, "hour": 22, "weekday": 0, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1774274097, "hour": 21, "weekday": 0, "month": "2026-03", "type": "other", "project": "LIQ"}, {"ts": 1773237698, "hour": 22, "weekday": 2, "month": "2026-03", "type": "feat", "project": "LIQ"}, {"ts": 1772117556, "hour": 22, "weekday": 3, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1772096076, "hour": 16, "weekday": 3, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1772090292, "hour": 15, "weekday": 3, "month": "2026-02", "type": "fix", "project": "LIQ"}, {"ts": 1772084384, "hour": 13, "weekday": 3, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1772073243, "hour": 10, "weekday": 3, "month": "2026-02", "type": "fix", "project": "LIQ"}, {"ts": 1772037514, "hour": 0, "weekday": 3, "month": "2026-02", "type": "docs", "project": "LIQ"}, {"ts": 1772010125, "hour": 17, "weekday": 2, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1772009870, "hour": 16, "weekday": 2, "month": "2026-02", "type": "chore", "project": "LIQ"}, {"ts": 1772005447, "hour": 15, "weekday": 2, "month": "2026-02", "type": "fix", "project": "LIQ"}, {"ts": 1772003724, "hour": 15, "weekday": 2, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1771986529, "hour": 10, "weekday": 2, "month": "2026-02", "type": "refactor", "project": "LIQ"}, {"ts": 1771986283, "hour": 10, "weekday": 2, "month": "2026-02", "type": "docs", "project": "LIQ"}, {"ts": 1771958037, "hour": 2, "weekday": 2, "month": "2026-02", "type": "fix", "project": "LIQ"}, {"ts": 1771957877, "hour": 2, "weekday": 2, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771950345, "hour": 0, "weekday": 2, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771910069, "hour": 13, "weekday": 1, "month": "2026-02", "type": "fix", "project": "LIQ"}, {"ts": 1771898465, "hour": 10, "weekday": 1, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1771578443, "hour": 17, "weekday": 4, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771578220, "hour": 17, "weekday": 4, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771577698, "hour": 16, "weekday": 4, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771577454, "hour": 16, "weekday": 4, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771509148, "hour": 21, "weekday": 3, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771480399, "hour": 13, "weekday": 3, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771472508, "hour": 11, "weekday": 3, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771471997, "hour": 11, "weekday": 3, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1771471617, "hour": 11, "weekday": 3, "month": "2026-02", "type": "docs", "project": "LIQ"}, {"ts": 1771471255, "hour": 11, "weekday": 3, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1771432781, "hour": 0, "weekday": 3, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1771430378, "hour": 23, "weekday": 2, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1771428482, "hour": 23, "weekday": 2, "month": "2026-02", "type": "feat", "project": "LIQ"}, {"ts": 1771317452, "hour": 16, "weekday": 1, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1770950163, "hour": 10, "weekday": 4, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1770896876, "hour": 19, "weekday": 3, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1770878293, "hour": 14, "weekday": 3, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1770878113, "hour": 14, "weekday": 3, "month": "2026-02", "type": "other", "project": "LIQ"}, {"ts": 1778661396, "hour": 16, "weekday": 2, "month": "2026-05", "type": "other", "project": "Extract_data"}, {"ts": 1778228447, "hour": 16, "weekday": 4, "month": "2026-05", "type": "other", "project": "Extract_data"}, {"ts": 1778228039, "hour": 16, "weekday": 4, "month": "2026-05", "type": "other", "project": "Extract_data"}, {"ts": 1778226853, "hour": 15, "weekday": 4, "month": "2026-05", "type": "feat", "project": "Extract_data"}, {"ts": 1778149023, "hour": 18, "weekday": 3, "month": "2026-05", "type": "other", "project": "Extract_data"}, {"ts": 1777738375, "hour": 0, "weekday": 6, "month": "2026-05", "type": "docs", "project": "Extract_data"}, {"ts": 1777523644, "hour": 12, "weekday": 3, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1777452187, "hour": 16, "weekday": 2, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1777444409, "hour": 14, "weekday": 2, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1777367310, "hour": 17, "weekday": 1, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1777367092, "hour": 17, "weekday": 1, "month": "2026-04", "type": "docs", "project": "Extract_data"}, {"ts": 1777366428, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1777297365, "hour": 21, "weekday": 0, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1777280531, "hour": 17, "weekday": 0, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1777280225, "hour": 16, "weekday": 0, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1777279941, "hour": 16, "weekday": 0, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1777019660, "hour": 16, "weekday": 4, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1776934497, "hour": 16, "weekday": 3, "month": "2026-04", "type": "docs", "project": "Extract_data"}, {"ts": 1776932493, "hour": 16, "weekday": 3, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1776856497, "hour": 19, "weekday": 2, "month": "2026-04", "type": "docs", "project": "Extract_data"}, {"ts": 1776847920, "hour": 16, "weekday": 2, "month": "2026-04", "type": "docs", "project": "Extract_data"}, {"ts": 1776764741, "hour": 17, "weekday": 1, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1776764527, "hour": 17, "weekday": 1, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1776763181, "hour": 17, "weekday": 1, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1776700953, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1776415765, "hour": 16, "weekday": 4, "month": "2026-04", "type": "docs", "project": "Extract_data"}, {"ts": 1776342789, "hour": 20, "weekday": 3, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1776155415, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1775803115, "hour": 14, "weekday": 4, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1775659931, "hour": 22, "weekday": 2, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1775659292, "hour": 22, "weekday": 2, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1775578616, "hour": 0, "weekday": 2, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1775235303, "hour": 0, "weekday": 5, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1775232837, "hour": 0, "weekday": 5, "month": "2026-04", "type": "feat", "project": "Extract_data"}, {"ts": 1775213994, "hour": 18, "weekday": 4, "month": "2026-04", "type": "docs", "project": "Extract_data"}, {"ts": 1775131161, "hour": 19, "weekday": 3, "month": "2026-04", "type": "refactor", "project": "Extract_data"}, {"ts": 1775124186, "hour": 18, "weekday": 3, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1775057662, "hour": 23, "weekday": 2, "month": "2026-04", "type": "docs", "project": "Extract_data"}, {"ts": 1775056553, "hour": 23, "weekday": 2, "month": "2026-04", "type": "other", "project": "Extract_data"}, {"ts": 1774849022, "hour": 13, "weekday": 0, "month": "2026-03", "type": "fix", "project": "Extract_data"}, {"ts": 1774848468, "hour": 13, "weekday": 0, "month": "2026-03", "type": "feat", "project": "Extract_data"}, {"ts": 1774446748, "hour": 21, "weekday": 2, "month": "2026-03", "type": "other", "project": "Extract_data"}, {"ts": 1774423907, "hour": 15, "weekday": 2, "month": "2026-03", "type": "other", "project": "Extract_data"}, {"ts": 1777741549, "hour": 1, "weekday": 6, "month": "2026-05", "type": "docs", "project": "TongHuaShun"}, {"ts": 1777738375, "hour": 0, "weekday": 6, "month": "2026-05", "type": "docs", "project": "TongHuaShun"}, {"ts": 1777734431, "hour": 23, "weekday": 5, "month": "2026-05", "type": "other", "project": "TongHuaShun"}, {"ts": 1777732736, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "TongHuaShun"}, {"ts": 1777732678, "hour": 22, "weekday": 5, "month": "2026-05", "type": "chore", "project": "TongHuaShun"}, {"ts": 1777731116, "hour": 22, "weekday": 5, "month": "2026-05", "type": "other", "project": "TongHuaShun"}, {"ts": 1777702024, "hour": 14, "weekday": 5, "month": "2026-05", "type": "other", "project": "TongHuaShun"}, {"ts": 1777701864, "hour": 14, "weekday": 5, "month": "2026-05", "type": "docs", "project": "TongHuaShun"}, {"ts": 1777699312, "hour": 13, "weekday": 5, "month": "2026-05", "type": "fix", "project": "TongHuaShun"}, {"ts": 1777697004, "hour": 12, "weekday": 5, "month": "2026-05", "type": "docs", "project": "TongHuaShun"}, {"ts": 1777694049, "hour": 11, "weekday": 5, "month": "2026-05", "type": "fix", "project": "TongHuaShun"}, {"ts": 1777693559, "hour": 11, "weekday": 5, "month": "2026-05", "type": "fix", "project": "TongHuaShun"}, {"ts": 1777690691, "hour": 10, "weekday": 5, "month": "2026-05", "type": "docs", "project": "TongHuaShun"}, {"ts": 1777689783, "hour": 10, "weekday": 5, "month": "2026-05", "type": "fix", "project": "TongHuaShun"}, {"ts": 1777688200, "hour": 10, "weekday": 5, "month": "2026-05", "type": "refactor", "project": "TongHuaShun"}, {"ts": 1777681876, "hour": 8, "weekday": 5, "month": "2026-05", "type": "docs", "project": "TongHuaShun"}, {"ts": 1777681657, "hour": 8, "weekday": 5, "month": "2026-05", "type": "chore", "project": "TongHuaShun"}, {"ts": 1777680048, "hour": 8, "weekday": 5, "month": "2026-05", "type": "refactor", "project": "TongHuaShun"}, {"ts": 1777679878, "hour": 7, "weekday": 5, "month": "2026-05", "type": "refactor", "project": "TongHuaShun"}, {"ts": 1777678772, "hour": 7, "weekday": 5, "month": "2026-05", "type": "other", "project": "TongHuaShun"}, {"ts": 1777646967, "hour": 22, "weekday": 4, "month": "2026-05", "type": "feat", "project": "TongHuaShun"}, {"ts": 1776700983, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1776155415, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "TongHuaShun"}, {"ts": 1775986758, "hour": 17, "weekday": 6, "month": "2026-04", "type": "fix", "project": "TongHuaShun"}, {"ts": 1775985412, "hour": 17, "weekday": 6, "month": "2026-04", "type": "docs", "project": "TongHuaShun"}, {"ts": 1775976669, "hour": 14, "weekday": 6, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1775982627, "hour": 16, "weekday": 6, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1775982495, "hour": 16, "weekday": 6, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1775976669, "hour": 14, "weekday": 6, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1775976669, "hour": 14, "weekday": 6, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1775927032, "hour": 1, "weekday": 6, "month": "2026-04", "type": "refactor", "project": "TongHuaShun"}, {"ts": 1775904644, "hour": 18, "weekday": 5, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1775899233, "hour": 17, "weekday": 5, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1775893760, "hour": 15, "weekday": 5, "month": "2026-04", "type": "feat", "project": "TongHuaShun"}, {"ts": 1775881127, "hour": 12, "weekday": 5, "month": "2026-04", "type": "other", "project": "TongHuaShun"}, {"ts": 1777732594, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "statistical-edge-analysis-app"}, {"ts": 1776700988, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1776155415, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "statistical-edge-analysis-app"}, {"ts": 1775833478, "hour": 23, "weekday": 4, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775749127, "hour": 23, "weekday": 3, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775745446, "hour": 22, "weekday": 3, "month": "2026-04", "type": "refactor", "project": "statistical-edge-analysis-app"}, {"ts": 1775495848, "hour": 1, "weekday": 1, "month": "2026-04", "type": "chore", "project": "statistical-edge-analysis-app"}, {"ts": 1775451298, "hour": 12, "weekday": 0, "month": "2026-04", "type": "feat", "project": "statistical-edge-analysis-app"}, {"ts": 1775436844, "hour": 8, "weekday": 0, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775436844, "hour": 8, "weekday": 0, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775399946, "hour": 22, "weekday": 6, "month": "2026-04", "type": "feat", "project": "statistical-edge-analysis-app"}, {"ts": 1775376246, "hour": 16, "weekday": 6, "month": "2026-04", "type": "chore", "project": "statistical-edge-analysis-app"}, {"ts": 1775370780, "hour": 14, "weekday": 6, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775363989, "hour": 12, "weekday": 6, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775309106, "hour": 21, "weekday": 5, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775309106, "hour": 21, "weekday": 5, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775308281, "hour": 21, "weekday": 5, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775148878, "hour": 0, "weekday": 4, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775147776, "hour": 0, "weekday": 4, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775145715, "hour": 0, "weekday": 4, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775144521, "hour": 23, "weekday": 3, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775142673, "hour": 23, "weekday": 3, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1775136890, "hour": 21, "weekday": 3, "month": "2026-04", "type": "other", "project": "statistical-edge-analysis-app"}, {"ts": 1777733031, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "deribit_trading"}, {"ts": 1776700986, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "deribit_trading"}, {"ts": 1776155459, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "deribit_trading"}, {"ts": 1762051440, "hour": 10, "weekday": 6, "month": "2025-11", "type": "fix", "project": "deribit_trading"}, {"ts": 1762049046, "hour": 10, "weekday": 6, "month": "2025-11", "type": "other", "project": "deribit_trading"}, {"ts": 1761966124, "hour": 11, "weekday": 5, "month": "2025-11", "type": "other", "project": "deribit_trading"}, {"ts": 1761888290, "hour": 13, "weekday": 4, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761792854, "hour": 10, "weekday": 3, "month": "2025-10", "type": "feat", "project": "deribit_trading"}, {"ts": 1761780853, "hour": 7, "weekday": 3, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761749842, "hour": 22, "weekday": 2, "month": "2025-10", "type": "feat", "project": "deribit_trading"}, {"ts": 1761712634, "hour": 12, "weekday": 2, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761706524, "hour": 10, "weekday": 2, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761695814, "hour": 7, "weekday": 2, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761623782, "hour": 11, "weekday": 1, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761436422, "hour": 7, "weekday": 6, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761226546, "hour": 21, "weekday": 3, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761191196, "hour": 11, "weekday": 3, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761150940, "hour": 0, "weekday": 3, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761107833, "hour": 12, "weekday": 2, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1761011197, "hour": 9, "weekday": 1, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1760883143, "hour": 22, "weekday": 6, "month": "2025-10", "type": "other", "project": "deribit_trading"}, {"ts": 1777905564, "hour": 22, "weekday": 0, "month": "2026-05", "type": "refactor", "project": "mimo-auth"}, {"ts": 1777799526, "hour": 17, "weekday": 6, "month": "2026-05", "type": "fix", "project": "mimo-auth"}, {"ts": 1777799002, "hour": 17, "weekday": 6, "month": "2026-05", "type": "feat", "project": "mimo-auth"}, {"ts": 1777798455, "hour": 16, "weekday": 6, "month": "2026-05", "type": "feat", "project": "mimo-auth"}, {"ts": 1777798119, "hour": 16, "weekday": 6, "month": "2026-05", "type": "feat", "project": "mimo-auth"}, {"ts": 1777797388, "hour": 16, "weekday": 6, "month": "2026-05", "type": "feat", "project": "mimo-auth"}, {"ts": 1777796747, "hour": 16, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1777796623, "hour": 16, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1777796495, "hour": 16, "weekday": 6, "month": "2026-05", "type": "feat", "project": "mimo-auth"}, {"ts": 1777796415, "hour": 16, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1777795994, "hour": 16, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1777795924, "hour": 16, "weekday": 6, "month": "2026-05", "type": "feat", "project": "mimo-auth"}, {"ts": 1777793884, "hour": 15, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1777793733, "hour": 15, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1777793563, "hour": 15, "weekday": 6, "month": "2026-05", "type": "feat", "project": "mimo-auth"}, {"ts": 1777793254, "hour": 15, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1777793174, "hour": 15, "weekday": 6, "month": "2026-05", "type": "other", "project": "mimo-auth"}, {"ts": 1778661428, "hour": 16, "weekday": 2, "month": "2026-05", "type": "feat", "project": "git-analytics"}, {"ts": 1778656680, "hour": 15, "weekday": 2, "month": "2026-05", "type": "other", "project": "git-analytics"}, {"ts": 1778655531, "hour": 14, "weekday": 2, "month": "2026-05", "type": "fix", "project": "git-analytics"}, {"ts": 1778655096, "hour": 14, "weekday": 2, "month": "2026-05", "type": "other", "project": "git-analytics"}, {"ts": 1778654832, "hour": 14, "weekday": 2, "month": "2026-05", "type": "feat", "project": "git-analytics"}, {"ts": 1778654052, "hour": 14, "weekday": 2, "month": "2026-05", "type": "refactor", "project": "git-analytics"}, {"ts": 1778653157, "hour": 14, "weekday": 2, "month": "2026-05", "type": "feat", "project": "git-analytics"}, {"ts": 1778642561, "hour": 11, "weekday": 2, "month": "2026-05", "type": "feat", "project": "git-analytics"}, {"ts": 1778641610, "hour": 11, "weekday": 2, "month": "2026-05", "type": "feat", "project": "git-analytics"}, {"ts": 1778640993, "hour": 10, "weekday": 2, "month": "2026-05", "type": "other", "project": "git-analytics"}, {"ts": 1778640479, "hour": 10, "weekday": 2, "month": "2026-05", "type": "feat", "project": "git-analytics"}, {"ts": 1777733448, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "StorageRunbook"}, {"ts": 1777733101, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "StorageRunbook"}, {"ts": 1776963680, "hour": 1, "weekday": 4, "month": "2026-04", "type": "feat", "project": "StorageRunbook"}, {"ts": 1776963139, "hour": 0, "weekday": 4, "month": "2026-04", "type": "docs", "project": "StorageRunbook"}, {"ts": 1776962966, "hour": 0, "weekday": 4, "month": "2026-04", "type": "other", "project": "StorageRunbook"}, {"ts": 1776928673, "hour": 15, "weekday": 3, "month": "2026-04", "type": "feat", "project": "StorageRunbook"}, {"ts": 1778552376, "hour": 10, "weekday": 1, "month": "2026-05", "type": "fix", "project": "trading-instruction-generator"}, {"ts": 1778552253, "hour": 10, "weekday": 1, "month": "2026-05", "type": "fix", "project": "trading-instruction-generator"}, {"ts": 1778552122, "hour": 10, "weekday": 1, "month": "2026-05", "type": "feat", "project": "trading-instruction-generator"}, {"ts": 1778488928, "hour": 16, "weekday": 0, "month": "2026-05", "type": "other", "project": "trading-instruction-generator"}, {"ts": 1778488882, "hour": 16, "weekday": 0, "month": "2026-05", "type": "other", "project": "trading-instruction-generator"}, {"ts": 1777732121, "hour": 22, "weekday": 5, "month": "2026-05", "type": "docs", "project": "polymarket_bit"}, {"ts": 1776700986, "hour": 0, "weekday": 1, "month": "2026-04", "type": "other", "project": "polymarket_bit"}, {"ts": 1776155415, "hour": 16, "weekday": 1, "month": "2026-04", "type": "feat", "project": "polymarket_bit"}, {"ts": 1775010235, "hour": 10, "weekday": 2, "month": "2026-04", "type": "other", "project": "polymarket_bit"}, {"ts": 1777735107, "hour": 23, "weekday": 5, "month": "2026-05", "type": "other", "project": "Polymarket"}, {"ts": 1766886590, "hour": 9, "weekday": 6, "month": "2025-12", "type": "chore", "project": "macos-automator-mcp"}, {"ts": 1775378566, "hour": 16, "weekday": 6, "month": "2026-04", "type": "docs", "project": "jupyter-mcp-server"}, {"ts": 1746442484, "hour": 18, "weekday": 0, "month": "2025-05", "type": "chore", "project": "mcp-server-duckdb"}, {"ts": 1775924839, "hour": 0, "weekday": 6, "month": "2026-04", "type": "chore", "project": "mcp-ssh"}, {"ts": 1749672327, "hour": 4, "weekday": 3, "month": "2025-06", "type": "other", "project": "ssh-mcp-server"}];
+        const projectNames = ["Option", "CTP_LIVE", "Momentum", "CTP", "LIQ", "Extract_data", "TongHuaShun", "statistical-edge-analysis-app", "deribit_trading", "mimo-auth", "git-analytics", "StorageRunbook", "trading-instruction-generator", "polymarket_bit", "Polymarket", "macos-automator-mcp", "jupyter-mcp-server", "mcp-server-duckdb", "mcp-ssh", "ssh-mcp-server"];
+        const monthLabels = ["2025-05", "2025-06", "2025-10", "2025-11", "2025-12", "2026-02", "2026-03", "2026-04", "2026-05"];
+        const monthShort = ["05\u6708", "06\u6708", "10\u6708", "11\u6708", "12\u6708", "02\u6708", "03\u6708", "04\u6708", "05\u6708"];
+        const typeLabels = ["feat", "fix", "docs", "test", "refactor", "chore", "other"];
+        const typeNames = ["\u529f\u80fd\u5f00\u53d1", "Bug \u4fee\u590d", "\u6587\u6863", "\u6d4b\u8bd5", "\u91cd\u6784", "\u6784\u5efa/CI", "\u5176\u4ed6"];
+        const typeColors = ["#0969da", "#cf222e", "#1a7f37", "#bf8700", "#8250df", "#6e7781", "#afb8c1"];
+        const COLORS = ["#0969da", "#8250df", "#bf3989", "#cf222e", "#1a7f37", "#bf8700", "#0550ae", "#6e7781"];
+
+        // 填充项目下拉
+        const select = document.getElementById('filterProject');
+        projectNames.forEach(name => {
+            const opt = document.createElement('option');
+            opt.value = name;
+            opt.textContent = name;
+            select.appendChild(opt);
+        });
+
+        // Chart.js 全局配置
         const chartDefaults = {
             responsive: true,
             maintainAspectRatio: false,
             plugins: { legend: { labels: { padding: 14, usePointStyle: true, font: { size: 11 } } } }
         };
 
-        // 24小时分布
-        new Chart(document.getElementById('hourChart'), {
-            type: 'bar',
-            data: {
-                labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
-                datasets: [{
-                    data: [54, 18, 4, 0, 1, 0, 2, 5, 11, 12, 65, 45, 22, 19, 37, 45, 57, 29, 18, 11, 12, 24, 59, 50],
-                    backgroundColor: ["rgba(9,105,218,0.8646153846153848)", "rgba(9,105,218,0.4215384615384616)", "rgba(9,105,218,0.24923076923076926)", "rgba(9,105,218,0.2)", "rgba(9,105,218,0.2123076923076923)", "rgba(9,105,218,0.2)", "rgba(9,105,218,0.22461538461538463)", "rgba(9,105,218,0.26153846153846155)", "rgba(9,105,218,0.3353846153846154)", "rgba(9,105,218,0.34769230769230774)", "rgba(9,105,218,1.0)", "rgba(9,105,218,0.7538461538461538)", "rgba(9,105,218,0.47076923076923083)", "rgba(9,105,218,0.4338461538461539)", "rgba(9,105,218,0.6553846153846155)", "rgba(9,105,218,0.7538461538461538)", "rgba(9,105,218,0.9015384615384616)", "rgba(9,105,218,0.556923076923077)", "rgba(9,105,218,0.4215384615384616)", "rgba(9,105,218,0.3353846153846154)", "rgba(9,105,218,0.34769230769230774)", "rgba(9,105,218,0.4953846153846154)", "rgba(9,105,218,0.9261538461538461)", "rgba(9,105,218,0.8153846153846154)"],
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                ...chartDefaults,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } },
-                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-                }
-            }
-        });
+        // 存储图表实例
+        const charts = {};
 
-        // 星期分布
-        new Chart(document.getElementById('weekChart'), {
-            type: 'bar',
-            data: {
-                labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-                datasets: [{
-                    data: [91, 103, 88, 69, 68, 79, 102],
-                    backgroundColor: ['#0969da', '#0969da', '#0969da', '#0969da', '#0969da', '#8250df', '#8250df'],
-                    borderRadius: 6
-                }]
-            },
-            options: {
-                ...chartDefaults,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-
-        // 每月堆叠图
-        new Chart(document.getElementById('monthlyChart'), {
-            type: 'bar',
-            data: {
-                labels: ["05\u6708", "06\u6708", "10\u6708", "11\u6708", "12\u6708", "02\u6708", "03\u6708", "04\u6708", "05\u6708"],
-                datasets: [{"label": "Option", "data": [0, 0, 0, 0, 0, 0, 0, 28, 106], "backgroundColor": "#0969da"}, {"label": "CTP_LIVE", "data": [0, 0, 0, 0, 0, 7, 58, 34, 1], "backgroundColor": "#8250df"}, {"label": "Momentum", "data": [0, 0, 0, 0, 0, 0, 0, 57, 19], "backgroundColor": "#bf3989"}, {"label": "CTP", "data": [0, 0, 0, 0, 0, 31, 25, 13, 1], "backgroundColor": "#cf222e"}, {"label": "LIQ", "data": [0, 0, 0, 0, 0, 35, 12, 2, 1], "backgroundColor": "#1a7f37"}, {"label": "Extract_data", "data": [0, 0, 0, 0, 0, 0, 4, 33, 6], "backgroundColor": "#bf8700"}, {"label": "TongHuaShun", "data": [0, 0, 0, 0, 0, 0, 0, 14, 21], "backgroundColor": "#0550ae"}, {"label": "\u5176\u4ed6", "data": [1, 1, 0, 0, 1, 0, 0, 9, 9], "backgroundColor": "#9ca3af"}]
-            },
-            options: {
-                ...chartDefaults,
-                plugins: {
-                    legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, font: { size: 11 } } },
-                    tooltip: { mode: 'index', intersect: false }
+        // 初始化图表
+        function initCharts(hourly, weekly, monthlyData, typeValues, stackData, bubbleData) {
+            // 24小时
+            charts.hour = new Chart(document.getElementById('hourChart'), {
+                type: 'bar',
+                data: {
+                    labels: Array.from({length: 24}, (_, i) => i.toString().padStart(2, '0') + ':00'),
+                    datasets: [{
+                        data: hourly,
+                        backgroundColor: hourly.map(v => {
+                            const max = Math.max(...hourly, 1);
+                            return `rgba(9,105,218,${0.2 + v/max*0.8})`;
+                        }),
+                        borderRadius: 6
+                    }]
                 },
-                scales: {
-                    x: { stacked: true, grid: { display: false } },
-                    y: { stacked: true, beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
+                options: {
+                    ...chartDefaults,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } },
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                    }
                 }
-            }
-        });
+            });
 
-        // 项目气泡图
-        new Chart(document.getElementById('bubbleChart'), {
-            type: 'bubble',
-            data: { datasets: [{"label": "Option", "data": [{"x": 7, "y": 28, "r": 13.228756555322953}, {"x": 8, "y": 106, "r": 25.739075352467502}], "backgroundColor": "#0969dab3"}, {"label": "CTP_LIVE", "data": [{"x": 5, "y": 7, "r": 6.614378277661476}, {"x": 6, "y": 58, "r": 19.03943276465977}, {"x": 7, "y": 34, "r": 14.577379737113251}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#8250dfb3"}, {"label": "Momentum", "data": [{"x": 7, "y": 57, "r": 18.874586088176876}, {"x": 8, "y": 19, "r": 10.897247358851684}], "backgroundColor": "#bf3989b3"}, {"label": "CTP", "data": [{"x": 5, "y": 31, "r": 13.919410907075054}, {"x": 6, "y": 25, "r": 12.5}, {"x": 7, "y": 13, "r": 9.013878188659973}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#cf222eb3"}, {"label": "LIQ", "data": [{"x": 5, "y": 35, "r": 14.79019945774904}, {"x": 6, "y": 12, "r": 8.660254037844386}, {"x": 7, "y": 2, "r": 4}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#1a7f37b3"}, {"label": "Extract_data", "data": [{"x": 6, "y": 4, "r": 5.0}, {"x": 7, "y": 33, "r": 14.361406616345072}, {"x": 8, "y": 6, "r": 6.123724356957945}], "backgroundColor": "#bf8700b3"}, {"label": "TongHuaShun", "data": [{"x": 7, "y": 14, "r": 9.354143466934854}, {"x": 8, "y": 21, "r": 11.4564392373896}], "backgroundColor": "#0550aeb3"}, {"label": "statistical-edge-analysis-app", "data": [{"x": 7, "y": 22, "r": 11.726039399558575}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#6e7781b3"}, {"label": "deribit_trading", "data": [{"x": 2, "y": 15, "r": 9.682458365518542}, {"x": 3, "y": 3, "r": 4.330127018922193}, {"x": 7, "y": 2, "r": 4}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#0969dab3"}, {"label": "mimo-auth", "data": [{"x": 8, "y": 17, "r": 10.307764064044152}], "backgroundColor": "#8250dfb3"}, {"label": "git-analytics", "data": [{"x": 8, "y": 10, "r": 7.905694150420949}], "backgroundColor": "#bf3989b3"}, {"label": "StorageRunbook", "data": [{"x": 7, "y": 4, "r": 5.0}, {"x": 8, "y": 2, "r": 4}], "backgroundColor": "#cf222eb3"}, {"label": "trading-instruction-generator", "data": [{"x": 8, "y": 5, "r": 5.5901699437494745}], "backgroundColor": "#1a7f37b3"}] },
-            options: {
-                ...chartDefaults,
-                plugins: {
-                    legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true, font: { size: 10 } } },
-                    tooltip: {
-                        callbacks: {
-                            label: function(ctx) {
-                                const months = ["05\u6708", "06\u6708", "10\u6708", "11\u6708", "12\u6708", "02\u6708", "03\u6708", "04\u6708", "05\u6708"];
-                                return ctx.dataset.label + ': ' + months[ctx.parsed.x] + ' ' + ctx.parsed.y + ' 次';
+            // 星期
+            charts.week = new Chart(document.getElementById('weekChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    datasets: [{
+                        data: weekly,
+                        backgroundColor: ['#0969da','#0969da','#0969da','#0969da','#0969da','#8250df','#8250df'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    ...chartDefaults,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // 每月堆叠
+            charts.monthly = new Chart(document.getElementById('monthlyChart'), {
+                type: 'bar',
+                data: { labels: monthShort, datasets: stackData },
+                options: {
+                    ...chartDefaults,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, font: { size: 11 } } },
+                        tooltip: { mode: 'index', intersect: false }
+                    },
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
+                    }
+                }
+            });
+
+            // 气泡图
+            charts.bubble = new Chart(document.getElementById('bubbleChart'), {
+                type: 'bubble',
+                data: { datasets: bubbleData },
+                options: {
+                    ...chartDefaults,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true, font: { size: 10 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    return ctx.dataset.label + ': ' + monthShort[ctx.parsed.x] + ' ' + ctx.parsed.y + ' 次';
+                                }
                             }
                         }
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'linear', min: -0.5, max: 8.5,
-                        ticks: { stepSize: 1, callback: function(val) { return ["05\u6708", "06\u6708", "10\u6708", "11\u6708", "12\u6708", "02\u6708", "03\u6708", "04\u6708", "05\u6708"][val] || ''; } },
-                        grid: { display: false }
                     },
-                    y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
+                    scales: {
+                        x: {
+                            type: 'linear', min: -0.5, max: monthLabels.length - 0.5,
+                            ticks: { stepSize: 1, callback: function(val) { return monthShort[val] || ''; } },
+                            grid: { display: false }
+                        },
+                        y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.04)' } }
+                    }
+                }
+            });
+
+            // 类型环形图
+            charts.type = new Chart(document.getElementById('typeChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: typeNames,
+                    datasets: [{ data: typeValues, backgroundColor: typeColors, borderWidth: 0 }]
+                },
+                options: {
+                    ...chartDefaults,
+                    plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } } },
+                    cutout: '60%'
+                }
+            });
+
+            // 语言环形图
+            charts.lang = new Chart(document.getElementById('langChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{ data: [], backgroundColor: COLORS, borderWidth: 0 }]
+                },
+                options: {
+                    ...chartDefaults,
+                    plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } } },
+                    cutout: '60%'
+                }
+            });
+        }
+
+        // 筛选逻辑
+        function applyFilters() {
+            const project = document.getElementById('filterProject').value;
+            const since = document.getElementById('filterSince').value;
+            const until = document.getElementById('filterUntil').value;
+
+            let filtered = allCommits;
+            if (project !== 'all') {
+                filtered = filtered.filter(c => c.project === project);
+            }
+            if (since) {
+                const sinceTs = new Date(since).getTime() / 1000;
+                filtered = filtered.filter(c => c.ts >= sinceTs);
+            }
+            if (until) {
+                const untilTs = new Date(until + 'T23:59:59').getTime() / 1000;
+                filtered = filtered.filter(c => c.ts <= untilTs);
+            }
+
+            if (filtered.length === 0) {
+                alert('没有符合条件的数据');
+                return;
+            }
+
+            updateAll(filtered, project);
+        }
+
+        function resetFilters() {
+            document.getElementById('filterProject').value = 'all';
+            document.getElementById('filterSince').value = '';
+            document.getElementById('filterUntil').value = '';
+            updateAll(allCommits, 'all');
+        }
+
+        function updateAll(commits, project) {
+            const total = commits.length;
+
+            // 聚合
+            const hourly = new Array(24).fill(0);
+            const weekly = new Array(7).fill(0);
+            const monthly = {};
+            const types = {};
+            const projects = {};
+            let activeDays = new Set();
+
+            commits.forEach(c => {
+                hourly[c.hour]++;
+                weekly[c.weekday]++;
+                monthly[c.month] = (monthly[c.month] || 0) + 1;
+                types[c.type] = (types[c.type] || 0) + 1;
+                projects[c.project] = (projects[c.project] || 0) + 1;
+                activeDays.add(Math.floor(c.ts / 86400));
+            });
+
+            // 更新统计卡片
+            const days = activeDays.size || 1;
+            document.getElementById('statCommits').textContent = total;
+            document.getElementById('statProjects').textContent = project === 'all' ? Object.keys(projects).length : 1;
+            document.getElementById('statDaily').textContent = (total / days).toFixed(1);
+
+            // 更新头部
+            const projText = project === 'all' ? Object.keys(projects).length + ' 个项目' : project;
+            document.getElementById('headerSubtitle').textContent = `${projText} · ${total} 次提交 · ${days} 天活跃`;
+
+            // 更新 24 小时图
+            charts.hour.data.datasets[0].data = hourly;
+            const maxH = Math.max(...hourly, 1);
+            charts.hour.data.datasets[0].backgroundColor = hourly.map(v => `rgba(9,105,218,${0.2 + v/maxH*0.8})`);
+            charts.hour.update();
+
+            // 洞察
+            const peakHours = hourly.map((v, i) => ({v, i})).sort((a, b) => b.v - a.v).slice(0, 3).map(x => x.i);
+            const nightCommits = hourly.slice(22).reduce((a, b) => a + b, 0) + hourly.slice(0, 5).reduce((a, b) => a + b, 0);
+            const nightRatio = (nightCommits / total * 100).toFixed(1);
+            document.getElementById('insightHour').innerHTML = `<strong>洞察：</strong>最活跃时段 ${peakHours.map(h => h + ':00').join(', ')}。${nightRatio > 25 ? '夜间提交占比 ' + nightRatio + '%。' : '作息相对规律。'}`;
+
+            // 更新星期图
+            charts.week.data.datasets[0].data = weekly;
+            charts.week.update();
+
+            const weekdayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+            const peakWeekdays = weekly.map((v, i) => ({v, i})).sort((a, b) => b.v - a.v).slice(0, 3).map(x => weekdayNames[x.i]);
+            const weekendCommits = weekly[5] + weekly[6];
+            const weekendRatio = (weekendCommits / total * 100).toFixed(1);
+            document.getElementById('insightWeek').innerHTML = `<strong>洞察：</strong>最活跃 ${peakWeekdays.join(', ')}。${weekendRatio > 20 ? '周末提交占比 ' + weekendRatio + '%。' : '以工作日为主。'}`;
+
+            // 更新每月图
+            const sortedMonths = Object.keys(monthly).sort();
+            const stackData = [];
+            const projList = project === 'all'
+                ? Object.entries(projects).sort((a, b) => b[1] - a[1]).slice(0, 7)
+                : [[project, total]];
+
+            projList.forEach(([name, _], i) => {
+                const projCommits = commits.filter(c => c.project === name);
+                const projMonthly = {};
+                projCommits.forEach(c => { projMonthly[c.month] = (projMonthly[c.month] || 0) + 1; });
+                stackData.push({
+                    label: name,
+                    data: sortedMonths.map(m => projMonthly[m] || 0),
+                    backgroundColor: COLORS[i % COLORS.length]
+                });
+            });
+
+            // 其他项目
+            if (project === 'all' && Object.keys(projects).length > 7) {
+                const topNames = projList.map(p => p[0]);
+                const otherMonthly = {};
+                commits.filter(c => !topNames.includes(c.project)).forEach(c => {
+                    otherMonthly[c.month] = (otherMonthly[c.month] || 0) + 1;
+                });
+                if (Object.keys(otherMonthly).length > 0) {
+                    stackData.push({
+                        label: '其他',
+                        data: sortedMonths.map(m => otherMonthly[m] || 0),
+                        backgroundColor: '#9ca3af'
+                    });
                 }
             }
-        });
 
-        // Commit 类型环形图
-        new Chart(document.getElementById('typeChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ["\u529f\u80fd\u5f00\u53d1", "Bug \u4fee\u590d", "\u6587\u6863", "\u6d4b\u8bd5", "\u91cd\u6784", "\u6784\u5efa/CI", "\u5176\u4ed6"],
-                datasets: [{ data: [144, 56, 88, 2, 13, 22, 275], backgroundColor: ["#0969da", "#cf222e", "#1a7f37", "#bf8700", "#8250df", "#6e7781", "#afb8c1"], borderWidth: 0 }]
-            },
-            options: {
-                ...chartDefaults,
-                plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } } },
-                cutout: '60%'
-            }
-        });
+            charts.monthly.data.labels = sortedMonths.map(m => m.slice(-2) + '月');
+            charts.monthly.data.datasets = stackData;
+            charts.monthly.update();
 
-        // 语言分布环形图
-        new Chart(document.getElementById('langChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ["YAML", "Markdown", "Other", "JavaScript", "TypeScript", "Python", "Unknown"],
-                datasets: [{ data: [1, 5, 4, 1, 1, 2, 6], backgroundColor: ["#3572a5", "#f1e05a", "#3178c6", "#e34c26", "#563d7c", "#00add8", "#dea584"], borderWidth: 0 }]
-            },
-            options: {
-                ...chartDefaults,
-                plugins: { legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true } } },
-                cutout: '60%'
-            }
-        });
+            // 更新类型图
+            const typeValues = typeLabels.map(t => types[t] || 0);
+            charts.type.data.datasets[0].data = typeValues;
+            charts.type.update();
 
-        // 类型条形图
-        const typeData = [["\u529f\u80fd\u5f00\u53d1", 144, "#0969da"], ["Bug \u4fee\u590d", 56, "#cf222e"], ["\u6587\u6863", 88, "#1a7f37"], ["\u6d4b\u8bd5", 2, "#bf8700"], ["\u91cd\u6784", 13, "#8250df"], ["\u6784\u5efa/CI", 22, "#6e7781"], ["\u5176\u4ed6", 275, "#afb8c1"]];
-        const maxType = Math.max(...typeData.map(d => d[1]));
-        document.getElementById('typeBars').innerHTML = typeData.map(([name, val, color]) => {
-            const pct = (val / 600 * 100).toFixed(1);
-            return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
-                <div style="width:70px;font-size:0.85em;color:#656d76;">${name}</div>
-                <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
-                    <div style="width:${pct}%;height:100%;background:${color};border-radius:4px;"></div>
-                </div>
-                <div style="width:90px;font-size:0.85em;color:#1f2328;text-align:right;">${val} (${pct}%)</div>
-            </div>`;
-        }).join('');
+            // 更新类型条形图
+            const maxType = Math.max(...typeValues, 1);
+            document.getElementById('typeBars').innerHTML = typeValues.map((val, i) => {
+                const pct = (val / total * 100).toFixed(1);
+                return `<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+                    <div style="width:70px;font-size:0.85em;color:#656d76;">${typeNames[i]}</div>
+                    <div style="flex:1;height:8px;background:#d8dee4;border-radius:4px;overflow:hidden;">
+                        <div style="width:${pct}%;height:100%;background:${typeColors[i]};border-radius:4px;"></div>
+                    </div>
+                    <div style="width:90px;font-size:0.85em;color:#1f2328;text-align:right;">${val} (${pct}%)</div>
+                </div>`;
+            }).join('');
+
+            // 项目排行榜
+            const ranked = Object.entries(projects).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            document.getElementById('projectsRanking').innerHTML = ranked.map(([name, count], i) => {
+                const sep = i > 0 ? 'border-top:1px solid #d8dee4;' : '';
+                return `<div style="display:flex;align-items:center;gap:14px;padding:12px 0;${sep}">
+                    <div style="width:24px;height:24px;background:#0969da;color:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">${i + 1}</div>
+                    <div style="flex:1;">
+                        <div style="font-weight:600;font-size:0.95em;">${name}</div>
+                    </div>
+                    <div style="font-size:1em;font-weight:700;color:#0969da;">${count}</div>
+                </div>`;
+            }).join('');
+
+            // 工程健康
+            const featRatio = ((types.feat || 0) / total * 100).toFixed(1);
+            const fixRatio = ((types.fix || 0) / total * 100).toFixed(1);
+            const refactorRatio = ((types.refactor || 0) / total * 100).toFixed(1);
+            const lowInfoRatio = '0.0'; // 需要原始 message 才能计算
+
+            const engItems = [
+                {label: '功能开发', desc: '写新功能的时间占比', val: featRatio, color: '#0969da'},
+                {label: 'Bug 修复', desc: '修 bug 的时间占比', val: fixRatio, color: '#cf222e'},
+                {label: '重构', desc: '优化老代码的时间占比', val: refactorRatio, color: '#8250df'},
+                {label: '夜间提交', desc: '深夜写的代码占比', val: nightRatio, color: nightRatio > 25 ? '#bf8700' : '#656d76'},
+                {label: '周末提交', desc: '周末写的代码占比', val: weekendRatio, color: weekendRatio > 25 ? '#8250df' : '#656d76'},
+            ];
+            document.getElementById('engHealthGrid').innerHTML = engItems.map(item => {
+                return `<div style="text-align:center;padding:18px 8px;background:#f6f8fa;border:1px solid #d0d7de;border-radius:6px;">
+                    <div style="font-size:1.8em;font-weight:700;color:${item.color};">${item.val}%</div>
+                    <div style="font-size:0.82em;font-weight:600;color:#1f2328;margin-top:4px;">${item.label}</div>
+                    <div style="font-size:0.7em;color:#656d76;margin-top:2px;">${item.desc}</div>
+                </div>`;
+            }).join('');
+
+            // 洞察文字
+            const engInsight = [];
+            if (nightRatio > 30) engInsight.push('深夜写代码比例较高，注意休息。');
+            if (weekendRatio > 25) engInsight.push('周末提交较多。');
+            document.getElementById('insightEng').innerHTML = `<strong>洞察：</strong>${engInsight.length ? engInsight.join(' ') : '各项指标正常。'}`;
+            document.getElementById('insightTypes').innerHTML = `<strong>洞察：</strong>功能开发占比 ${featRatio}%。`;
+        }
+
+        // 初始化
+        const initHourly = [54, 18, 4, 0, 1, 0, 2, 5, 11, 12, 65, 45, 22, 19, 37, 45, 58, 29, 18, 11, 12, 24, 59, 50];
+        const initWeekly = [91, 103, 89, 69, 68, 79, 102];
+        initCharts(initHourly, initWeekly, null, [145, 56, 88, 2, 13, 22, 275], [{"label": "Option", "data": [0, 0, 0, 0, 0, 0, 0, 28, 106], "backgroundColor": "#0969da"}, {"label": "CTP_LIVE", "data": [0, 0, 0, 0, 0, 7, 58, 34, 1], "backgroundColor": "#8250df"}, {"label": "Momentum", "data": [0, 0, 0, 0, 0, 0, 0, 57, 19], "backgroundColor": "#bf3989"}, {"label": "CTP", "data": [0, 0, 0, 0, 0, 31, 25, 13, 1], "backgroundColor": "#cf222e"}, {"label": "LIQ", "data": [0, 0, 0, 0, 0, 35, 12, 2, 1], "backgroundColor": "#1a7f37"}, {"label": "Extract_data", "data": [0, 0, 0, 0, 0, 0, 4, 33, 6], "backgroundColor": "#bf8700"}, {"label": "TongHuaShun", "data": [0, 0, 0, 0, 0, 0, 0, 14, 21], "backgroundColor": "#0550ae"}, {"label": "\u5176\u4ed6", "data": [1, 1, 0, 0, 1, 0, 0, 9, 9], "backgroundColor": "#9ca3af"}], [{"label": "Option", "data": [{"x": 7, "y": 28, "r": 13.228756555322953}, {"x": 8, "y": 106, "r": 25.739075352467502}], "backgroundColor": "#0969dab3"}, {"label": "CTP_LIVE", "data": [{"x": 5, "y": 7, "r": 6.614378277661476}, {"x": 6, "y": 58, "r": 19.03943276465977}, {"x": 7, "y": 34, "r": 14.577379737113251}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#8250dfb3"}, {"label": "Momentum", "data": [{"x": 7, "y": 57, "r": 18.874586088176876}, {"x": 8, "y": 19, "r": 10.897247358851684}], "backgroundColor": "#bf3989b3"}, {"label": "CTP", "data": [{"x": 5, "y": 31, "r": 13.919410907075054}, {"x": 6, "y": 25, "r": 12.5}, {"x": 7, "y": 13, "r": 9.013878188659973}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#cf222eb3"}, {"label": "LIQ", "data": [{"x": 5, "y": 35, "r": 14.79019945774904}, {"x": 6, "y": 12, "r": 8.660254037844386}, {"x": 7, "y": 2, "r": 4}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#1a7f37b3"}, {"label": "Extract_data", "data": [{"x": 6, "y": 4, "r": 5.0}, {"x": 7, "y": 33, "r": 14.361406616345072}, {"x": 8, "y": 6, "r": 6.123724356957945}], "backgroundColor": "#bf8700b3"}, {"label": "TongHuaShun", "data": [{"x": 7, "y": 14, "r": 9.354143466934854}, {"x": 8, "y": 21, "r": 11.4564392373896}], "backgroundColor": "#0550aeb3"}, {"label": "statistical-edge-analysis-app", "data": [{"x": 7, "y": 22, "r": 11.726039399558575}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#6e7781b3"}, {"label": "deribit_trading", "data": [{"x": 2, "y": 15, "r": 9.682458365518542}, {"x": 3, "y": 3, "r": 4.330127018922193}, {"x": 7, "y": 2, "r": 4}, {"x": 8, "y": 1, "r": 4}], "backgroundColor": "#0969dab3"}, {"label": "mimo-auth", "data": [{"x": 8, "y": 17, "r": 10.307764064044152}], "backgroundColor": "#8250dfb3"}, {"label": "git-analytics", "data": [{"x": 8, "y": 11, "r": 8.291561975888499}], "backgroundColor": "#bf3989b3"}, {"label": "StorageRunbook", "data": [{"x": 7, "y": 4, "r": 5.0}, {"x": 8, "y": 2, "r": 4}], "backgroundColor": "#cf222eb3"}, {"label": "trading-instruction-generator", "data": [{"x": 8, "y": 5, "r": 5.5901699437494745}], "backgroundColor": "#1a7f37b3"}]);
     </script>
 </body>
 </html>
