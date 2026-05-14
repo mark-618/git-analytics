@@ -134,9 +134,9 @@ GitStats 告诉你一个仓库发生了什么；Git Analytics 告诉你你是一
 ## 技术栈
 
 - Python 3.8+
-- 零运行时依赖（纯标准库）
+- Pillow（分享卡片 PNG 生成）
 - Chart.js 可视化报告
-- 本地运行
+- 本地运行，不上传任何数据
 
 ## License
 
