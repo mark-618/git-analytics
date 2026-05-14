@@ -304,8 +304,8 @@ def generate_report(data):
 
     # Habit Score
     score_dims = [
-        ('提交粒度', habit_score['granularity'], 30),
-        ('测试意识', habit_score['test_awareness'], 20),
+        ('提交粒度', habit_score['granularity'], 40),
+        ('测试意识', habit_score['test_awareness'], 10),
         ('文档意识', habit_score['doc_awareness'], 15),
         ('作息规律', habit_score['schedule'], 20),
         ('项目聚焦', habit_score['focus'], 15),
