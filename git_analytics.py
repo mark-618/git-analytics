@@ -376,14 +376,14 @@ def analyze_habits(all_repos):
     # 计算 Developer Habit Score
     # ============================================================
 
-    # 1. 提交粒度得分 (30分)
+    # 1. 提交粒度得分 (40分)
     # 小步快跑 = 高分，大包提交 = 低分，线性插值
     avg_commits_per_day = total_commits / max(sum(r['active_days'] for r in all_repos), 1)
-    granularity_score = round(min(30, avg_commits_per_day / 4.5 * 30))
+    granularity_score = round(min(40, avg_commits_per_day / 4.5 * 40))
 
-    # 2. 测试意识得分 (20分)
+    # 2. 测试意识得分 (10分)
     test_ratio = total_test_files / max(total_file_changes, 1)
-    test_score = round(min(20, test_ratio / 0.15 * 20))
+    test_score = round(min(10, test_ratio / 0.15 * 10))
 
     # 3. 文档意识得分 (15分)
     doc_ratio = total_doc_files / max(total_file_changes, 1)
