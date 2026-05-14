@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ '3.8', '3.12' ]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build Pillow>=8.0
+
+    - name: Compile check
+      run: |
+        python -m py_compile run.py
+        python -m py_compile git_analytics.py
+        python -m py_compile generate_report.py
+        python -m py_compile gen_share_card.py
+
+    - name: CLI help
+      run: python run.py --help
+
+    - name: Run scan
+      run: python run.py --no-wizard --max-depth 0 --output-dir /tmp/git-analytics-ci --share-card
+
+    - name: Build package
+      run: python -m build

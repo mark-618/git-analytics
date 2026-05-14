@@ -66,10 +66,6 @@ def _confirm(title, default=True):
     return raw in {"y", "yes", "1", "true"}
 
 
-def _path_label(path):
-    return os.path.abspath(os.path.expanduser(path))
-
-
 def _existing_path(path):
     expanded = os.path.abspath(os.path.expanduser(path))
     return expanded if os.path.isdir(expanded) else None
@@ -140,6 +136,26 @@ def _run_wizard(args):
     args.output_dir = output_dir
     args.open = _confirm("生成后自动打开报告？", default=True)
     args.share_card = _confirm("同时生成分享卡片设计器？", default=True)
+
+    # 显示配置摘要并确认
+    print()
+    print("=" * 40)
+    print("📋 配置摘要")
+    print("=" * 40)
+    print("扫描目录:")
+    for item in scan_dirs:
+        print(f"  - {os.path.abspath(os.path.expanduser(item))}")
+    print(f"扫描深度: {max_depth}")
+    print(f"输出目录: {os.path.abspath(os.path.expanduser(output_dir))}")
+    print(f"自动打开报告: {'是' if args.open else '否'}")
+    print(f"生成分享卡片: {'是' if args.share_card else '否'}")
+    print("=" * 40)
+
+    confirm = input("[Enter] 开始，输入 q 退出: ").strip().lower()
+    if confirm in {"q", "quit", "exit"}:
+        print("已退出。")
+        sys.exit(0)
+
     print()
     return args
 
