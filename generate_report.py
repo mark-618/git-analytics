@@ -135,6 +135,12 @@ body {
 .rank-commits { font-size: 1em; font-weight: 700; color: #0969da; }
 
 /* 建议 */
+.sug-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.sug-tab { padding: 8px 16px; border: 1px solid #d0d7de; border-radius: 20px; background: #f6f8fa; color: #656d76; font-size: 0.85em; cursor: pointer; transition: all 0.2s; }
+.sug-tab:hover { background: #eaeef2; color: #1f2328; }
+.sug-tab.active { background: #0969da; color: #fff; border-color: #0969da; }
+.sug-panel { display: none; }
+.sug-panel.active { display: block; }
 .sug-item { display: flex; gap: 12px; margin-bottom: 10px; padding: 12px 14px; background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px; }
 .sug-num { width: 20px; height: 20px; background: #1a7f37; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7em; font-weight: 700; flex-shrink: 0; }
 .sug-text { font-size: 0.9em; color: #1f2328; }
@@ -754,7 +760,16 @@ def _build_eng_insight(health):
 
 
 def _build_suggestions_html(habit_score, health, data):
-    suggestions = []
+    # 分类建议结构
+    categories = {
+        'commit': {'name': '提交习惯', 'icon': '📝', 'items': []},
+        'test': {'name': '测试质量', 'icon': '✅', 'items': []},
+        'doc': {'name': '文档维护', 'icon': '📚', 'items': []},
+        'schedule': {'name': '作息健康', 'icon': '⏰', 'items': []},
+        'project': {'name': '项目管理', 'icon': '🎯', 'items': []},
+        'ai': {'name': 'AI 协作', 'icon': '🤖', 'items': []},
+    }
+
     summary = data.get('summary', {})
     ai = data.get('ai_signals', {})
     avg_daily = summary.get('avg_commits_per_day', 0)
@@ -765,503 +780,109 @@ def _build_suggestions_html(habit_score, health, data):
     total_commits = summary.get('total_commits', 0)
     total_active_days = summary.get('total_active_days', 0)
     total_projects = summary.get('total_projects', 0)
-
-    # ============================================================
-    # 1. 习惯分数维度
-    # ============================================================
-    if habit_score['schedule'] < 10:
-        suggestions.append("改善作息规律：作息得分仅 {}/20，夜间和周末提交较多".format(habit_score['schedule']))
-    if habit_score['focus'] < 10:
-        suggestions.append("提升专注度：项目聚焦得分仅 {}/15，建议减少同时维护的项目数".format(habit_score['focus']))
-    if habit_score['granularity'] < 15:
-        suggestions.append("优化提交粒度：粒度得分仅 {}/30，建议保持稳定的提交频率".format(habit_score['granularity']))
-
-    # ============================================================
-    # 2. 测试相关
-    # ============================================================
-    if habit_score['test_awareness'] < 10:
-        suggestions.append("提高测试意识：尝试为每个新功能编写测试用例，目标覆盖率 10%+")
-    elif health['test_ratio'] < 8:
-        suggestions.append("增加测试投入：当前测试文件占比仅 {:.0f}%，建议补充单元测试".format(health['test_ratio']))
-    if health['test_ratio'] >= 30:
-        suggestions.append("测试做得好：测试文件占比 {:.0f}%，继续保持！".format(health['test_ratio']))
-
-    # ============================================================
-    # 3. 文档相关
-    # ============================================================
-    if habit_score['doc_awareness'] < 10:
-        suggestions.append("增加文档投入：定期更新 README 和 API 文档")
-    elif health['doc_ratio'] < 5:
-        suggestions.append("完善文档：文档变更占比 {:.0f}%，重要功能应有文档说明".format(health['doc_ratio']))
-    if health['doc_ratio'] >= 15:
-        suggestions.append("文档做得好：文档变更占比 {:.0f}%，继续保持！".format(health['doc_ratio']))
-
-    # ============================================================
-    # 4. 作息相关
-    # ============================================================
-    if health['night_ratio'] > 25:
-        suggestions.append("注意作息健康：夜间提交占比 {:.0f}%，建议调整为白天工作".format(health['night_ratio']))
-    if health['weekend_ratio'] > 25:
-        suggestions.append("平衡工作生活：周末提交占比 {:.0f}%，注意适当休息".format(health['weekend_ratio']))
-
-    # ============================================================
-    # 5. 深夜提交
-    # ============================================================
-    if hourly:
-        late_night = sum(hourly[0:6])  # 凌晨 0-5 点
-        total = sum(hourly)
-        if total > 0 and late_night / total > 0.15:
-            suggestions.append("减少深夜编码：凌晨 0-6 点提交占比 {:.0f}%，长期熬夜影响代码质量".format(late_night / total * 100))
-
-    # ============================================================
-    # 6. Commit 质量
-    # ============================================================
-    if health['low_info_ratio'] > 15:
-        suggestions.append("优化 Commit Message：{:.0f}% 的提交缺少描述，建议使用 Conventional Commits 规范".format(health['low_info_ratio']))
-    elif health['low_info_ratio'] > 5:
-        suggestions.append("完善提交描述：部分 commit 信息过于简略，建议写清楚改动原因")
-    if health['low_info_ratio'] < 3:
-        suggestions.append("Commit 质量高：{:.0f}% 的提交有详细描述，继续保持！".format(100 - health['low_info_ratio']))
-
-    # ============================================================
-    # 7. 项目聚焦
-    # ============================================================
-    focus_index = data.get('focus_index', 100)
-    if focus_index < 60:
-        suggestions.append("提高项目聚焦度：精力较分散，建议集中精力在 1-2 个核心项目上")
-
-    # ============================================================
-    # 8. 提交粒度
-    # ============================================================
-    if avg_daily < 1:
-        suggestions.append("提高提交频率：日均仅 {:.1f} 次提交，建议小步快跑、勤提交".format(avg_daily))
-    elif avg_daily > 8:
-        suggestions.append("优化提交粒度：日均 {:.1f} 次提交偏多，考虑合并相关改动".format(avg_daily))
-    elif avg_daily >= 2 and avg_daily <= 5:
-        suggestions.append("提交频率适中：日均 {:.1f} 次提交，节奏良好".format(avg_daily))
-
-    # ============================================================
-    # 9. 代码质量
-    # ============================================================
-    if health['fix_ratio'] > 20:
-        suggestions.append("提升代码质量：Bug 修复占比 {:.0f}%，建议加强测试和 Code Review".format(health['fix_ratio']))
-    elif health['fix_ratio'] < 5 and total_commits > 50:
-        suggestions.append("Bug 很少：Bug 修复仅占 {:.0f}%，代码质量不错".format(health['fix_ratio']))
-    if health['refactor_ratio'] < 10 and health['feat_ratio'] > 50:
-        suggestions.append("关注技术债：功能开发占比高但重构不足，建议定期安排重构时间")
-    if health['refactor_ratio'] >= 10:
-        suggestions.append("重构做得好：重构占比 {:.0f}%，代码质量持续改善".format(health['refactor_ratio']))
-
-    # ============================================================
-    # 10. AI 使用
-    # ============================================================
-    ai_ratio = ai.get('ai_commit_ratio', 0)
-    if ai_ratio > 40:
-        suggestions.append("善用 AI：AI 占比超过 40%，建议仔细审查 AI 生成的代码")
-    elif ai_ratio > 0 and ai_ratio < 15:
-        suggestions.append("探索 AI 工具：当前 AI 使用率 {:.0f}%，可尝试 Copilot/Cursor 提升效率".format(ai_ratio))
-    if ai_ratio >= 20 and ai_ratio <= 40:
-        suggestions.append("AI 使用适中：AI 占比 {:.0f}%，人机协作良好".format(ai_ratio))
-
-    # AI 工具多样性
-    ai_tools = ai.get('tools', {})
-    if len(ai_tools) >= 3:
-        suggestions.append("AI 工具多样化：使用了 {} 种 AI 工具，建议固定 1-2 种核心工具".format(len(ai_tools)))
-
-    # ============================================================
-    # 11. 提交时间规律
-    # ============================================================
-    if peak_hours:
-        if 22 in peak_hours or 23 in peak_hours:
-            suggestions.append("调整工作节奏：深夜是你最活跃的时段，建议将核心工作移到白天")
-        if 6 in peak_hours or 7 in peak_hours:
-            suggestions.append("利用晨间高效期：早上 6-7 点是你最活跃的时段，适合处理复杂任务")
-
-    # ============================================================
-    # 12. 最活跃星期
-    # ============================================================
-    peak_weekdays = data.get('peak_weekdays', [])
-    if peak_weekdays:
-        weekend_days = [d for d in peak_weekdays if d in ['周六', '周日']]
-        if len(weekend_days) >= 2:
-            suggestions.append("调整工作节奏：最活跃的 3 天中有 {} 天是周末，建议以工作日为主".format(len(weekend_days)))
-
-    # ============================================================
-    # 13. 工作强度
-    # ============================================================
-    if avg_daily > 5:
-        suggestions.append("注意工作强度：日均 {:.1f} 次提交，注意劳逸结合避免倦怠".format(avg_daily))
-
-    # ============================================================
-    # 14. 项目数量
-    # ============================================================
-    if total_projects > 15:
-        suggestions.append("精简项目数量：同时维护 {} 个项目，建议聚焦核心项目提升效率".format(total_projects))
-    elif total_projects <= 3 and total_commits > 100:
-        suggestions.append("项目聚焦度高：仅维护 {} 个项目，精力集中".format(total_projects))
-
-    # ============================================================
-    # 15. 活跃度
-    # ============================================================
-    if total_active_days > 0 and avg_daily > 0:
-        active_rate = min(total_active_days / 365 * 100, 100)
-        if active_rate < 30:
-            suggestions.append("保持持续性：活跃天数 {} 天，建议养成每天提交的习惯".format(total_active_days))
-        elif active_rate > 70:
-            suggestions.append("活跃度高：{} 天有提交， coding 习惯良好".format(total_active_days))
-
-    # ============================================================
-    # 16. Commit 类型分布
-    # ============================================================
-    if total_commits > 0:
-        feat_count = commit_types.get('feat', 0)
-        test_count = commit_types.get('test', 0)
-        docs_count = commit_types.get('docs', 0)
-        refactor_count = commit_types.get('refactor', 0)
-        fix_count = commit_types.get('fix', 0)
-        other_count = commit_types.get('other', 0)
-        chore_count = commit_types.get('chore', 0)
-
-        # 测试提交比例
-        if test_count / total_commits < 0.05 and total_commits > 50:
-            suggestions.append("增加测试提交：测试相关提交仅占 {:.0f}%，建议为新功能编写测试".format(test_count / total_commits * 100))
-        elif test_count / total_commits >= 0.15:
-            suggestions.append("测试提交充足：测试占比 {:.0f}%，质量意识强".format(test_count / total_commits * 100))
-
-        # 文档提交比例
-        if docs_count / total_commits < 0.05 and total_commits > 50:
-            suggestions.append("增加文档提交：文档相关提交仅占 {:.0f}%，建议及时更新文档".format(docs_count / total_commits * 100))
-        elif docs_count / total_commits >= 0.15:
-            suggestions.append("文档提交充足：文档占比 {:.0f}%，文档维护良好".format(docs_count / total_commits * 100))
-
-        # 重构提交比例
-        if refactor_count / total_commits < 0.03 and feat_count / total_commits > 0.3:
-            suggestions.append("定期重构：重构提交仅占 {:.0f}%，功能开发占比高，建议安排重构时间".format(refactor_count / total_commits * 100))
-
-        # other 类型提交比例
-        if other_count / total_commits > 0.25:
-            suggestions.append("规范 Commit 类型：{:.0f}% 的提交被归为 other，建议使用 feat/fix/refactor 等标准类型".format(other_count / total_commits * 100))
-
-        # chore 类型提交比例
-        if chore_count / total_commits > 0.15:
-            suggestions.append("自动化琐事：chore 类型提交占比 {:.0f}%，考虑用脚本或 CI 自动化".format(chore_count / total_commits * 100))
-
-        # 功能开发占比
-        if feat_count / total_commits > 0.4:
-            suggestions.append("功能开发为主：feat 占比 {:.0f}%，注意平衡新功能与维护".format(feat_count / total_commits * 100))
-
-        # Bug 修复占比
-        if fix_count / total_commits > 0.2:
-            suggestions.append("Bug 修复较多：fix 占比 {:.0f}%，建议加强测试预防".format(fix_count / total_commits * 100))
-
-    # ============================================================
-    # 17. 语言多样性
-    # ============================================================
     projects = data.get('projects', [])
-    if projects:
-        lang_set = set()
-        for p in projects:
-            if isinstance(p, dict):
-                lang = p.get('language', '')
-                if lang and lang != 'Other':
-                    lang_set.add(lang)
-        if len(lang_set) == 1:
-            suggestions.append("拓展技术栈：当前只使用 {} 语言，建议学习其他语言拓宽视野".format(list(lang_set)[0]))
-        elif len(lang_set) >= 5:
-            suggestions.append("聚焦核心技术：同时使用 {} 种语言，建议深耕 1-2 种核心语言".format(len(lang_set)))
 
     # ============================================================
-    # 18. 提交频率波动
+    # 提交习惯 (最多 6 条)
     # ============================================================
-    if hourly:
-        max_hour = max(hourly)
-        min_hour = min(hourly)
-        if max_hour > 0 and min_hour / max_hour < 0.1:
-            suggestions.append("平衡提交时间：提交集中在特定时段，建议分散到全天各时段")
-
-    # ============================================================
-    # 19. 提交连续性
-    # ============================================================
+    if habit_score['granularity'] < 15:
+        categories['commit']['items'].append("优化提交粒度：粒度得分仅 {}/40，建议保持稳定的提交频率".format(habit_score['granularity']))
+    if avg_daily < 1:
+        categories['commit']['items'].append("提高提交频率：日均仅 {:.1f} 次提交，建议小步快跑、勤提交".format(avg_daily))
+    elif avg_daily > 8:
+        categories['commit']['items'].append("优化提交粒度：日均 {:.1f} 次提交偏多，考虑合并相关改动".format(avg_daily))
+    if health['low_info_ratio'] > 15:
+        categories['commit']['items'].append("优化 Commit Message：{:.0f}% 的提交缺少描述，建议使用 Conventional Commits 规范".format(health['low_info_ratio']))
+    elif health['low_info_ratio'] > 5:
+        categories['commit']['items'].append("完善提交描述：部分 commit 信息过于简略，建议写清楚改动原因")
+    if total_commits > 0:
+        other_c = commit_types.get('other', 0)
+        other_pct = other_c / total_commits * 100
+        if other_pct > 30:
+            categories['commit']['items'].append("提交分类不清：{:.0f}% 归为 other，建议使用 feat/fix/refactor 等标准类型".format(other_pct))
     if total_active_days > 0 and total_commits > 0:
         commits_per_active_day = total_commits / total_active_days
         if commits_per_active_day > 10:
-            suggestions.append("控制单日提交量：活跃日均提交 {:.0f} 次，建议拆分为更小的改动".format(commits_per_active_day))
+            categories['commit']['items'].append("控制单日提交量：活跃日均提交 {:.0f} 次，建议拆分为更小的改动".format(commits_per_active_day))
+
+    # 正面反馈
+    if health['low_info_ratio'] < 3:
+        categories['commit']['items'].append("Commit 质量高：{:.0f}% 的提交有详细描述，继续保持！".format(100 - health['low_info_ratio']))
+    if avg_daily >= 2 and avg_daily <= 5:
+        categories['commit']['items'].append("提交频率适中：日均 {:.1f} 次提交，节奏良好".format(avg_daily))
 
     # ============================================================
-    # 20. 提交间隔
+    # 测试质量 (最多 5 条)
     # ============================================================
-    if total_active_days > 0 and total_commits > 0:
-        avg_interval = 24 * total_active_days / total_commits
-        if avg_interval < 1:
-            suggestions.append("降低提交频率：平均 {:.0f} 分钟一次提交，考虑合并相关改动".format(avg_interval * 60))
+    if habit_score['test_awareness'] < 10:
+        categories['test']['items'].append("提高测试意识：尝试为每个新功能编写测试用例，目标覆盖率 10%+")
+    elif health['test_ratio'] < 8:
+        categories['test']['items'].append("增加测试投入：当前测试文件占比仅 {:.0f}%，建议补充单元测试".format(health['test_ratio']))
+    if total_commits > 0:
+        test_count = commit_types.get('test', 0)
+        if test_count / total_commits < 0.05 and total_commits > 50:
+            categories['test']['items'].append("增加测试提交：测试相关提交仅占 {:.0f}%，建议为新功能编写测试".format(test_count / total_commits * 100))
+    if health['fix_ratio'] > 20:
+        categories['test']['items'].append("提升代码质量：Bug 修复占比 {:.0f}%，建议加强测试和 Code Review".format(health['fix_ratio']))
+
+    # 正面反馈
+    if health['test_ratio'] >= 30:
+        categories['test']['items'].append("测试做得好：测试文件占比 {:.0f}%，继续保持！".format(health['test_ratio']))
 
     # ============================================================
-    # 21. 工作节奏一致性
+    # 文档维护 (最多 5 条)
     # ============================================================
+    if habit_score['doc_awareness'] < 10:
+        categories['doc']['items'].append("增加文档投入：定期更新 README 和 API 文档")
+    elif health['doc_ratio'] < 5:
+        categories['doc']['items'].append("完善文档：文档变更占比 {:.0f}%，重要功能应有文档说明".format(health['doc_ratio']))
+    if total_commits > 0:
+        docs_count = commit_types.get('docs', 0)
+        if docs_count / total_commits < 0.05 and total_commits > 50:
+            categories['doc']['items'].append("增加文档提交：文档相关提交仅占 {:.0f}%，建议及时更新文档".format(docs_count / total_commits * 100))
+
+    # 正面反馈
+    if health['doc_ratio'] >= 15:
+        categories['doc']['items'].append("文档做得好：文档变更占比 {:.0f}%，继续保持！".format(health['doc_ratio']))
+
+    # ============================================================
+    # 作息健康 (最多 5 条)
+    # ============================================================
+    if habit_score['schedule'] < 10:
+        categories['schedule']['items'].append("改善作息规律：作息得分仅 {}/20，夜间和周末提交较多".format(habit_score['schedule']))
+    if health['night_ratio'] > 25:
+        categories['schedule']['items'].append("注意作息健康：夜间提交占比 {:.0f}%，建议调整为白天工作".format(health['night_ratio']))
+    if health['weekend_ratio'] > 25:
+        categories['schedule']['items'].append("平衡工作生活：周末提交占比 {:.0f}%，注意适当休息".format(health['weekend_ratio']))
     if hourly:
+        late_night = sum(hourly[0:6])
         total = sum(hourly)
-        if total > 0:
-            # 计算工作时间（9-18点）vs 非工作时间
-            work_hours = sum(hourly[9:18])
-            work_ratio = work_hours / total
-            if work_ratio > 0.6:
-                suggestions.append("工作节奏规律：{:.0f}% 的提交在工作时间，作息健康".format(work_ratio * 100))
-            elif work_ratio < 0.3:
-                suggestions.append("工作时间不规律：仅 {:.0f}% 的提交在工作时间，建议调整".format(work_ratio * 100))
+        if total > 0 and late_night / total > 0.15:
+            categories['schedule']['items'].append("减少深夜编码：凌晨 0-6 点提交占比 {:.0f}%，长期熬夜影响代码质量".format(late_night / total * 100))
+    if peak_hours:
+        if 22 in peak_hours or 23 in peak_hours:
+            categories['schedule']['items'].append("调整工作节奏：深夜是你最活跃的时段，建议将核心工作移到白天")
+
+    # 正面反馈
+    if health['night_ratio'] < 15 and health['weekend_ratio'] < 15:
+        categories['schedule']['items'].append("工作生活平衡：夜间和周末提交都很少，作息健康")
 
     # ============================================================
-    # 22. 项目活跃度
+    # 项目管理 (最多 6 条)
     # ============================================================
+    if habit_score['focus'] < 10:
+        categories['project']['items'].append("提升专注度：项目聚焦得分仅 {}/15，建议减少同时维护的项目数".format(habit_score['focus']))
+    focus_index = data.get('focus_index', 100)
+    if focus_index < 60:
+        categories['project']['items'].append("提高项目聚焦度：精力较分散，建议集中精力在 1-2 个核心项目上")
+    if total_projects > 15:
+        categories['project']['items'].append("精简项目数量：同时维护 {} 个项目，建议聚焦核心项目提升效率".format(total_projects))
     if projects and total_commits > 0:
         active_projects = sum(1 for p in projects if isinstance(p, dict) and p.get('commits', 0) > 10)
         if active_projects <= 2 and total_projects > 5:
-            suggestions.append("项目活跃度不均：{} 个项目中仅 {} 个活跃，建议清理不活跃项目".format(total_projects, active_projects))
-
-    # ============================================================
-    # 23. 提交消息长度
-    # ============================================================
-    if health['low_info_ratio'] < 5 and total_commits > 100:
-        suggestions.append("提交消息质量高：{:.0f}% 的提交有详细描述，代码可维护性强".format(100 - health['low_info_ratio']))
-
-    # ============================================================
-    # 24. 代码变更规模
-    # ============================================================
-    if total_commits > 0 and total_active_days > 0:
-        avg_changes_per_commit = total_commits / total_active_days  # 粗略估计
-        if avg_changes_per_commit > 5:
-            suggestions.append("单次提交较大：建议拆分为更小的提交，便于 Code Review")
-
-    # ============================================================
-    # 25. 技术债务
-    # ============================================================
-    if health['refactor_ratio'] < 5 and health['feat_ratio'] > 40 and total_commits > 100:
-        suggestions.append("技术债积累：重构仅占 {:.0f}%，建议定期安排重构时间".format(health['refactor_ratio']))
-
-    # ============================================================
-    # 26. 测试覆盖趋势
-    # ============================================================
-    if health['test_ratio'] >= 20:
-        suggestions.append("测试覆盖良好：测试文件占比 {:.0f}%，代码质量有保障".format(health['test_ratio']))
-
-    # ============================================================
-    # 27. 文档覆盖趋势
-    # ============================================================
-    if health['doc_ratio'] >= 10:
-        suggestions.append("文档覆盖良好：文档变更占比 {:.0f}%，项目可维护性强".format(health['doc_ratio']))
-
-    # ============================================================
-    # 28. AI 协作深度
-    # ============================================================
-    ai_influence = ai.get('ai_influence_score', 0)
-    if ai_influence > 70:
-        suggestions.append("AI 深度协作：AI 影响分 {}，建议定期审查 AI 生成的代码".format(ai_influence))
-    elif ai_influence > 0 and ai_influence < 30:
-        suggestions.append("AI 使用较少：AI 影响分 {}，可尝试更多 AI 工具提升效率".format(ai_influence))
-
-    # ============================================================
-    # 29. 工作生活平衡
-    # ============================================================
-    if health['night_ratio'] < 15 and health['weekend_ratio'] < 15:
-        suggestions.append("工作生活平衡：夜间和周末提交都很少，作息健康")
-
-    # ============================================================
-    # 30. 代码稳定性
-    # ============================================================
-    if health['fix_ratio'] < 5 and health['refactor_ratio'] < 5 and total_commits > 100:
-        suggestions.append("代码稳定：Bug 修复和重构都很少，代码质量稳定")
-
-    # ============================================================
-    # 31. 提交频率波动（小时级别）
-    # ============================================================
-    if hourly and len(hourly) == 24:
-        # 计算变异系数
-        import statistics
-        mean_val = statistics.mean(hourly)
-        if mean_val > 0:
-            cv = statistics.stdev(hourly) / mean_val
-            if cv > 1.5:
-                suggestions.append("提交时间波动大：建议保持更稳定的工作节奏")
-
-    # ============================================================
-    # 32. 项目集中度
-    # ============================================================
-    if projects and total_commits > 0:
-        # 计算 HHI 指数（赫芬达尔指数）
-        shares = [p.get('commits', 0) / total_commits for p in projects if isinstance(p, dict)]
-        hhi = sum(s ** 2 for s in shares)
-        if hhi < 0.1:
-            suggestions.append("项目分散：提交分布均匀，建议聚焦核心项目")
-        elif hhi > 0.5:
-            suggestions.append("项目集中：大部分提交集中在少数项目，精力分配合理")
-
-    # ============================================================
-    # 33. 周末提交模式
-    # ============================================================
-    if weekly:
-        sat = weekly.get('周六', 0) if isinstance(weekly, dict) else (weekly[5] if len(weekly) > 5 else 0)
-        sun = weekly.get('周日', 0) if isinstance(weekly, dict) else (weekly[6] if len(weekly) > 6 else 0)
-        total_weekly = sum(weekly.values()) if isinstance(weekly, dict) else sum(weekly)
-        if total_weekly > 0:
-            sat_ratio = sat / total_weekly * 100
-            sun_ratio = sun / total_weekly * 100
-            if sat_ratio > 20 and sun_ratio < 5:
-                suggestions.append("周六活跃：周六提交占比 {:.0f}%，周日较少，节奏不错".format(sat_ratio))
-            elif sun_ratio > 20 and sat_ratio < 5:
-                suggestions.append("周日活跃：周日提交占比 {:.0f}%，建议利用周六提前完成".format(sun_ratio))
-
-    # ============================================================
-    # 34. 提交分布集中度
-    # ============================================================
-    if hourly and len(hourly) == 24:
-        total = sum(hourly)
-        if total > 0:
-            top3_hours = sorted(range(24), key=lambda i: hourly[i], reverse=True)[:3]
-            top3_ratio = sum(hourly[h] for h in top3_hours) / total * 100
-            if top3_ratio > 50:
-                suggestions.append("提交高度集中：最活跃的 3 小时占 {:.0f}% 提交，建议更均匀分布".format(top3_ratio))
-            elif top3_ratio < 25:
-                suggestions.append("提交分布均匀：各时段提交较分散，时间管理良好")
-
-    # ============================================================
-    # 35. 测试与功能平衡
-    # ============================================================
-    if total_commits > 0:
-        feat_count = commit_types.get('feat', 0)
-        test_count = commit_types.get('test', 0)
-        if feat_count > 0:
-            test_feat_ratio = test_count / feat_count
-            if test_feat_ratio < 0.3 and feat_count > 20:
-                suggestions.append("测试跟不上功能：每 {} 个功能提交才对应 1 个测试提交，建议提高测试比例".format(int(1 / test_feat_ratio) if test_feat_ratio > 0 else "∞"))
-            elif test_feat_ratio >= 0.8:
-                suggestions.append("测试与功能同步：测试/功能比 {:.1f}，质量意识强".format(test_feat_ratio))
-
-    # ============================================================
-    # 36. 提交历史跨度
-    # ============================================================
-    if total_active_days > 0:
-        if total_active_days > 300:
-            suggestions.append("开发持续性强：活跃 {} 天，长期坚持 coding".format(total_active_days))
-        elif total_active_days < 30 and total_commits > 50:
-            suggestions.append("开发集中在短期：仅 {} 天活跃但有 {} 次提交，建议保持持续性".format(total_active_days, total_commits))
-
-    # ============================================================
-    # 37. 工作日偏好
-    # ============================================================
-    if weekly:
-        if isinstance(weekly, dict):
-            max_day = max(weekly, key=weekly.get)
-            min_day = min(weekly, key=weekly.get)
-            max_val = weekly[max_day]
-            min_val = weekly[min_day]
-            total_weekly = sum(weekly.values())
-            if total_weekly > 0 and max_val > 0:
-                day_ratio = max_val / total_weekly * 100
-                if day_ratio > 25:
-                    suggestions.append("工作日偏好明显：{} 占 {:.0f}% 提交，是最活跃的一天".format(max_day, day_ratio))
-
-    # ============================================================
-    # 38. 提交时间分布
-    # ============================================================
-    if hourly and len(hourly) == 24:
-        # 计算高峰时段
-        max_val = max(hourly)
-        peak_hours_list = [i for i, v in enumerate(hourly) if v > max_val * 0.8]
-        if len(peak_hours_list) <= 3:
-            suggestions.append("提交时间集中：高峰时段集中在 {} 点，建议分散到其他时段".format(', '.join([str(h) for h in peak_hours_list])))
-
-    # ============================================================
-    # 39. 项目提交分布
-    # ============================================================
-    if projects and total_commits > 0:
-        # 计算项目提交分布的熵
-        import math
-        shares = [p.get('commits', 0) / total_commits for p in projects if isinstance(p, dict) and p.get('commits', 0) > 0]
-        entropy = -sum(s * math.log2(s) for s in shares if s > 0)
-        max_entropy = math.log2(len(shares)) if len(shares) > 1 else 1
-        if max_entropy > 0:
-            normalized_entropy = entropy / max_entropy
-            if normalized_entropy > 0.8:
-                suggestions.append("项目分布均匀：提交分散在多个项目，建议聚焦核心项目")
-            elif normalized_entropy < 0.3:
-                suggestions.append("项目分布集中：大部分提交集中在少数项目，精力分配合理")
-
-    # ============================================================
-    # 40. 开发习惯总结
-    # ============================================================
-    if habit_score['total'] >= 80:
-        suggestions.append("开发习惯优秀：总分 {} 分，继续保持！".format(habit_score['total']))
-    elif habit_score['total'] >= 60:
-        suggestions.append("开发习惯良好：总分 {} 分，还有提升空间".format(habit_score['total']))
-
-    # ============================================================
-    # 41. 项目类型多样性
-    # ============================================================
-    if projects and len(projects) > 0:
-        # 计算项目提交分布的基尼系数
-        commits_list = sorted([p.get('commits', 0) for p in projects if isinstance(p, dict)])
-        n = len(commits_list)
-        if n > 0 and sum(commits_list) > 0:
-            cumulative = 0
-            gini_sum = 0
-            for i, c in enumerate(commits_list):
-                cumulative += c
-                gini_sum += (2 * (i + 1) - n - 1) * c
-            gini = gini_sum / (n * sum(commits_list))
-            if gini > 0.6:
-                suggestions.append("项目分布不均：基尼系数 {:.2f}，建议更均匀地分配精力".format(gini))
-            elif gini < 0.2:
-                suggestions.append("项目分布均匀：基尼系数 {:.2f}，精力分配合理".format(gini))
-
-    # ============================================================
-    # 42. 提交频率稳定性
-    # ============================================================
-    if hourly and len(hourly) == 24:
-        # 计算提交时间的峰度
-        mean_val = statistics.mean(hourly)
-        if mean_val > 0 and len(hourly) > 3:
-            variance = statistics.variance(hourly)
-            if variance > 0:
-                # 简化的峰度计算
-                skewness = sum((x - mean_val) ** 3 for x in hourly) / (len(hourly) * (variance ** 1.5))
-                if abs(skewness) > 1:
-                    suggestions.append("提交时间分布偏斜：建议保持更规律的工作节奏")
-
-    # ============================================================
-    # 43. 项目活跃周期
-    # ============================================================
-    if projects and total_commits > 0:
-        # 计算项目活跃周期（最近一次提交的时间）
-        recent_projects = 0
-        for p in projects:
-            if isinstance(p, dict):
-                last_commit = p.get('last_commit', '')
-                if last_commit and '2026' in last_commit:
-                    recent_projects += 1
-        if recent_projects <= 3 and total_projects > 10:
-            suggestions.append("活跃项目少：{} 个项目中仅 {} 个最近有提交，建议清理不活跃项目".format(total_projects, recent_projects))
-
-    # ============================================================
-    # 44. 提交频率建议
-    # ============================================================
-    if avg_daily > 0:
-        if avg_daily < 0.5:
-            suggestions.append("提交频率低：日均 {:.1f} 次提交，建议更频繁地提交代码".format(avg_daily))
-        elif avg_daily > 5:
-            suggestions.append("提交频率高：日均 {:.1f} 次提交，注意保持代码质量".format(avg_daily))
-
-    # ============================================================
-    # 45. 开发效率
-    # ============================================================
-    if total_commits > 0 and total_active_days > 0:
-        efficiency = total_commits / total_active_days
-        if efficiency > 5:
-            suggestions.append("开发效率高：每次活跃日平均 {:.0f} 次提交，产出稳定".format(efficiency))
-        elif efficiency < 2:
-            suggestions.append("开发效率待提升：每次活跃日平均 {:.0f} 次提交，建议提高效率".format(efficiency))
-
-    # ============================================================
-    # 46. 功能 vs 维护平衡
-    # ============================================================
+            categories['project']['items'].append("项目活跃度不均：{} 个项目中仅 {} 个活跃，建议清理不活跃项目".format(total_projects, active_projects))
+    if health['refactor_ratio'] < 10 and health['feat_ratio'] > 50:
+        categories['project']['items'].append("关注技术债：功能开发占比高但重构不足，建议定期安排重构时间")
     if total_commits > 0:
         feat_c = commit_types.get('feat', 0)
         fix_c = commit_types.get('fix', 0)
@@ -1270,174 +891,55 @@ def _build_suggestions_html(habit_score, health, data):
         if feat_c > 0 and maintenance > 0:
             ratio = feat_c / maintenance
             if ratio > 5:
-                suggestions.append("功能远超维护：功能/维护比 {:.1f}:1，注意技术债积累".format(ratio))
-            elif ratio < 1:
-                suggestions.append("维护为主：维护提交多于功能，代码在持续改善")
+                categories['project']['items'].append("功能远超维护：功能/维护比 {:.1f}:1，注意技术债积累".format(ratio))
+
+    # 正面反馈
+    if total_projects <= 3 and total_commits > 100:
+        categories['project']['items'].append("项目聚焦度高：仅维护 {} 个项目，精力集中".format(total_projects))
+    if health['refactor_ratio'] >= 10:
+        categories['project']['items'].append("重构做得好：重构占比 {:.0f}%，代码质量持续改善".format(health['refactor_ratio']))
 
     # ============================================================
-    # 47. 项目状态分布
+    # AI 协作 (最多 4 条)
     # ============================================================
-    if projects and total_projects > 3:
-        active = sum(1 for p in projects if isinstance(p, dict) and p.get('commits', 0) > 10)
-        inactive = total_projects - active
-        if inactive > total_projects * 0.6:
-            suggestions.append("不活跃项目多：{} 个项目中 {} 个提交不足 10 次，建议归档".format(total_projects, inactive))
+    ai_ratio = ai.get('ai_commit_ratio', 0)
+    if ai_ratio > 40:
+        categories['ai']['items'].append("善用 AI：AI 占比超过 40%，建议仔细审查 AI 生成的代码")
+    elif ai_ratio > 0 and ai_ratio < 15:
+        categories['ai']['items'].append("探索 AI 工具：当前 AI 使用率 {:.0f}%，可尝试 Copilot/Cursor 提升效率".format(ai_ratio))
+    ai_influence = ai.get('ai_influence_score', 0)
+    if ai_influence > 70:
+        categories['ai']['items'].append("AI 深度协作：AI 影响分 {}，建议定期审查 AI 生成的代码".format(ai_influence))
+    ai_tools = ai.get('tools', {})
+    if len(ai_tools) >= 3:
+        categories['ai']['items'].append("AI 工具多样化：使用了 {} 种 AI 工具，建议固定 1-2 种核心工具".format(len(ai_tools)))
+
+    # 正面反馈
+    if ai_ratio >= 20 and ai_ratio <= 40:
+        categories['ai']['items'].append("AI 使用适中：AI 占比 {:.0f}%，人机协作良好".format(ai_ratio))
 
     # ============================================================
-    # 48. 提交密度变化
+    # 构建 HTML（带 tab 切换）
     # ============================================================
-    if hourly and len(hourly) == 24:
-        total = sum(hourly)
-        if total > 0:
-            # 计算高密度时段（>平均值2倍）
-            avg_per_hour = total / 24
-            high_density_hours = [h for h in range(24) if hourly[h] > avg_per_hour * 2]
-            if len(high_density_hours) <= 2 and len(high_density_hours) > 0:
-                suggestions.append("编码时段集中：高峰仅在 {} 点，建议适当分散".format(', '.join(str(h) for h in high_density_hours)))
+    # 过滤空分类
+    active_cats = [(k, v) for k, v in categories.items() if v['items']]
 
-    # ============================================================
-    # 49. 周内提交均匀度
-    # ============================================================
-    if weekly and isinstance(weekly, dict) and len(weekly) == 7:
-        values = list(weekly.values())
-        total = sum(values)
-        if total > 0:
-            avg_per_day = total / 7
-            variance = sum((v - avg_per_day) ** 2 for v in values) / 7
-            if avg_per_day > 0:
-                cv = (variance ** 0.5) / avg_per_day
-                if cv > 0.8:
-                    suggestions.append("周内提交不均：各天差异大，建议保持更稳定的周节奏")
+    if not active_cats:
+        return '<div class="sug-item"><div class="sug-text">继续保持良好的开发习惯！各项指标都很健康</div></div>'
 
-    # ============================================================
-    # 50. 功能开发占比
-    # ============================================================
-    if total_commits > 0:
-        feat_c = commit_types.get('feat', 0)
-        feat_pct = feat_c / total_commits * 100
-        if feat_pct > 60:
-            suggestions.append("功能开发为主：feat 占 {:.0f}%，建议平衡新功能与质量保障".format(feat_pct))
-        elif feat_pct < 10 and total_commits > 50:
-            suggestions.append("功能开发少：feat 仅占 {:.0f}%，开发以维护为主".format(feat_pct))
+    html = '<div class="sug-tabs">'
+    for i, (cat_key, cat) in enumerate(active_cats):
+        active_class = ' active' if i == 0 else ''
+        html += f'<button class="sug-tab{active_class}" data-cat="{cat_key}">{cat["icon"]} {cat["name"]} ({len(cat["items"])})</button>'
+    html += '</div>'
 
-    # ============================================================
-    # 51. Chore 类型分析
-    # ============================================================
-    if total_commits > 0:
-        chore_c = commit_types.get('chore', 0)
-        chore_pct = chore_c / total_commits * 100
-        if chore_pct > 20:
-            suggestions.append("琐事较多：chore 占 {:.0f}%，建议用自动化脚本减少重复工作".format(chore_pct))
+    for i, (cat_key, cat) in enumerate(active_cats):
+        active_class = ' active' if i == 0 else ''
+        html += f'<div class="sug-panel{active_class}" data-cat="{cat_key}">'
+        for j, item in enumerate(cat['items'], 1):
+            html += f'<div class="sug-item"><div class="sug-num">{j}</div><div class="sug-text">{item}</div></div>'
+        html += '</div>'
 
-    # ============================================================
-    # 52. 提交历史长度
-    # ============================================================
-    if total_active_days > 0:
-        if total_active_days > 200:
-            suggestions.append("长期开发者：活跃超过 {} 天，积累了丰富的开发经验".format(total_active_days))
-
-    # ============================================================
-    # 53. 最热门项目贡献
-    # ============================================================
-    if projects and total_commits > 0 and len(projects) > 1:
-        max_commits = max(p.get('commits', 0) for p in projects if isinstance(p, dict))
-        top_ratio = max_commits / total_commits * 100
-        if top_ratio > 60:
-            suggestions.append("单项目主导：最热门项目占 {:.0f}% 提交，精力高度集中".format(top_ratio))
-        elif top_ratio < 20:
-            suggestions.append("精力分散：最热门项目仅占 {:.0f}% 提交，建议聚焦核心项目".format(top_ratio))
-
-    # ============================================================
-    # 54. 文档与代码比例
-    # ============================================================
-    if total_commits > 0:
-        docs_c = commit_types.get('docs', 0)
-        code_c = total_commits - docs_c
-        if code_c > 0:
-            doc_code_ratio = docs_c / code_c
-            if doc_code_ratio > 0.3:
-                suggestions.append("文档投入高：文档/代码比 {:.1f}，文档维护良好".format(doc_code_ratio))
-            elif doc_code_ratio < 0.05 and total_commits > 50:
-                suggestions.append("文档投入不足：文档/代码比 {:.2f}，建议增加文档更新".format(doc_code_ratio))
-
-    # ============================================================
-    # 55. 早起 vs 夜猫子
-    # ============================================================
-    if hourly and len(hourly) == 24:
-        total = sum(hourly)
-        if total > 0:
-            morning = sum(hourly[5:9])   # 5-8点
-            night = sum(hourly[22:24]) + sum(hourly[0:2])  # 22-1点
-            if morning > night * 2 and morning > 0:
-                suggestions.append("早起型开发者：早晨提交多于深夜，作息健康")
-            elif night > morning * 2 and night > 0:
-                suggestions.append("夜猫子型开发者：深夜提交多于早晨，建议调整作息")
-
-    # ============================================================
-    # 56. 提交稳定性
-    # ============================================================
-    if total_active_days > 10 and total_commits > 0:
-        commits_per_day = total_commits / total_active_days
-        if commits_per_day >= 2 and commits_per_day <= 6:
-            suggestions.append("提交节奏稳定：活跃日均 {:.1f} 次提交，节奏适中".format(commits_per_day))
-
-    # ============================================================
-    # 57. 多语言项目管理
-    # ============================================================
-    if projects:
-        lang_project_count = {}
-        for p in projects:
-            if isinstance(p, dict):
-                lang = p.get('language', '')
-                if lang and lang != 'Other':
-                    lang_project_count[lang] = lang_project_count.get(lang, 0) + 1
-        if len(lang_project_count) >= 3:
-            top_lang = max(lang_project_count, key=lang_project_count.get)
-            suggestions.append("多语言开发者：使用 {} 种语言，{} 项目最多".format(len(lang_project_count), top_lang))
-
-    # ============================================================
-    # 58. 其他类型提交分析
-    # ============================================================
-    if total_commits > 0:
-        other_c = commit_types.get('other', 0)
-        other_pct = other_c / total_commits * 100
-        if other_pct > 30:
-            suggestions.append("提交分类不清：{:.0f}% 归为 other，建议使用标准 commit 类型".format(other_pct))
-        elif other_pct < 10 and total_commits > 50:
-            suggestions.append("提交分类规范：other 仅占 {:.0f}%，类型使用清晰".format(other_pct))
-
-    # ============================================================
-    # 59. 功能开发深度
-    # ============================================================
-    if total_commits > 0:
-        feat_c = commit_types.get('feat', 0)
-        fix_c = commit_types.get('fix', 0)
-        if feat_c > 0 and fix_c > 0:
-            feat_fix_ratio = feat_c / fix_c
-            if feat_fix_ratio > 4:
-                suggestions.append("功能驱动：功能/修复比 {:.1f}:1，开发节奏快".format(feat_fix_ratio))
-            elif feat_fix_ratio < 1:
-                suggestions.append("修复驱动：修复多于新功能，建议分析根本原因")
-
-    # ============================================================
-    # 60. 项目维护活跃度
-    # ============================================================
-    if projects and total_commits > 0:
-        well_maintained = sum(1 for p in projects if isinstance(p, dict) and p.get('commits', 0) > 30)
-        if well_maintained >= 3:
-            suggestions.append("多项目深耕：{} 个项目提交超过 30 次，项目管理能力强".format(well_maintained))
-
-    # === 默认 ===
-    if not suggestions:
-        suggestions.append("继续保持良好的开发习惯！各项指标都很健康")
-
-    html = ""
-    for i, s in enumerate(suggestions, 1):
-        html += f'''
-        <div class="sug-item">
-            <div class="sug-num">{i}</div>
-            <div class="sug-text">{s}</div>
-        </div>'''
     return html
 
 
@@ -1993,10 +1495,10 @@ def _build_js(all_commits_json, project_names_json, project_meta_json,
         // 更新 Habit Score
         // ============================================================
         function updateHabitScore(agg) {{
-            const granularity = Math.round(Math.min(30, agg.avgPerDay / 4.5 * 30));
+            const granularity = Math.round(Math.min(40, agg.avgPerDay / 4.5 * 40));
             const schedule = Math.round(Math.min(20, Math.max(0, (1 - agg.nightRatio / 0.4)) * 20));
             const focusScore = Math.round(Math.min(15, agg.focusIndex / 0.7 * 15));
-            const testAwareness = Math.round(Math.min(20, agg.testRatio / 0.15 * 20));
+            const testAwareness = Math.round(Math.min(10, agg.testRatio / 0.15 * 10));
             const docAwareness = Math.round(Math.min(15, agg.docRatio / 0.10 * 15));
             const totalScore = granularity + testAwareness + docAwareness + schedule + focusScore;
             agg.habitScore = {{totalScore, granularity, testAwareness, docAwareness, schedule, focusScore}};
@@ -2007,8 +1509,8 @@ def _build_js(all_commits_json, project_names_json, project_meta_json,
             document.getElementById('scoreLabel').textContent = `/ 100 · ${{getScoreLabel(totalScore)}}`;
 
             const scoreDims = [
-                ['提交粒度', granularity, 30],
-                ['测试意识', testAwareness, 20],
+                ['提交粒度', granularity, 40],
+                ['测试意识', testAwareness, 10],
                 ['文档意识', docAwareness, 15],
                 ['作息规律', schedule, 20],
                 ['项目聚焦', focusScore, 15],
@@ -2336,7 +1838,15 @@ def _build_js(all_commits_json, project_names_json, project_meta_json,
         // 更新建议
         // ============================================================
         function updateSuggestions(agg) {{
-            const suggestions = [];
+            const categories = {{
+                'commit': {{name: '提交习惯', icon: '📝', items: []}},
+                'test': {{name: '测试质量', icon: '✅', items: []}},
+                'doc': {{name: '文档维护', icon: '📚', items: []}},
+                'schedule': {{name: '作息健康', icon: '⏰', items: []}},
+                'project': {{name: '项目管理', icon: '🎯', items: []}},
+                'ai': {{name: 'AI 协作', icon: '🤖', items: []}},
+            }};
+
             const avgDaily = agg.avgPerDay || 0;
             const aiRatio = agg.aiCommitRatio || 0;
             const hourly = agg.hourly || [];
@@ -2344,398 +1854,84 @@ def _build_js(all_commits_json, project_names_json, project_meta_json,
             const weekdayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 
             // ============================================================
-            // 1. 习惯分数维度
+            // 提交习惯 (最多 6 条)
             // ============================================================
-            if (agg.habitScore.schedule < 10) suggestions.push(`改善作息规律：作息得分仅 ${{agg.habitScore.schedule}}/20，夜间和周末提交较多`);
-            if (agg.habitScore.focus < 10) suggestions.push(`提升专注度：项目聚焦得分仅 ${{agg.habitScore.focus}}/15，建议减少同时维护的项目数`);
-            if (agg.habitScore.granularity < 15) suggestions.push(`优化提交粒度：粒度得分仅 ${{agg.habitScore.granularity}}/30，建议保持稳定的提交频率`);
+            if (agg.habitScore.granularity < 15) categories.commit.items.push(`优化提交粒度：粒度得分仅 ${{agg.habitScore.granularity}}/40，建议保持稳定的提交频率`);
+            if (avgDaily < 1) categories.commit.items.push(`提高提交频率：日均仅 ${{avgDaily.toFixed(1)}} 次提交，建议小步快跑、勤提交`);
+            else if (avgDaily > 8) categories.commit.items.push(`优化提交粒度：日均 ${{avgDaily.toFixed(1)}} 次提交偏多，考虑合并相关改动`);
+            if (agg.lowInfoRatio > 0.15) categories.commit.items.push(`优化 Commit Message：${{(agg.lowInfoRatio*100).toFixed(0)}}% 的提交缺少描述，建议使用 Conventional Commits 规范`);
+            else if (agg.lowInfoRatio > 0.05) categories.commit.items.push('完善提交描述：部分 commit 信息过于简略，建议写清楚改动原因');
+            if (agg.total > 0) {{
+                const otherRatio = (agg.types.other || 0) / agg.total;
+                if (otherRatio > 0.25) categories.commit.items.push(`提交分类不清：${{(otherRatio*100).toFixed(0)}}% 归为 other，建议使用 feat/fix/refactor 等标准类型`);
+            }}
+            if (agg.activeDays > 0 && agg.total > 0) {{
+                const commitsPerActiveDay = agg.total / agg.activeDays;
+                if (commitsPerActiveDay > 10) categories.commit.items.push(`控制单日提交量：活跃日均提交 ${{commitsPerActiveDay.toFixed(0)}} 次，建议拆分为更小的改动`);
+            }}
+
+            // 正面反馈
+            if (agg.lowInfoRatio < 0.03) categories.commit.items.push(`Commit 质量高：${{((1-agg.lowInfoRatio)*100).toFixed(0)}}% 的提交有详细描述，继续保持！`);
+            if (avgDaily >= 2 && avgDaily <= 5) categories.commit.items.push(`提交频率适中：日均 ${{avgDaily.toFixed(1)}} 次提交，节奏良好`);
 
             // ============================================================
-            // 2. 测试相关
+            // 测试质量 (最多 5 条)
             // ============================================================
-            if (agg.habitScore.testAwareness < 10) suggestions.push('提高测试意识：尝试为每个新功能编写测试用例，目标覆盖率 10%+');
-            else if (agg.testRatio < 0.08) suggestions.push(`增加测试投入：当前测试文件占比仅 ${{(agg.testRatio*100).toFixed(0)}}%，建议补充单元测试`);
-            if (agg.testRatio >= 0.30) suggestions.push(`测试做得好：测试文件占比 ${{(agg.testRatio*100).toFixed(0)}}%，继续保持！`);
+            if (agg.habitScore.testAwareness < 10) categories.test.items.push('提高测试意识：尝试为每个新功能编写测试用例，目标覆盖率 10%+');
+            else if (agg.testRatio < 0.08) categories.test.items.push(`增加测试投入：当前测试文件占比仅 ${{(agg.testRatio*100).toFixed(0)}}%，建议补充单元测试`);
+            if (agg.total > 50) {{
+                const testRatio = (agg.types.test || 0) / agg.total;
+                if (testRatio < 0.05) categories.test.items.push(`增加测试提交：测试相关提交仅占 ${{(testRatio*100).toFixed(0)}}%，建议为新功能编写测试`);
+            }}
+            if (agg.fixRatio > 0.20) categories.test.items.push(`提升代码质量：Bug 修复占比 ${{(agg.fixRatio*100).toFixed(0)}}%，建议加强测试和 Code Review`);
+
+            // 正面反馈
+            if (agg.testRatio >= 0.30) categories.test.items.push(`测试做得好：测试文件占比 ${{(agg.testRatio*100).toFixed(0)}}%，继续保持！`);
 
             // ============================================================
-            // 3. 文档相关
+            // 文档维护 (最多 5 条)
             // ============================================================
-            if (agg.habitScore.docAwareness < 10) suggestions.push('增加文档投入：定期更新 README 和 API 文档');
-            else if (agg.docRatio < 0.05) suggestions.push(`完善文档：文档变更占比 ${{(agg.docRatio*100).toFixed(0)}}%，重要功能应有文档说明`);
-            if (agg.docRatio >= 0.15) suggestions.push(`文档做得好：文档变更占比 ${{(agg.docRatio*100).toFixed(0)}}%，继续保持！`);
+            if (agg.habitScore.docAwareness < 10) categories.doc.items.push('增加文档投入：定期更新 README 和 API 文档');
+            else if (agg.docRatio < 0.05) categories.doc.items.push(`完善文档：文档变更占比 ${{(agg.docRatio*100).toFixed(0)}}%，重要功能应有文档说明`);
+            if (agg.total > 50) {{
+                const docsRatio = (agg.types.docs || 0) / agg.total;
+                if (docsRatio < 0.05) categories.doc.items.push(`增加文档提交：文档相关提交仅占 ${{(docsRatio*100).toFixed(0)}}%，建议及时更新文档`);
+            }}
+
+            // 正面反馈
+            if (agg.docRatio >= 0.15) categories.doc.items.push(`文档做得好：文档变更占比 ${{(agg.docRatio*100).toFixed(0)}}%，继续保持！`);
 
             // ============================================================
-            // 4. 作息相关
+            // 作息健康 (最多 5 条)
             // ============================================================
-            if (agg.nightRatio > 0.25) suggestions.push(`注意作息健康：夜间提交占比 ${{(agg.nightRatio*100).toFixed(0)}}%，建议调整为白天工作`);
-            if (agg.weekendRatio > 0.25) suggestions.push(`平衡工作生活：周末提交占比 ${{(agg.weekendRatio*100).toFixed(0)}}%，注意适当休息`);
-
-            // ============================================================
-            // 5. 深夜提交
-            // ============================================================
+            if (agg.habitScore.schedule < 10) categories.schedule.items.push(`改善作息规律：作息得分仅 ${{agg.habitScore.schedule}}/20，夜间和周末提交较多`);
+            if (agg.nightRatio > 0.25) categories.schedule.items.push(`注意作息健康：夜间提交占比 ${{(agg.nightRatio*100).toFixed(0)}}%，建议调整为白天工作`);
+            if (agg.weekendRatio > 0.25) categories.schedule.items.push(`平衡工作生活：周末提交占比 ${{(agg.weekendRatio*100).toFixed(0)}}%，注意适当休息`);
             if (hourly.length === 24) {{
                 const lateNight = hourly.slice(0, 6).reduce((a, b) => a + b, 0);
                 const total = hourly.reduce((a, b) => a + b, 0);
-                if (total > 0 && lateNight / total > 0.15) {{
-                    suggestions.push(`减少深夜编码：凌晨 0-6 点提交占比 ${{(lateNight/total*100).toFixed(0)}}%，长期熬夜影响代码质量`);
-                }}
+                if (total > 0 && lateNight / total > 0.15) categories.schedule.items.push(`减少深夜编码：凌晨 0-6 点提交占比 ${{(lateNight/total*100).toFixed(0)}}%，长期熬夜影响代码质量`);
+            }}
+            if (agg.weekly.length === 7) {{
+                const peakWeekdays = agg.weekly.map((v, i) => ({{v, i}})).sort((a, b) => b.v - a.v).slice(0, 3).map(x => weekdayNames[x.i]);
+                const weekendDays = peakWeekdays.filter(d => d === '周六' || d === '周日');
+                if (weekendDays.length >= 2) categories.schedule.items.push(`调整工作节奏：最活跃的 3 天中有 ${{weekendDays.length}} 天是周末，建议以工作日为主`);
             }}
 
-            // ============================================================
-            // 6. Commit 质量
-            // ============================================================
-            if (agg.lowInfoRatio > 0.15) suggestions.push(`优化 Commit Message：${{(agg.lowInfoRatio*100).toFixed(0)}}% 的提交缺少描述，建议使用 Conventional Commits 规范`);
-            else if (agg.lowInfoRatio > 0.05) suggestions.push('完善提交描述：部分 commit 信息过于简略，建议写清楚改动原因');
-            if (agg.lowInfoRatio < 0.03) suggestions.push(`Commit 质量高：${{((1-agg.lowInfoRatio)*100).toFixed(0)}}% 的提交有详细描述，继续保持！`);
+            // 正面反馈
+            if (agg.nightRatio < 0.15 && agg.weekendRatio < 0.15) categories.schedule.items.push('工作生活平衡：夜间和周末提交都很少，作息健康');
 
             // ============================================================
-            // 7. 项目聚焦
+            // 项目管理 (最多 6 条)
             // ============================================================
-            if (agg.focusIndex < 0.60) suggestions.push('提高项目聚焦度：精力较分散，建议集中精力在 1-2 个核心项目上');
-
-            // ============================================================
-            // 8. 提交粒度
-            // ============================================================
-            if (avgDaily < 1) suggestions.push(`提高提交频率：日均仅 ${{avgDaily.toFixed(1)}} 次提交，建议小步快跑、勤提交`);
-            else if (avgDaily > 8) suggestions.push(`优化提交粒度：日均 ${{avgDaily.toFixed(1)}} 次提交偏多，考虑合并相关改动`);
-            else if (avgDaily >= 2 && avgDaily <= 5) suggestions.push(`提交频率适中：日均 ${{avgDaily.toFixed(1)}} 次提交，节奏良好`);
-
-            // ============================================================
-            // 9. 代码质量
-            // ============================================================
-            if (agg.fixRatio > 0.20) suggestions.push(`提升代码质量：Bug 修复占比 ${{(agg.fixRatio*100).toFixed(0)}}%，建议加强测试和 Code Review`);
-            else if (agg.fixRatio < 0.05 && agg.total > 50) suggestions.push(`Bug 很少：Bug 修复仅占 ${{(agg.fixRatio*100).toFixed(0)}}%，代码质量不错`);
-            if (agg.refactorRatio < 0.10 && agg.featRatio > 0.50) suggestions.push('关注技术债：功能开发占比高但重构不足，建议定期安排重构时间');
-            if (agg.refactorRatio >= 0.10) suggestions.push(`重构做得好：重构占比 ${{(agg.refactorRatio*100).toFixed(0)}}%，代码质量持续改善`);
-
-            // ============================================================
-            // 10. AI 使用
-            // ============================================================
-            if (aiRatio > 0.40) suggestions.push('善用 AI：AI 占比超过 40%，建议仔细审查 AI 生成的代码');
-            else if (aiRatio > 0 && aiRatio < 0.15) suggestions.push(`探索 AI 工具：当前 AI 使用率 ${{(aiRatio*100).toFixed(0)}}%，可尝试 Copilot/Cursor 提升效率`);
-            if (aiRatio >= 0.20 && aiRatio <= 0.40) suggestions.push(`AI 使用适中：AI 占比 ${{(aiRatio*100).toFixed(0)}}%，人机协作良好`);
-
-            // ============================================================
-            // 11. 最活跃星期
-            // ============================================================
-            const peakWeekdays = agg.weekly.map((v, i) => ({{v, i}})).sort((a, b) => b.v - a.v).slice(0, 3).map(x => weekdayNames[x.i]);
-            const weekendDays = peakWeekdays.filter(d => d === '周六' || d === '周日');
-            if (weekendDays.length >= 2) suggestions.push(`调整工作节奏：最活跃的 3 天中有 ${{weekendDays.length}} 天是周末，建议以工作日为主`);
-
-            // ============================================================
-            // 12. 工作强度
-            // ============================================================
-            if (avgDaily > 5) suggestions.push(`注意工作强度：日均 ${{avgDaily.toFixed(1)}} 次提交，注意劳逸结合避免倦怠`);
-
-            // ============================================================
-            // 13. 项目数量
-            // ============================================================
-            if (totalProjects > 15) suggestions.push(`精简项目数量：同时维护 ${{totalProjects}} 个项目，建议聚焦核心项目提升效率`);
-            else if (totalProjects <= 3 && agg.total > 100) suggestions.push(`项目聚焦度高：仅维护 ${{totalProjects}} 个项目，精力集中`);
-
-            // ============================================================
-            // 14. 活跃度
-            // ============================================================
-            if (agg.activeDays > 0 && avgDaily > 0) {{
-                const activeRate = Math.min(agg.activeDays / 365 * 100, 100);
-                if (activeRate < 30) suggestions.push(`保持持续性：活跃天数 ${{agg.activeDays}} 天，建议养成每天提交的习惯`);
-                else if (activeRate > 70) suggestions.push(`活跃度高：${{agg.activeDays}} 天有提交， coding 习惯良好`);
-            }}
-
-            // ============================================================
-            // 15. Commit 类型分布
-            // ============================================================
-            if (agg.total > 50) {{
-                const testRatio = (agg.types.test || 0) / agg.total;
-                const docsRatio = (agg.types.docs || 0) / agg.total;
-                const refactorRatio = (agg.types.refactor || 0) / agg.total;
-                const otherRatio = (agg.types.other || 0) / agg.total;
-                const choreRatio = (agg.types.chore || 0) / agg.total;
-                const featRatio = (agg.types.feat || 0) / agg.total;
-                const fixRatio = (agg.types.fix || 0) / agg.total;
-
-                if (testRatio < 0.05) suggestions.push(`增加测试提交：测试相关提交仅占 ${{(testRatio*100).toFixed(0)}}%，建议为新功能编写测试`);
-                else if (testRatio >= 0.15) suggestions.push(`测试提交充足：测试占比 ${{(testRatio*100).toFixed(0)}}%，质量意识强`);
-                if (docsRatio < 0.05) suggestions.push(`增加文档提交：文档相关提交仅占 ${{(docsRatio*100).toFixed(0)}}%，建议及时更新文档`);
-                else if (docsRatio >= 0.15) suggestions.push(`文档提交充足：文档占比 ${{(docsRatio*100).toFixed(0)}}%，文档维护良好`);
-                if (refactorRatio < 0.03 && agg.featRatio > 0.30) suggestions.push(`定期重构：重构提交仅占 ${{(refactorRatio*100).toFixed(0)}}%，功能开发占比高，建议安排重构时间`);
-                if (otherRatio > 0.25) suggestions.push(`规范 Commit 类型：${{(otherRatio*100).toFixed(0)}}% 的提交被归为 other，建议使用 feat/fix/refactor 等标准类型`);
-                if (choreRatio > 0.15) suggestions.push(`自动化琐事：chore 类型提交占比 ${{(choreRatio*100).toFixed(0)}}%，考虑用脚本或 CI 自动化`);
-                if (featRatio > 0.40) suggestions.push(`功能开发为主：feat 占比 ${{(featRatio*100).toFixed(0)}}%，注意平衡新功能与维护`);
-                if (fixRatio > 0.20) suggestions.push(`Bug 修复较多：fix 占比 ${{(fixRatio*100).toFixed(0)}}%，建议加强测试预防`);
-            }}
-
-            // ============================================================
-            // 16. 语言多样性
-            // ============================================================
-            const langSet = new Set(Object.values(agg.languageCounts).map((_, i) => Object.keys(agg.languageCounts)[i]).filter(l => l && l !== 'Other'));
-            if (langSet.size === 1) suggestions.push(`拓展技术栈：当前只使用 ${{[...langSet][0]}} 语言，建议学习其他语言拓宽视野`);
-            else if (langSet.size >= 5) suggestions.push(`聚焦核心技术：同时使用 ${{langSet.size}} 种语言，建议深耕 1-2 种核心语言`);
-
-            // ============================================================
-            // 17. 提交频率波动
-            // ============================================================
-            if (hourly.length === 24) {{
-                const maxHour = Math.max(...hourly);
-                const minHour = Math.min(...hourly);
-                if (maxHour > 0 && minHour / maxHour < 0.1) suggestions.push('平衡提交时间：提交集中在特定时段，建议分散到全天各时段');
-            }}
-
-            // ============================================================
-            // 18. 提交连续性
-            // ============================================================
-            if (agg.activeDays > 0 && agg.total > 0) {{
-                const commitsPerActiveDay = agg.total / agg.activeDays;
-                if (commitsPerActiveDay > 10) suggestions.push(`控制单日提交量：活跃日均提交 ${{commitsPerActiveDay.toFixed(0)}} 次，建议拆分为更小的改动`);
-            }}
-
-            // ============================================================
-            // 19. 提交间隔
-            // ============================================================
-            if (agg.activeDays > 0 && agg.total > 0) {{
-                const avgInterval = 24 * agg.activeDays / agg.total;
-                if (avgInterval < 1) suggestions.push(`降低提交频率：平均 ${{(avgInterval * 60).toFixed(0)}} 分钟一次提交，考虑合并相关改动`);
-            }}
-
-            // ============================================================
-            // 20. 工作节奏一致性
-            // ============================================================
-            if (hourly.length === 24) {{
-                const total = hourly.reduce((a, b) => a + b, 0);
-                if (total > 0) {{
-                    const workHours = hourly.slice(9, 18).reduce((a, b) => a + b, 0);
-                    const workRatio = workHours / total;
-                    if (workRatio > 0.6) suggestions.push(`工作节奏规律：${{(workRatio*100).toFixed(0)}}% 的提交在工作时间，作息健康`);
-                    else if (workRatio < 0.3) suggestions.push(`工作时间不规律：仅 ${{(workRatio*100).toFixed(0)}}% 的提交在工作时间，建议调整`);
-                }}
-            }}
-
-            // ============================================================
-            // 21. 项目活跃度
-            // ============================================================
+            if (agg.habitScore.focus < 10) categories.project.items.push(`提升专注度：项目聚焦得分仅 ${{agg.habitScore.focus}}/15，建议减少同时维护的项目数`);
+            if (agg.focusIndex < 0.60) categories.project.items.push('提高项目聚焦度：精力较分散，建议集中精力在 1-2 个核心项目上');
+            if (totalProjects > 15) categories.project.items.push(`精简项目数量：同时维护 ${{totalProjects}} 个项目，建议聚焦核心项目提升效率`);
             if (totalProjects > 5 && agg.total > 0) {{
                 const activeProjects = Object.values(agg.projectCounts).filter(c => c > 10).length;
-                if (activeProjects <= 2) suggestions.push(`项目活跃度不均：${{totalProjects}} 个项目中仅 ${{activeProjects}} 个活跃，建议清理不活跃项目`);
+                if (activeProjects <= 2) categories.project.items.push(`项目活跃度不均：${{totalProjects}} 个项目中仅 ${{activeProjects}} 个活跃，建议清理不活跃项目`);
             }}
-
-            // ============================================================
-            // 22. 测试覆盖趋势
-            // ============================================================
-            if (agg.testRatio >= 0.20) suggestions.push(`测试覆盖良好：测试文件占比 ${{(agg.testRatio*100).toFixed(0)}}%，代码质量有保障`);
-
-            // ============================================================
-            // 23. 文档覆盖趋势
-            // ============================================================
-            if (agg.docRatio >= 0.10) suggestions.push(`文档覆盖良好：文档变更占比 ${{(agg.docRatio*100).toFixed(0)}}%，项目可维护性强`);
-
-            // ============================================================
-            // 24. 工作生活平衡
-            // ============================================================
-            if (agg.nightRatio < 0.15 && agg.weekendRatio < 0.15) suggestions.push('工作生活平衡：夜间和周末提交都很少，作息健康');
-
-            // ============================================================
-            // 25. 代码稳定性
-            // ============================================================
-            if (agg.fixRatio < 0.05 && agg.refactorRatio < 0.05 && agg.total > 100) suggestions.push('代码稳定：Bug 修复和重构都很少，代码质量稳定');
-
-            // ============================================================
-            // 26. AI 工具多样性
-            // ============================================================
-            // 注：JS 端暂无 ai.tools 数据，跳过
-
-            // ============================================================
-            // 27. AI 协作深度
-            // ============================================================
-            // 注：JS 端暂无 ai.ai_influence_score 数据，跳过
-
-            // ============================================================
-            // 28. 提交消息长度
-            // ============================================================
-            if (agg.lowInfoRatio < 0.05 && agg.total > 100) suggestions.push(`提交消息质量高：${{((1-agg.lowInfoRatio)*100).toFixed(0)}}% 的提交有详细描述，代码可维护性强`);
-
-            // ============================================================
-            // 29. 代码变更规模
-            // ============================================================
-            if (agg.total > 0 && agg.activeDays > 0) {{
-                const avgChangesPerCommit = agg.total / agg.activeDays;
-                if (avgChangesPerCommit > 5) suggestions.push('单次提交较大：建议拆分为更小的提交，便于 Code Review');
-            }}
-
-            // ============================================================
-            // 30. 技术债务
-            // ============================================================
-            if (agg.refactorRatio < 0.05 && agg.featRatio > 0.40 && agg.total > 100) suggestions.push(`技术债积累：重构仅占 ${{(agg.refactorRatio*100).toFixed(0)}}%，建议定期安排重构时间`);
-
-            // ============================================================
-            // 31. 提交频率波动（小时级别）
-            // ============================================================
-            if (hourly.length === 24) {{
-                const mean = hourly.reduce((a, b) => a + b, 0) / 24;
-                if (mean > 0) {{
-                    const variance = hourly.reduce((a, b) => a + (b - mean) ** 2, 0) / 24;
-                    const cv = Math.sqrt(variance) / mean;
-                    if (cv > 1.5) suggestions.push('提交时间波动大：建议保持更稳定的工作节奏');
-                }}
-            }}
-
-            // ============================================================
-            // 32. 项目集中度
-            // ============================================================
-            if (totalProjects > 0 && agg.total > 0) {{
-                const shares = Object.values(agg.projectCounts).map(c => c / agg.total);
-                const hhi = shares.reduce((a, b) => a + b * b, 0);
-                if (hhi < 0.1) suggestions.push('项目分散：提交分布均匀，建议聚焦核心项目');
-                else if (hhi > 0.5) suggestions.push('项目集中：大部分提交集中在少数项目，精力分配合理');
-            }}
-
-            // ============================================================
-            // 33. 周末提交模式
-            // ============================================================
-            if (agg.weekly.length === 7) {{
-                const sat = agg.weekly[5] || 0;
-                const sun = agg.weekly[6] || 0;
-                const totalWeekly = agg.weekly.reduce((a, b) => a + b, 0);
-                if (totalWeekly > 0) {{
-                    const satRatio = sat / totalWeekly * 100;
-                    const sunRatio = sun / totalWeekly * 100;
-                    if (satRatio > 20 && sunRatio < 5) suggestions.push(`周六活跃：周六提交占比 ${{satRatio.toFixed(0)}}%，周日较少，节奏不错`);
-                    else if (sunRatio > 20 && satRatio < 5) suggestions.push(`周日活跃：周日提交占比 ${{sunRatio.toFixed(0)}}%，建议利用周六提前完成`);
-                }}
-            }}
-
-            // ============================================================
-            // 34. 提交分布集中度
-            // ============================================================
-            if (hourly.length === 24) {{
-                const total = hourly.reduce((a, b) => a + b, 0);
-                if (total > 0) {{
-                    const sorted = hourly.map((v, i) => ({{v, i}})).sort((a, b) => b.v - a.v).slice(0, 3);
-                    const top3Ratio = sorted.reduce((a, x) => a + x.v, 0) / total * 100;
-                    if (top3Ratio > 50) suggestions.push(`提交高度集中：最活跃的 3 小时占 ${{top3Ratio.toFixed(0)}}% 提交，建议更均匀分布`);
-                    else if (top3Ratio < 25) suggestions.push('提交分布均匀：各时段提交较分散，时间管理良好');
-                }}
-            }}
-
-            // ============================================================
-            // 35. 测试与功能平衡
-            // ============================================================
-            if (agg.total > 0) {{
-                const featCount = agg.types.feat || 0;
-                const testCount = agg.types.test || 0;
-                if (featCount > 0) {{
-                    const testFeatRatio = testCount / featCount;
-                    if (testFeatRatio < 0.3 && featCount > 20) suggestions.push(`测试跟不上功能：每 ${{Math.round(1/testFeatRatio)}} 个功能提交才对应 1 个测试提交，建议提高测试比例`);
-                    else if (testFeatRatio >= 0.8) suggestions.push(`测试与功能同步：测试/功能比 ${{testFeatRatio.toFixed(1)}}，质量意识强`);
-                }}
-            }}
-
-            // ============================================================
-            // 36. 提交历史跨度
-            // ============================================================
-            if (agg.activeDays > 0) {{
-                if (agg.activeDays > 300) suggestions.push(`开发持续性强：活跃 ${{agg.activeDays}} 天，长期坚持 coding`);
-                else if (agg.activeDays < 30 && agg.total > 50) suggestions.push(`开发集中在短期：仅 ${{agg.activeDays}} 天活跃但有 ${{agg.total}} 次提交，建议保持持续性`);
-            }}
-
-            // ============================================================
-            // 37. 工作日偏好
-            // ============================================================
-            if (agg.weekly.length === 7) {{
-                const totalWeekly = agg.weekly.reduce((a, b) => a + b, 0);
-                if (totalWeekly > 0) {{
-                    const maxIdx = agg.weekly.indexOf(Math.max(...agg.weekly));
-                    const dayRatio = agg.weekly[maxIdx] / totalWeekly * 100;
-                    if (dayRatio > 25) suggestions.push(`工作日偏好明显：${{weekdayNames[maxIdx]}} 占 ${{dayRatio.toFixed(0)}}% 提交，是最活跃的一天`);
-                }}
-            }}
-
-            // ============================================================
-            // 38. 提交时间分布
-            // ============================================================
-            if (hourly.length === 24) {{
-                const maxVal = Math.max(...hourly);
-                const peakHoursList = hourly.map((v, i) => ({{v, i}})).filter(x => x.v > maxVal * 0.8).map(x => x.i);
-                if (peakHoursList.length <= 3) suggestions.push(`提交时间集中：高峰时段集中在 ${{peakHoursList.join(', ')}} 点，建议分散到其他时段`);
-            }}
-
-            // ============================================================
-            // 39. 项目提交分布
-            // ============================================================
-            if (totalProjects > 0 && agg.total > 0) {{
-                const shares = Object.values(agg.projectCounts).map(c => c / agg.total).filter(s => s > 0);
-                const entropy = -shares.reduce((a, b) => a + b * Math.log2(b), 0);
-                const maxEntropy = Math.log2(shares.length);
-                if (maxEntropy > 0) {{
-                    const normalizedEntropy = entropy / maxEntropy;
-                    if (normalizedEntropy > 0.8) suggestions.push('项目分布均匀：提交分散在多个项目，建议聚焦核心项目');
-                    else if (normalizedEntropy < 0.3) suggestions.push('项目分布集中：大部分提交集中在少数项目，精力分配合理');
-                }}
-            }}
-
-            // ============================================================
-            // 40. 开发习惯总结
-            // ============================================================
-            if (agg.habitScore.total >= 80) suggestions.push(`开发习惯优秀：总分 ${{agg.habitScore.total}} 分，继续保持！`);
-            else if (agg.habitScore.total >= 60) suggestions.push(`开发习惯良好：总分 ${{agg.habitScore.total}} 分，还有提升空间`);
-
-            // ============================================================
-            // 41. 项目类型多样性
-            // ============================================================
-            if (totalProjects > 0) {{
-                const commitsList = Object.values(agg.projectCounts).sort((a, b) => a - b);
-                const n = commitsList.length;
-                if (n > 0 && agg.total > 0) {{
-                    let cumulative = 0;
-                    let giniSum = 0;
-                    for (let i = 0; i < n; i++) {{
-                        cumulative += commitsList[i];
-                        giniSum += (2 * (i + 1) - n - 1) * commitsList[i];
-                    }}
-                    const gini = giniSum / (n * agg.total);
-                    if (gini > 0.6) suggestions.push(`项目分布不均：基尼系数 ${{gini.toFixed(2)}}，建议更均匀地分配精力`);
-                    else if (gini < 0.2) suggestions.push(`项目分布均匀：基尼系数 ${{gini.toFixed(2)}}，精力分配合理`);
-                }}
-            }}
-
-            // ============================================================
-            // 42. 提交频率稳定性
-            // ============================================================
-            if (hourly.length === 24) {{
-                const mean = hourly.reduce((a, b) => a + b, 0) / 24;
-                if (mean > 0) {{
-                    const variance = hourly.reduce((a, b) => a + (b - mean) ** 2, 0) / 24;
-                    if (variance > 0) {{
-                        const skewness = hourly.reduce((a, b) => a + (b - mean) ** 3, 0) / (24 * (variance ** 1.5));
-                        if (Math.abs(skewness) > 1) suggestions.push('提交时间分布偏斜：建议保持更规律的工作节奏');
-                    }}
-                }}
-            }}
-
-            // ============================================================
-            // 43. 项目活跃周期
-            // ============================================================
-            // 注：JS 端暂无 projects 数据，跳过
-
-            // ============================================================
-            // 44. 提交频率建议
-            // ============================================================
-            if (avgDaily > 0) {{
-                if (avgDaily < 0.5) suggestions.push(`提交频率低：日均 ${{avgDaily.toFixed(1)}} 次提交，建议更频繁地提交代码`);
-                else if (avgDaily > 5) suggestions.push(`提交频率高：日均 ${{avgDaily.toFixed(1)}} 次提交，注意保持代码质量`);
-            }}
-
-            // ============================================================
-            // 45. 开发效率
-            // ============================================================
-            if (agg.total > 0 && agg.activeDays > 0) {{
-                const efficiency = agg.total / agg.activeDays;
-                if (efficiency > 5) suggestions.push(`开发效率高：每次活跃日平均 ${{efficiency.toFixed(0)}} 次提交，产出稳定`);
-                else if (efficiency < 2) suggestions.push(`开发效率待提升：每次活跃日平均 ${{efficiency.toFixed(0)}} 次提交，建议提高效率`);
-            }}
-
-            // ============================================================
-            // 46. 功能 vs 维护平衡
-            // ============================================================
+            if (agg.refactorRatio < 0.10 && agg.featRatio > 0.50) categories.project.items.push('关注技术债：功能开发占比高但重构不足，建议定期安排重构时间');
             if (agg.total > 0) {{
                 const featC = agg.types.feat || 0;
                 const fixC = agg.types.fix || 0;
@@ -2743,163 +1939,63 @@ def _build_js(all_commits_json, project_names_json, project_meta_json,
                 const maintenance = fixC + refactorC;
                 if (featC > 0 && maintenance > 0) {{
                     const ratio = featC / maintenance;
-                    if (ratio > 5) suggestions.push(`功能远超维护：功能/维护比 ${{ratio.toFixed(1)}}:1，注意技术债积累`);
-                    else if (ratio < 1) suggestions.push('维护为主：维护提交多于功能，代码在持续改善');
+                    if (ratio > 5) categories.project.items.push(`功能远超维护：功能/维护比 ${{ratio.toFixed(1)}}:1，注意技术债积累`);
                 }}
             }}
 
+            // 正面反馈
+            if (totalProjects <= 3 && agg.total > 100) categories.project.items.push(`项目聚焦度高：仅维护 ${{totalProjects}} 个项目，精力集中`);
+            if (agg.refactorRatio >= 0.10) categories.project.items.push(`重构做得好：重构占比 ${{(agg.refactorRatio*100).toFixed(0)}}%，代码质量持续改善`);
+
             // ============================================================
-            // 47. 项目状态分布
+            // AI 协作 (最多 4 条)
             // ============================================================
-            if (totalProjects > 3 && agg.total > 0) {{
-                const active = Object.values(agg.projectCounts).filter(c => c > 10).length;
-                const inactive = totalProjects - active;
-                if (inactive > totalProjects * 0.6) suggestions.push(`不活跃项目多：${{totalProjects}} 个项目中 ${{inactive}} 个提交不足 10 次，建议归档`);
+            if (aiRatio > 0.40) categories.ai.items.push('善用 AI：AI 占比超过 40%，建议仔细审查 AI 生成的代码');
+            else if (aiRatio > 0 && aiRatio < 0.15) categories.ai.items.push(`探索 AI 工具：当前 AI 使用率 ${{(aiRatio*100).toFixed(0)}}%，可尝试 Copilot/Cursor 提升效率`);
+
+            // 正面反馈
+            if (aiRatio >= 0.20 && aiRatio <= 0.40) categories.ai.items.push(`AI 使用适中：AI 占比 ${{(aiRatio*100).toFixed(0)}}%，人机协作良好`);
+
+            // ============================================================
+            // 构建 HTML（带 tab 切换）
+            // ============================================================
+            const activeCats = Object.entries(categories).filter(([k, v]) => v.items.length > 0);
+            let html = '';
+
+            if (activeCats.length === 0) {{
+                html = '<div class="sug-item"><div class="sug-text">继续保持良好的开发习惯！各项指标都很健康</div></div>';
+            }} else {{
+                // Tab 按钮
+                html += '<div class="sug-tabs">';
+                activeCats.forEach(([key, cat], i) => {{
+                    const activeClass = i === 0 ? ' active' : '';
+                    html += `<button class="sug-tab${{activeClass}}" data-cat="${{key}}">${{cat.icon}} ${{cat.name}} (${{cat.items.length}})</button>`;
+                }});
+                html += '</div>';
+
+                // Tab 内容
+                activeCats.forEach(([key, cat], i) => {{
+                    const activeClass = i === 0 ? ' active' : '';
+                    html += `<div class="sug-panel${{activeClass}}" data-cat="${{key}}">`;
+                    cat.items.forEach((item, j) => {{
+                        html += `<div class="sug-item"><div class="sug-num">${{j + 1}}</div><div class="sug-text">${{item}}</div></div>`;
+                    }});
+                    html += '</div>';
+                }});
             }}
 
-            // ============================================================
-            // 48. 提交密度变化
-            // ============================================================
-            if (hourly.length === 24) {{
-                const total = hourly.reduce((a, b) => a + b, 0);
-                if (total > 0) {{
-                    const avgPerHour = total / 24;
-                    const highDensityHours = hourly.map((v, i) => ({{v, i}})).filter(x => x.v > avgPerHour * 2).map(x => x.i);
-                    if (highDensityHours.length <= 2 && highDensityHours.length > 0) suggestions.push(`编码时段集中：高峰仅在 ${{highDensityHours.join(', ')}} 点，建议适当分散`);
-                }}
-            }}
+            document.getElementById('suggestions').innerHTML = html;
 
-            // ============================================================
-            // 49. 周内提交均匀度
-            // ============================================================
-            if (agg.weekly.length === 7) {{
-                const totalWeekly = agg.weekly.reduce((a, b) => a + b, 0);
-                if (totalWeekly > 0) {{
-                    const avgPerDay = totalWeekly / 7;
-                    const variance = agg.weekly.reduce((a, v) => a + (v - avgPerDay) ** 2, 0) / 7;
-                    if (avgPerDay > 0) {{
-                        const cv = Math.sqrt(variance) / avgPerDay;
-                        if (cv > 0.8) suggestions.push('周内提交不均：各天差异大，建议保持更稳定的周节奏');
-                    }}
-                }}
-            }}
-
-            // ============================================================
-            // 50. 功能开发占比
-            // ============================================================
-            if (agg.total > 0) {{
-                const featC = agg.types.feat || 0;
-                const featPct = featC / agg.total * 100;
-                if (featPct > 60) suggestions.push(`功能开发为主：feat 占 ${{featPct.toFixed(0)}}%，建议平衡新功能与质量保障`);
-                else if (featPct < 10 && agg.total > 50) suggestions.push(`功能开发少：feat 仅占 ${{featPct.toFixed(0)}}%，开发以维护为主`);
-            }}
-
-            // ============================================================
-            // 51. Chore 类型分析
-            // ============================================================
-            if (agg.total > 0) {{
-                const choreC = agg.types.chore || 0;
-                const chorePct = choreC / agg.total * 100;
-                if (chorePct > 20) suggestions.push(`琐事较多：chore 占 ${{chorePct.toFixed(0)}}%，建议用自动化脚本减少重复工作`);
-            }}
-
-            // ============================================================
-            // 52. 提交历史长度
-            // ============================================================
-            if (agg.activeDays > 200) suggestions.push(`长期开发者：活跃超过 ${{agg.activeDays}} 天，积累了丰富的开发经验`);
-
-            // ============================================================
-            // 53. 最热门项目贡献
-            // ============================================================
-            if (totalProjects > 1 && agg.total > 0) {{
-                const maxCommits = Math.max(...Object.values(agg.projectCounts));
-                const topRatio = maxCommits / agg.total * 100;
-                if (topRatio > 60) suggestions.push(`单项目主导：最热门项目占 ${{topRatio.toFixed(0)}}% 提交，精力高度集中`);
-                else if (topRatio < 20) suggestions.push(`精力分散：最热门项目仅占 ${{topRatio.toFixed(0)}}% 提交，建议聚焦核心项目`);
-            }}
-
-            // ============================================================
-            // 54. 文档与代码比例
-            // ============================================================
-            if (agg.total > 0) {{
-                const docsC = agg.types.docs || 0;
-                const codeC = agg.total - docsC;
-                if (codeC > 0) {{
-                    const docCodeRatio = docsC / codeC;
-                    if (docCodeRatio > 0.3) suggestions.push(`文档投入高：文档/代码比 ${{docCodeRatio.toFixed(1)}}，文档维护良好`);
-                    else if (docCodeRatio < 0.05 && agg.total > 50) suggestions.push(`文档投入不足：文档/代码比 ${{docCodeRatio.toFixed(2)}}，建议增加文档更新`);
-                }}
-            }}
-
-            // ============================================================
-            // 55. 早起 vs 夜猫子
-            // ============================================================
-            if (hourly.length === 24) {{
-                const total = hourly.reduce((a, b) => a + b, 0);
-                if (total > 0) {{
-                    const morning = hourly.slice(5, 9).reduce((a, b) => a + b, 0);
-                    const night = hourly.slice(22, 24).reduce((a, b) => a + b, 0) + hourly.slice(0, 2).reduce((a, b) => a + b, 0);
-                    if (morning > night * 2 && morning > 0) suggestions.push('早起型开发者：早晨提交多于深夜，作息健康');
-                    else if (night > morning * 2 && night > 0) suggestions.push('夜猫子型开发者：深夜提交多于早晨，建议调整作息');
-                }}
-            }}
-
-            // ============================================================
-            // 56. 提交稳定性
-            // ============================================================
-            if (agg.activeDays > 10 && agg.total > 0) {{
-                const commitsPerDay = agg.total / agg.activeDays;
-                if (commitsPerDay >= 2 && commitsPerDay <= 6) suggestions.push(`提交节奏稳定：活跃日均 ${{commitsPerDay.toFixed(1)}} 次提交，节奏适中`);
-            }}
-
-            // ============================================================
-            // 57. 多语言项目管理
-            // ============================================================
-            if (langSet.size >= 3) {{
-                const langCounts = agg.languageCounts;
-                const topLang = Object.keys(langCounts).reduce((a, b) => (langCounts[a] || 0) > (langCounts[b] || 0) ? a : b, Object.keys(langCounts)[0]);
-                suggestions.push(`多语言开发者：使用 ${{langSet.size}} 种语言，${{topLang}} 项目最多`);
-            }}
-
-            // ============================================================
-            // 58. 其他类型提交分析
-            // ============================================================
-            if (agg.total > 0) {{
-                const otherC = agg.types.other || 0;
-                const otherPct = otherC / agg.total * 100;
-                if (otherPct > 30) suggestions.push(`提交分类不清：${{otherPct.toFixed(0)}}% 归为 other，建议使用标准 commit 类型`);
-                else if (otherPct < 10 && agg.total > 50) suggestions.push(`提交分类规范：other 仅占 ${{otherPct.toFixed(0)}}%，类型使用清晰`);
-            }}
-
-            // ============================================================
-            // 59. 功能开发深度
-            // ============================================================
-            if (agg.total > 0) {{
-                const featC = agg.types.feat || 0;
-                const fixC = agg.types.fix || 0;
-                if (featC > 0 && fixC > 0) {{
-                    const featFixRatio = featC / fixC;
-                    if (featFixRatio > 4) suggestions.push(`功能驱动：功能/修复比 ${{featFixRatio.toFixed(1)}}:1，开发节奏快`);
-                    else if (featFixRatio < 1) suggestions.push('修复驱动：修复多于新功能，建议分析根本原因');
-                }}
-            }}
-
-            // ============================================================
-            // 60. 项目维护活跃度
-            // ============================================================
-            if (agg.total > 0) {{
-                const wellMaintained = Object.values(agg.projectCounts).filter(c => c > 30).length;
-                if (wellMaintained >= 3) suggestions.push(`多项目深耕：${{wellMaintained}} 个项目提交超过 30 次，项目管理能力强`);
-            }}
-
-            // 默认
-            if (!suggestions.length) suggestions.push('继续保持良好的开发习惯！各项指标都很健康');
-
-            document.getElementById('suggestions').innerHTML = suggestions.map((s, i) => `
-                <div class="sug-item">
-                    <div class="sug-num">${{i + 1}}</div>
-                    <div class="sug-text">${{s}}</div>
-                </div>`).join('');
+            // 绑定 tab 切换事件
+            document.querySelectorAll('.sug-tab').forEach(tab => {{
+                tab.addEventListener('click', () => {{
+                    const cat = tab.dataset.cat;
+                    document.querySelectorAll('.sug-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.sug-panel').forEach(p => p.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.querySelector(`.sug-panel[data-cat="${{cat}}"]`).classList.add('active');
+                }});
+            }});
         }}
 
         // ============================================================
