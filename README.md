@@ -53,14 +53,20 @@
 ## 快速开始
 
 ```bash
-# 本地开发方式（默认扫描桌面，输出到当前目录）
+# 本地开发方式（默认扫描当前目录，输出到当前目录）
 python3 run.py
 
 # 指定扫描目录
 python3 run.py ~/Projects
 
+# 同时扫描多个目录
+python3 run.py ~/Projects ~/Work
+
 # 指定输出目录
 python3 run.py ~/Projects --output-dir ./out
+
+# 生成后自动打开报告，并输出分享卡片设计器
+python3 run.py ~/Projects --open --share-card
 ```
 
 ## 安装后使用
@@ -69,17 +75,27 @@ python3 run.py ~/Projects --output-dir ./out
 # 从项目目录安装
 pip install .
 
-# 生成报告（默认扫描桌面，输出到当前目录）
+# 生成报告（默认扫描当前目录，输出到当前目录）
 git-analytics
 
 # 指定扫描目录和输出目录
 git-analytics ~/Projects --output-dir ./out
+
+# 同时扫描多个目录
+git-analytics ~/Projects ~/Work --output-dir ./out
+
+# 增加扫描深度
+git-analytics ~/Projects --max-depth 5
+
+# 生成后自动打开报告，并输出分享卡片设计器
+git-analytics ~/Projects --open --share-card
 ```
 
 ## 输出
 
 - `report.html` - 个人代码习惯体检报告（用浏览器打开）
 - `data.json` - 原始分析数据
+- `share-card.html` - PNG 分享卡片设计器（使用 `--share-card` 时生成）
 
 默认输出到运行命令时所在的当前目录，也可以通过 `--output-dir` 指定。
 

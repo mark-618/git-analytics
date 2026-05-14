@@ -17,3 +17,6 @@ git-analytics = "run:main"
 
 [tool.setuptools]
 py-modules = ["run", "git_analytics", "generate_report"]
+
+[tool.setuptools.data-files]
+"share/git-analytics" = ["share-card.html"]

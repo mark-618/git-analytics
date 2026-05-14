@@ -40,11 +40,32 @@ DOC_PATTERNS = [
 ]
 
 # AI 工具痕迹
-AI_PATTERNS = [
-    r'\.claude[/\\]', r'\.cursor[/\\]', r'\.github[/\\]copilot',
-    r'CLAUDE\.md', r'AGENTS\.md', r'Generated with Claude',
-    r'Co-Authored-By.*Claude', r'Co-Authored-By.*Copilot'
+# strong signal: commit message/body/footer 明确写了 AI 协作来源
+AI_MESSAGE_PATTERNS = [
+    r'generated\s+with\s+(claude|codex|copilot|cursor|chatgpt|openai)',
+    r'co-authored-by:.*(claude|codex|copilot|cursor|chatgpt|openai)',
+    r'claude\s+code',
+    r'codex',
+    r'copilot',
+    r'cursor\s+ai',
+    r'chatgpt',
+    r'openai'
 ]
+
+# strong signal: 本次 commit 修改了 AI 工具配置或上下文文件
+AI_FILE_PATTERNS = [
+    r'(^|[/\\])\.claude([/\\]|$)',
+    r'(^|[/\\])\.cursor([/\\]|$)',
+    r'(^|[/\\])\.codex([/\\]|$)',
+    r'(^|[/\\])\.cursorrules$',
+    r'(^|[/\\])AGENTS\.md$',
+    r'(^|[/\\])CLAUDE\.md$',
+    r'(^|[/\\])CODEX\.md$',
+    r'(^|[/\\])\.github[/\\]copilot'
+]
+
+# weak signal: 工作区存在 AI tooling，只说明这个 repo 接入过 AI，不等于每个 commit 都是 AI 写的
+AI_WORKSPACE_PATHS = ['AGENTS.md', 'CLAUDE.md', 'CODEX.md', '.claude', '.cursor', '.codex', '.cursorrules']
 
 
 # ============================================================
@@ -155,9 +176,11 @@ def collect_repo_data(repo_path, since=None, until=None):
         c['file_change_count'] = len(commit_file_changes)
         c['test_files'] = sum(1 for f in commit_file_changes if any(re.search(p, f, re.I) for p in TEST_PATTERNS))
         c['doc_files'] = sum(1 for f in commit_file_changes if any(re.search(p, f, re.I) for p in DOC_PATTERNS))
-        c['ai_signal'] = any(re.search(p, c['message'], re.I) for p in AI_PATTERNS) or any(
-            any(re.search(p, f, re.I) for p in AI_PATTERNS) for f in commit_file_changes
+        c['ai_message_signal'] = any(re.search(p, c['message'], re.I) for p in AI_MESSAGE_PATTERNS)
+        c['ai_file_signal'] = any(
+            any(re.search(p, f, re.I) for p in AI_FILE_PATTERNS) for f in commit_file_changes
         )
+        c['ai_signal'] = c['ai_message_signal'] or c['ai_file_signal']
 
     # 判断主要语言
     lang_map = {
@@ -250,14 +273,24 @@ def collect_repo_data(repo_path, since=None, until=None):
 
     # AI 痕迹检测
     ai_signals = []
-    for c in commits[:50]:  # 检查最近 50 个 commit
-        if any(re.search(p, c['message'], re.I) for p in AI_PATTERNS):
-            ai_signals.append(c['message'])
+    weak_ai_signals = []
+    for c in commits:
+        if c.get('ai_message_signal'):
+            ai_signals.append(f"AI commit message: {c['message']}")
+        if c.get('ai_file_signal'):
+            ai_signals.append(f"AI commit file: {c['message']}")
 
-    # 检查是否有 AI 相关文件
+    # 检查是否有 AI 相关文件，作为 commit-level strong signal 的可读证据
     for f in file_changes:
-        if any(re.search(p, f, re.I) for p in AI_PATTERNS):
+        if any(re.search(p, f, re.I) for p in AI_FILE_PATTERNS):
             ai_signals.append(f"AI file: {f}")
+
+    # 检查工作区 AI tooling。这里只作为 weak signal，不直接算 AI commit。
+    for rel_path in AI_WORKSPACE_PATHS:
+        if (Path(repo_path) / rel_path).exists():
+            weak_ai_signals.append(f"AI workspace: {rel_path}")
+
+    repo_ai_detected = bool(weak_ai_signals)
 
     return {
         'name': repo_name,
@@ -277,6 +310,8 @@ def collect_repo_data(repo_path, since=None, until=None):
         'doc_files': doc_files,
         'total_file_changes': len(file_changes),
         'ai_signals': ai_signals[:10],
+        'weak_ai_signals': weak_ai_signals[:10],
+        'repo_ai_detected': repo_ai_detected,
         'low_info_commits': sum(1 for c in commits if any(
             re.match(p, c['message'].lower()) for p in LOW_INFO_PATTERNS
         )),
@@ -288,6 +323,7 @@ def collect_repo_data(repo_path, since=None, until=None):
                       'doc_files': c.get('doc_files', 0),
                       'low_info': c.get('low_info', False),
                       'ai_signal': c.get('ai_signal', False),
+                      'repo_ai_signal': repo_ai_detected,
                       'classification_confidence': c.get('classification_confidence', 'low')} for c in commits]
     }
 
@@ -331,8 +367,10 @@ def analyze_habits(all_repos):
 
     # 合并 AI 信号
     all_ai_signals = []
+    all_weak_ai_signals = []
     for r in all_repos:
         all_ai_signals.extend(r['ai_signals'])
+        all_weak_ai_signals.extend(r.get('weak_ai_signals', []))
 
     # ============================================================
     # 计算 Developer Habit Score
@@ -404,8 +442,17 @@ def analyze_habits(all_repos):
 
     # 6. AI 维度 (A): H=Handcraft 手工型, A=AI-assisted AI 协作型
     #    spectrum: 0=纯手工, 100=AI 辅助
-    ai_detected = len(all_ai_signals) >= 3
-    ai_spectrum = 100 if ai_detected else 0
+    explicit_ai_commit_count_for_persona = sum(
+        1 for r in all_repos for c in r.get('commits', []) if c.get('ai_signal')
+    )
+    ai_tooling_commit_count_for_persona = sum(
+        r['total_commits'] for r in all_repos if r.get('repo_ai_detected')
+    )
+    explicit_ai_ratio_for_persona = explicit_ai_commit_count_for_persona / max(total_commits, 1)
+    ai_tooling_ratio_for_persona = ai_tooling_commit_count_for_persona / max(total_commits, 1)
+    ai_detected = explicit_ai_commit_count_for_persona >= 3 or len(all_weak_ai_signals) >= 1
+    # commit-level 证据是 strong signal；workspace tooling 是 weak signal，最多贡献 15 分
+    ai_spectrum = round(min(explicit_ai_ratio_for_persona * 300 + min(ai_tooling_ratio_for_persona * 15, 15), 100))
     ai_type = 'A' if ai_spectrum > 50 else 'H'
 
     # 组合人格类型 (6位)
@@ -554,6 +601,35 @@ def analyze_habits(all_repos):
             all_commits.append({**c, 'project': r['name']})
 
     # ============================================================
+    # AI 使用统计
+    # ============================================================
+    ai_commit_count = sum(1 for c in all_commits if c.get('ai_signal'))
+    ai_tooling_commit_count = sum(1 for c in all_commits if c.get('repo_ai_signal'))
+    ai_commit_ratio = ai_commit_count / max(total_commits, 1)
+    ai_tooling_ratio = ai_tooling_commit_count / max(total_commits, 1)
+
+    monthly_ai = defaultdict(int)
+    for c in all_commits:
+        month = c.get('month', '')
+        if month and c.get('ai_signal'):
+            monthly_ai[month] += 1
+
+    tool_counts = {'Claude': 0, 'Cursor': 0, 'Codex': 0, 'Copilot': 0, 'Other': 0}
+    for signal in all_ai_signals + all_weak_ai_signals:
+        signal_lower = signal.lower()
+        if 'claude' in signal_lower:
+            tool_counts['Claude'] += 1
+        elif 'cursor' in signal_lower:
+            tool_counts['Cursor'] += 1
+        elif 'codex' in signal_lower:
+            tool_counts['Codex'] += 1
+        elif 'copilot' in signal_lower:
+            tool_counts['Copilot'] += 1
+        else:
+            tool_counts['Other'] += 1
+    tool_counts = {k: v for k, v in tool_counts.items() if v > 0}
+
+    # ============================================================
     # 时间习惯分析
     # ============================================================
 
@@ -637,9 +713,18 @@ def analyze_habits(all_repos):
 
         # AI 信号
         'ai_signals': {
-            'detected': len(all_ai_signals) >= 3,
-            'count': len(all_ai_signals),
-            'examples': all_ai_signals[:5]
+            'detected': ai_detected,
+            'count': len(all_ai_signals) + len(all_weak_ai_signals),
+            'examples': (all_ai_signals + all_weak_ai_signals)[:5],
+            'strong_signal_count': len(all_ai_signals),
+            'weak_signal_count': len(all_weak_ai_signals),
+            'ai_commit_count': ai_commit_count,
+            'ai_commit_ratio': round(ai_commit_ratio * 100, 1),
+            'ai_tooling_commit_count': ai_tooling_commit_count,
+            'ai_tooling_ratio': round(ai_tooling_ratio * 100, 1),
+            'ai_influence_score': ai_spectrum,
+            'monthly_ai': dict(monthly_ai),
+            'tools': tool_counts
         },
 
         # 项目聚焦度
@@ -658,16 +743,20 @@ def analyze_habits(all_repos):
 # ============================================================
 # 主函数
 # ============================================================
-def main(scan_dir=None, since=None, until=None, project=None, output_dir=None):
+def main(scan_dir=None, since=None, until=None, project=None, output_dir=None, max_depth=3):
     """主函数"""
     if scan_dir is None:
-        scan_dir = DEFAULT_SCAN_DIR
+        scan_dir = os.getcwd()
+    scan_dirs = scan_dir if isinstance(scan_dir, (list, tuple)) else [scan_dir]
     if output_dir is None:
         output_dir = os.getcwd()
     output_dir = os.path.abspath(os.path.expanduser(output_dir))
     os.makedirs(output_dir, exist_ok=True)
 
-    print(f"🔍 扫描目录: {scan_dir}")
+    print("🔍 扫描目录:")
+    for item in scan_dirs:
+        print(f"  - {os.path.abspath(os.path.expanduser(item))}")
+    print(f"🔎 扫描深度: {max_depth}")
     if since or until:
         print(f"📅 时间范围: {since or '起始'} ~ {until or '至今'}")
     if project:
@@ -675,7 +764,14 @@ def main(scan_dir=None, since=None, until=None, project=None, output_dir=None):
     print("=" * 50)
 
     # 1. 发现 Git 仓库
-    repos = find_git_repos(scan_dir)
+    repos = []
+    seen_repos = set()
+    for item in scan_dirs:
+        for repo in find_git_repos(item, max_depth=max_depth):
+            repo_path = os.path.abspath(repo)
+            if repo_path not in seen_repos:
+                seen_repos.add(repo_path)
+                repos.append(repo_path)
 
     # 项目筛选（模糊匹配）
     if project:
@@ -717,7 +813,8 @@ def main(scan_dir=None, since=None, until=None, project=None, output_dir=None):
         'since': since,
         'until': until,
         'project': project,
-        'scan_dir': scan_dir
+        'scan_dir': scan_dirs,
+        'max_depth': max_depth
     }
 
     # 4. 保存数据
@@ -735,10 +832,12 @@ def main(scan_dir=None, since=None, until=None, project=None, output_dir=None):
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('scan_dir', nargs='?', default=None)
+    parser.add_argument('scan_dir', nargs='*', default=None)
     parser.add_argument('--since', help='起始日期')
     parser.add_argument('--until', help='截止日期')
     parser.add_argument('--project', help='指定项目')
     parser.add_argument('--output-dir', default=None, help='输出目录')
+    parser.add_argument('--max-depth', type=int, default=3, help='扫描目录深度')
     args = parser.parse_args()
-    main(scan_dir=args.scan_dir, since=args.since, until=args.until, project=args.project, output_dir=args.output_dir)
+    main(scan_dir=args.scan_dir or None, since=args.since, until=args.until,
+         project=args.project, output_dir=args.output_dir, max_depth=args.max_depth)

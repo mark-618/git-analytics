@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Analytics Share Card Designer</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", sans-serif;
+            background: #101114;
+            color: #f4f2eb;
+        }
+        .app {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: minmax(360px, 420px) 1fr;
+        }
+        .panel {
+            padding: 28px;
+            border-right: 1px solid rgba(255,255,255,0.10);
+            background:
+                linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+                #17181c;
+        }
+        .brand {
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            color: #a7f3d0;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        h1 {
+            margin: 0 0 8px;
+            font-size: 32px;
+            line-height: 1.05;
+            letter-spacing: 0;
+        }
+        .sub {
+            color: rgba(244,242,235,0.62);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 26px;
+        }
+        .group { margin-bottom: 22px; }
+        .group-title {
+            font-size: 13px;
+            color: rgba(244,242,235,0.74);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .seg {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        .seg.three { grid-template-columns: repeat(3, 1fr); }
+        button, .file-label {
+            border: 1px solid rgba(255,255,255,0.13);
+            border-radius: 8px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.055);
+            color: #f4f2eb;
+            font: inherit;
+            cursor: pointer;
+            transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+        }
+        button:hover, .file-label:hover {
+            transform: translateY(-1px);
+            border-color: rgba(167,243,208,0.45);
+            background: rgba(255,255,255,0.09);
+        }
+        button.active {
+            border-color: #a7f3d0;
+            background: rgba(167,243,208,0.14);
+        }
+        .download {
+            width: 100%;
+            margin-top: 6px;
+            background: #f4f2eb;
+            color: #111214;
+            border-color: #f4f2eb;
+            font-weight: 800;
+        }
+        label {
+            display: block;
+            font-size: 12px;
+            color: rgba(244,242,235,0.58);
+            margin-bottom: 7px;
+        }
+        input[type="text"] {
+            width: 100%;
+            border: 1px solid rgba(255,255,255,0.13);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.22);
+            color: #f4f2eb;
+            padding: 11px 12px;
+            font: inherit;
+            outline: none;
+        }
+        input[type="color"] {
+            width: 100%;
+            height: 42px;
+            border: 1px solid rgba(255,255,255,0.13);
+            border-radius: 8px;
+            background: transparent;
+            padding: 4px;
+        }
+        input[type="file"] { display: none; }
+        .color-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .file-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            font-size: 13px;
+        }
+        .hint {
+            color: rgba(244,242,235,0.46);
+            font-size: 12px;
+            line-height: 1.6;
+            margin-top: 10px;
+        }
+        .stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 36px;
+            background:
+                linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(255,255,255,0.04) 1px, transparent 1px),
+                #0f1013;
+            background-size: 42px 42px;
+            overflow: auto;
+        }
+        .canvas-wrap {
+            width: min(480px, 92vw);
+            aspect-ratio: 4 / 5;
+            border-radius: 18px;
+            box-shadow: 0 28px 90px rgba(0,0,0,0.48);
+            overflow: hidden;
+            background: #222;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        @media (max-width: 900px) {
+            .app { grid-template-columns: 1fr; }
+            .panel { border-right: 0; border-bottom: 1px solid rgba(255,255,255,0.10); }
+            .stage { padding: 22px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="app">
+        <aside class="panel">
+            <div class="brand">Git Analytics</div>
+            <h1>代码画像分享器</h1>
+            <div class="sub">生成适合朋友圈、X、LinkedIn、小红书传播的竖版 PNG。背景可以换风格、换颜色，也可以上传自己的图片。</div>
+
+            <div class="group">
+                <div class="group-title">卡片标题</div>
+                <input id="titleInput" type="text" value="我的代码人格">
+            </div>
+
+            <div class="group">
+                <div class="group-title">版式</div>
+                <div class="seg">
+                    <button class="active" data-layout="poster">传播海报</button>
+                    <button data-layout="badge">身份徽章</button>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="group-title">背景风格</div>
+                <div class="seg">
+                    <button class="active" data-bg="aurora">极光</button>
+                    <button data-bg="terminal">终端</button>
+                    <button data-bg="paper">纸张</button>
+                    <button data-bg="sunrise">日出</button>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="group-title">个性化颜色</div>
+                <div class="color-row">
+                    <div>
+                        <label for="primaryColor">主色</label>
+                        <input id="primaryColor" type="color" value="#a7f3d0">
+                    </div>
+                    <div>
+                        <label for="accentColor">强调色</label>
+                        <input id="accentColor" type="color" value="#fbbf24">
+                    </div>
+                </div>
+            </div>
+
+            <div class="group">
+                <div class="group-title">自定义背景图</div>
+                <label class="file-label" for="bgFile">选择图片作为背景</label>
+                <input id="bgFile" type="file" accept="image/*">
+                <div class="hint">上传后会自动 cover 裁切，并加暗色蒙层保证文字可读。点击下面按钮可移除图片。</div>
+                <button id="clearImage" style="width:100%;margin-top:10px;">移除背景图</button>
+            </div>
+
+            <button class="download" id="downloadBtn">导出 PNG 分享图</button>
+            <div class="hint">输出尺寸：2160 × 2700 高清 PNG。传播时发 PNG，不需要发 HTML。</div>
+        </aside>
+
+        <section class="stage">
+            <div class="canvas-wrap">
+                <canvas id="shareCanvas" width="2160" height="2700"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const DATA = {
+            summary: { totalCommits: 604, totalActiveDays: 198, totalProjects: 20 },
+            score: 71,
+            persona: {
+                icon: "⚡",
+                name: "顶级黑客",
+                code: "DSCPQA",
+                desc: "跨项目、高频率、能交付也能打磨",
+                detail: "白天 62% · 高频提交 100% · 核心项目 51% · AI 协作型"
+            },
+            dims: [
+                ["时间偏好", "白天型", "D"],
+                ["节奏风格", "冲刺型", "S"],
+                ["专注程度", "核心深挖", "C"],
+                ["开发风格", "功能开拓", "P"],
+                ["工程取向", "质量导向", "Q"],
+                ["AI 协作", "AI 搭子", "A"]
+            ],
+            tags: ["AI 搭子", "测试守门人", "文档布道者", "多仓调度大师"]
+        };
+
+        const state = {
+            layout: "poster",
+            bg: "aurora",
+            primary: "#a7f3d0",
+            accent: "#fbbf24",
+            title: "我的代码人格",
+            image: null
+        };
+
+        const canvas = document.getElementById("shareCanvas");
+        const ctx = canvas.getContext("2d");
+        const EXPORT_SCALE = 2;
+        const W = 1080;
+        const H = 1350;
+
+        function hexToRgb(hex) {
+            const clean = hex.replace("#", "");
+            return [
+                parseInt(clean.slice(0, 2), 16),
+                parseInt(clean.slice(2, 4), 16),
+                parseInt(clean.slice(4, 6), 16)
+            ];
+        }
+
+        function mix(a, b, t) {
+            return Math.round(a + (b - a) * t);
+        }
+
+        function rgb(hex, alpha = 1) {
+            const [r, g, b] = hexToRgb(hex);
+            return `rgba(${r},${g},${b},${alpha})`;
+        }
+
+        function drawCoverImage(img) {
+            const scale = Math.max(W / img.width, H / img.height);
+            const iw = img.width * scale;
+            const ih = img.height * scale;
+            ctx.drawImage(img, (W - iw) / 2, (H - ih) / 2, iw, ih);
+            ctx.fillStyle = "rgba(0,0,0,0.46)";
+            ctx.fillRect(0, 0, W, H);
+        }
+
+        function drawBg() {
+            if (state.image) {
+                drawCoverImage(state.image);
+                return;
+            }
+
+            if (state.bg === "paper") {
+                const g = ctx.createLinearGradient(0, 0, W, H);
+                g.addColorStop(0, "#f3efe3");
+                g.addColorStop(1, "#d8cdb9");
+                ctx.fillStyle = g;
+                ctx.fillRect(0, 0, W, H);
+                ctx.fillStyle = "rgba(30,28,24,0.055)";
+                for (let i = 0; i < 1800; i++) ctx.fillRect(Math.random() * W, Math.random() * H, 1.2, 1.2);
+                return;
+            }
+
+            const top = state.bg === "terminal" ? "#07100d" : state.bg === "sunrise" ? "#251015" : "#101114";
+            const bottom = state.bg === "terminal" ? "#111a16" : state.bg === "sunrise" ? "#603019" : "#17202a";
+            const g = ctx.createLinearGradient(0, 0, W, H);
+            g.addColorStop(0, top);
+            g.addColorStop(1, bottom);
+            ctx.fillStyle = g;
+            ctx.fillRect(0, 0, W, H);
+
+            if (state.bg === "terminal") {
+                ctx.strokeStyle = "rgba(167,243,208,0.08)";
+                ctx.lineWidth = 1;
+                for (let x = 80; x < W; x += 80) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, H);
+                    ctx.stroke();
+                }
+                for (let y = 80; y < H; y += 80) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(W, y);
+                    ctx.stroke();
+                }
+            } else {
+                const p = hexToRgb(state.primary);
+                const a = hexToRgb(state.accent);
+                const glow1 = ctx.createRadialGradient(820, 180, 10, 820, 180, 620);
+                glow1.addColorStop(0, `rgba(${p[0]},${p[1]},${p[2]},0.55)`);
+                glow1.addColorStop(1, "rgba(0,0,0,0)");
+                ctx.fillStyle = glow1;
+                ctx.fillRect(0, 0, W, H);
+
+                const glow2 = ctx.createRadialGradient(160, 1040, 10, 160, 1040, 720);
+                glow2.addColorStop(0, `rgba(${a[0]},${a[1]},${a[2]},0.40)`);
+                glow2.addColorStop(1, "rgba(0,0,0,0)");
+                ctx.fillStyle = glow2;
+                ctx.fillRect(0, 0, W, H);
+            }
+        }
+
+        function roundRect(x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.arcTo(x + w, y, x + w, y + h, r);
+            ctx.arcTo(x + w, y + h, x, y + h, r);
+            ctx.arcTo(x, y + h, x, y, r);
+            ctx.arcTo(x, y, x + w, y, r);
+            ctx.closePath();
+        }
+
+        function fillRound(x, y, w, h, r, fill, stroke) {
+            roundRect(x, y, w, h, r);
+            ctx.fillStyle = fill;
+            ctx.fill();
+            if (stroke) {
+                ctx.strokeStyle = stroke;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+
+        function textCenter(text, x, y, font, fill) {
+            ctx.font = font;
+            ctx.fillStyle = fill;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "top";
+            ctx.fillText(text, x, y);
+        }
+
+        function drawPoster() {
+            const darkText = state.bg === "paper" && !state.image;
+            const mainText = darkText ? "#171512" : "#fffdf7";
+            const softText = darkText ? "rgba(23,21,18,0.62)" : "rgba(255,253,247,0.64)";
+            const glass = darkText ? "rgba(255,255,255,0.48)" : "rgba(255,255,255,0.10)";
+            const border = darkText ? "rgba(23,21,18,0.12)" : "rgba(255,255,255,0.16)";
+
+            ctx.save();
+            ctx.translate(70, 70);
+            fillRound(0, 0, W - 140, H - 140, 46, darkText ? "rgba(255,255,255,0.36)" : "rgba(0,0,0,0.20)", border);
+            ctx.restore();
+
+            textCenter(state.title, W / 2, 122, "700 42px PingFang SC, sans-serif", rgb(state.primary));
+            textCenter(DATA.persona.icon, W / 2, 210, "900 98px PingFang SC, sans-serif", mainText);
+            textCenter(DATA.persona.name, W / 2, 330, "900 78px PingFang SC, sans-serif", mainText);
+            textCenter(DATA.persona.code, W / 2, 430, "800 34px ui-monospace, SFMono-Regular, Menlo, monospace", softText);
+            textCenter(DATA.persona.detail, W / 2, 488, "500 26px PingFang SC, sans-serif", softText);
+
+            const statY = 590;
+            const statW = 278;
+            const stats = [
+                [DATA.summary.totalCommits, "commits"],
+                [DATA.summary.totalActiveDays, "active days"],
+                [DATA.summary.totalProjects, "projects"]
+            ];
+            stats.forEach(([value, label], i) => {
+                const x = 82 + i * (statW + 28);
+                fillRound(x, statY, statW, 156, 28, glass, border);
+                textCenter(String(value), x + statW / 2, statY + 30, "900 58px ui-sans-serif, sans-serif", rgb(state.accent));
+                textCenter(label, x + statW / 2, statY + 96, "700 22px ui-sans-serif, sans-serif", softText);
+            });
+
+            const dimY = 800;
+            DATA.dims.forEach(([label, value, code], i) => {
+                const col = i % 3;
+                const row = Math.floor(i / 3);
+                const x = 82 + col * 306;
+                const y = dimY + row * 126;
+                fillRound(x, y, 278, 102, 24, glass, border);
+                ctx.textAlign = "left";
+                ctx.textBaseline = "top";
+                ctx.fillStyle = rgb(state.primary);
+                ctx.font = "900 30px ui-monospace, SFMono-Regular, Menlo, monospace";
+                ctx.fillText(code, x + 24, y + 22);
+                ctx.fillStyle = softText;
+                ctx.font = "600 19px PingFang SC, sans-serif";
+                ctx.fillText(label, x + 72, y + 18);
+                ctx.fillStyle = mainText;
+                ctx.font = "800 25px PingFang SC, sans-serif";
+                ctx.fillText(value, x + 72, y + 48);
+            });
+
+            const scoreY = 1076;
+            fillRound(82, scoreY, W - 164, 142, 30, glass, border);
+            ctx.textAlign = "left";
+            ctx.fillStyle = rgb(state.accent);
+            ctx.font = "900 78px ui-sans-serif, sans-serif";
+            ctx.fillText(DATA.score, 124, scoreY + 34);
+            ctx.fillStyle = softText;
+            ctx.font = "700 24px PingFang SC, sans-serif";
+            ctx.fillText("Developer Habit Score", 270, scoreY + 38);
+            fillRound(270, scoreY + 86, 600, 14, 7, darkText ? "rgba(23,21,18,0.12)" : "rgba(255,255,255,0.14)");
+            fillRound(270, scoreY + 86, 600 * DATA.score / 100, 14, 7, rgb(state.accent));
+
+            textCenter("Git Analytics · 本地优先的代码习惯体检", W / 2, 1262, "600 22px PingFang SC, sans-serif", softText);
+        }
+
+        function drawBadge() {
+            const darkText = state.bg === "paper" && !state.image;
+            const mainText = darkText ? "#171512" : "#fffdf7";
+            const softText = darkText ? "rgba(23,21,18,0.62)" : "rgba(255,253,247,0.64)";
+            textCenter("DEV PERSONA", W / 2, 125, "900 34px ui-monospace, SFMono-Regular, Menlo, monospace", rgb(state.primary));
+            textCenter(DATA.persona.icon, W / 2, 230, "900 150px PingFang SC, sans-serif", mainText);
+            textCenter(DATA.persona.name, W / 2, 420, "900 86px PingFang SC, sans-serif", mainText);
+            textCenter(DATA.persona.desc, W / 2, 535, "600 31px PingFang SC, sans-serif", softText);
+
+            fillRound(170, 632, 740, 150, 38, darkText ? "rgba(255,255,255,0.40)" : "rgba(255,255,255,0.10)", darkText ? "rgba(23,21,18,0.12)" : "rgba(255,255,255,0.16)");
+            textCenter(DATA.persona.code, W / 2, 660, "900 72px ui-monospace, SFMono-Regular, Menlo, monospace", rgb(state.accent));
+            textCenter(`${DATA.summary.totalCommits} commits · ${DATA.summary.totalProjects} projects · score ${DATA.score}`, W / 2, 905, "800 34px ui-sans-serif, sans-serif", mainText);
+
+            const tagText = DATA.tags.join(" / ");
+            textCenter(tagText, W / 2, 988, "600 28px PingFang SC, sans-serif", softText);
+            textCenter("Git Analytics", W / 2, 1190, "900 30px ui-monospace, SFMono-Regular, Menlo, monospace", rgb(state.primary));
+        }
+
+        function render() {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.setTransform(EXPORT_SCALE, 0, 0, EXPORT_SCALE, 0, 0);
+            drawBg();
+            if (state.layout === "poster") drawPoster();
+            else drawBadge();
+        }
+
+        document.querySelectorAll("[data-layout]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll("[data-layout]").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                state.layout = btn.dataset.layout;
+                render();
+            });
+        });
+
+        document.querySelectorAll("[data-bg]").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.querySelectorAll("[data-bg]").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                state.bg = btn.dataset.bg;
+                render();
+            });
+        });
+
+        document.getElementById("titleInput").addEventListener("input", e => {
+            state.title = e.target.value || "我的代码人格";
+            render();
+        });
+        document.getElementById("primaryColor").addEventListener("input", e => {
+            state.primary = e.target.value;
+            render();
+        });
+        document.getElementById("accentColor").addEventListener("input", e => {
+            state.accent = e.target.value;
+            render();
+        });
+        document.getElementById("bgFile").addEventListener("change", e => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+                const img = new Image();
+                img.onload = () => {
+                    state.image = img;
+                    render();
+                };
+                img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+        document.getElementById("clearImage").addEventListener("click", () => {
+            state.image = null;
+            document.getElementById("bgFile").value = "";
+            render();
+        });
+        document.getElementById("downloadBtn").addEventListener("click", () => {
+            const a = document.createElement("a");
+            a.href = canvas.toDataURL("image/png");
+            a.download = "git-analytics-share-card-2x.png";
+            a.click();
+        });
+
+        render();
+    </script>
+</body>
+</html>
