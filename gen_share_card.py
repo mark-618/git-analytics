@@ -13,8 +13,8 @@ from datetime import datetime
 try:
     from PIL import Image, ImageDraw, ImageFont
 except ImportError:
-    print("需要安装 Pillow 才能生成 PNG 分享卡片。")
-    print("运行: pip install git-analytics-cli[share-card]")
+    print("Pillow 是 git-analytics-cli 的必需依赖，请重新安装：")
+    print("pip install --upgrade git-analytics-cli")
     sys.exit(1)
 
 

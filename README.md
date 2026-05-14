@@ -1,5 +1,7 @@
 # Git Analytics
 
+[![CI](https://github.com/mark-618/git-analytics/actions/workflows/ci.yml/badge.svg)](https://github.com/mark-618/git-analytics/actions/workflows/ci.yml)
+
 **扫描本地 Git 仓库，生成你的开发者人格画像和代码习惯体检报告。**
 
 不只统计 commits 和 lines——它告诉你：你是什么类型的开发者，你的代码习惯健康吗。
@@ -9,6 +11,8 @@
 ```bash
 pip install git-analytics-cli
 ```
+
+> **Package name vs command name**: PyPI package name is `git-analytics-cli`, CLI command is `git-analytics`.
 
 ## 30 秒快速开始
 
@@ -21,6 +25,18 @@ git-analytics ~/Projects
 ```
 
 向导会引导你选择扫描目录、扫描深度、输出目录等，不需要记任何参数。
+
+## Interactive Wizard
+
+运行 `git-analytics` 不带参数时，会启动交互式向导：
+
+1. 选择扫描目录（当前目录、Desktop、Projects 等）
+2. 选择扫描深度（3 或 5）
+3. 输入输出目录
+4. 是否自动打开报告
+5. 是否生成分享卡片设计器
+
+向导会显示配置摘要，确认后开始扫描。输入 `q` 可随时退出。
 
 ## CLI 用法
 
