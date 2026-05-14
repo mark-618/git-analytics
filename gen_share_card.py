@@ -7,8 +7,15 @@ Git Analytics - 分享卡片生成器
 import json
 import argparse
 import os
-from PIL import Image, ImageDraw, ImageFont
+import sys
 from datetime import datetime
+
+try:
+    from PIL import Image, ImageDraw, ImageFont
+except ImportError:
+    print("需要安装 Pillow 才能生成 PNG 分享卡片。")
+    print("运行: pip install git-analytics-cli[share-card]")
+    sys.exit(1)
 
 
 # --- 默认配色方案 ---

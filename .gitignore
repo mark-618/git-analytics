@@ -6,3 +6,7 @@ dist/
 .venv/
 .env
 .DS_Store
+
+# Generated output (do not commit)
+data.json
+report.html

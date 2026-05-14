@@ -35,6 +35,115 @@ def _find_share_card_template():
     return None
 
 
+def _is_interactive():
+    return sys.stdin.isatty() and sys.stdout.isatty()
+
+
+def _button_choice(title, options, default=1):
+    print(title)
+    for idx, (label, desc) in enumerate(options, 1):
+        suffix = "  ← 默认" if idx == default else ""
+        print(f"  [{idx}] {label}{suffix}")
+        if desc:
+            print(f"      {desc}")
+    raw = input(f"选择 [{default}]: ").strip()
+    if not raw:
+        return default
+    try:
+        value = int(raw)
+    except ValueError:
+        return default
+    if 1 <= value <= len(options):
+        return value
+    return default
+
+
+def _confirm(title, default=True):
+    default_text = "Y/n" if default else "y/N"
+    raw = input(f"{title} [{default_text}]: ").strip().lower()
+    if not raw:
+        return default
+    return raw in {"y", "yes", "1", "true"}
+
+
+def _path_label(path):
+    return os.path.abspath(os.path.expanduser(path))
+
+
+def _existing_path(path):
+    expanded = os.path.abspath(os.path.expanduser(path))
+    return expanded if os.path.isdir(expanded) else None
+
+
+def _run_wizard(args):
+    home = os.path.expanduser("~")
+    current = os.getcwd()
+    candidates = [
+        ("当前目录", current),
+        ("Desktop", os.path.join(home, "Desktop")),
+        ("Projects", os.path.join(home, "Projects")),
+        ("Code", os.path.join(home, "Code")),
+        ("自定义路径", None),
+    ]
+    options = []
+    values = []
+    for label, path in candidates:
+        if path is None:
+            options.append((label, "输入一个或多个目录，用逗号分隔"))
+            values.append(None)
+            continue
+        existing = _existing_path(path)
+        if existing:
+            options.append((label, existing))
+            values.append(existing)
+
+    print()
+    print("Git Analytics Setup")
+    print("像选开关一样跑一次，不用记命令参数。")
+    print()
+
+    choice = _button_choice("扫描哪里？", options, default=1)
+    selected = values[choice - 1]
+    if selected is None:
+        raw = input("输入扫描目录（多个目录用逗号分隔）: ").strip()
+        scan_dirs = [p.strip() for p in raw.split(",") if p.strip()]
+        if not scan_dirs:
+            scan_dirs = [current]
+    else:
+        scan_dirs = [selected]
+
+    depth_choice = _button_choice(
+        "扫描深度？",
+        [
+            ("标准", "max-depth = 3，适合大多数项目目录"),
+            ("更深", "max-depth = 5，适合 repo 放得更散的目录"),
+            ("自定义", "手动输入深度"),
+        ],
+        default=1,
+    )
+    if depth_choice == 1:
+        max_depth = 3
+    elif depth_choice == 2:
+        max_depth = 5
+    else:
+        raw = input("输入 max-depth [3]: ").strip()
+        try:
+            max_depth = int(raw) if raw else 3
+        except ValueError:
+            max_depth = 3
+
+    output_raw = input(f"输出目录 [{os.getcwd()}]: ").strip()
+    output_dir = output_raw or os.getcwd()
+
+    args.scan_dir = scan_dirs
+    args.max_depth = max_depth
+    args.output_dir = output_dir
+    args.open = _confirm("生成后自动打开报告？", default=True)
+    args.share_card = _confirm("同时生成分享卡片设计器？", default=True)
+    print()
+    return args
+
+
 def main():
     parser = argparse.ArgumentParser(description='Git Analytics - 个人代码习惯体检工具')
     parser.add_argument('scan_dir', nargs='*',
@@ -46,7 +155,11 @@ def main():
     parser.add_argument('--max-depth', type=int, default=3, help='扫描目录深度（默认 3）')
     parser.add_argument('--open', action='store_true', help='生成后自动打开报告')
     parser.add_argument('--share-card', action='store_true', help='同时输出 PNG 分享卡片设计器')
+    parser.add_argument('--no-wizard', action='store_true', help='关闭交互式向导，直接使用默认参数')
     args = parser.parse_args()
+
+    if not args.scan_dir and not args.no_wizard and _is_interactive():
+        args = _run_wizard(args)
 
     scan_dirs = args.scan_dir or [os.getcwd()]
     output_dir = os.path.abspath(os.path.expanduser(args.output_dir))
