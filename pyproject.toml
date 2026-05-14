@@ -9,7 +9,7 @@ description = "Local-first Git habit analytics — scan your repos, get a develo
 readme = "README.md"
 requires-python = ">=3.8"
 authors = [{ name = "Git Analytics Contributors" }]
-license = "MIT"
+license = {text = "MIT"}
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
